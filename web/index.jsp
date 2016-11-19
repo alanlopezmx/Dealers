@@ -31,7 +31,7 @@
     <div class="fl_right">
       <ul>
         <li><a href="index.html"><i class="fa fa-shopping-cart" style="font-size:1.8rem;"></i></a></li>
-        <li><a href="#">Iniciar SesiÃ³n</a></li>
+        <li><a href="#">Iniciar Sesión</a></li>
         <li><a href="#">Registrarse</a></li>
       </ul>
     </div>
