@@ -45,7 +45,7 @@
       </div>
       <div class="one_half">
         <div class="row">
-          <form id="newsletter" method="post" action="uploadServlet" name="altacategoria" enctype="multipart/form-data">
+          <form id="newsletter" method="post" action="uploadCat" name="altacategoria" enctype="multipart/form-data">
             <fieldset>
               <br>
               <b>&nbsp&nbsp&nbsp&nbsp&nbsp Ingresa los datos de la categoría</b>

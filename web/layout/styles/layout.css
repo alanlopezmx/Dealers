@@ -12,6 +12,72 @@ File: Layout CSS
 @import url("custom.flexslider.css");
 @import url("framework.css");
 
+.direcciones{
+    -webkit-box-sizing: boder-box;
+    -moz-box-sizing: boder-box;
+    box-sizing: boder-box;
+    border-radius: 5px;
+    -moz-box-shadow:0 5px 5px rgba(182, 182, 182, 0.5);
+    -webkit-box-shadow: 0 5px 5px rgba(182, 182, 182, 0.5);
+    box-shadow: 0 5px 5px rgba(182, 182, 182, 0.5);
+    cursor: pointer;
+    padding: 30px;    
+} 
+
+.direcciones:hover{
+    -moz-box-shadow:0 5px 5px rgba(182, 182, 182, 0.5);
+    -webkit-box-shadow: 0 5px 5px rgba(182, 182, 182, 0.5);
+    box-shadow: 0 10px 8px rgba(35, 184, 193, 0.5);
+    cursor: pointer;
+}
+
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+}
+.fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
+.caja {	
+   border:1px solid #d9d9d9;
+   border-radius: 22px;
+   height:30px;
+   overflow: hidden;
+   width: 230px;
+   position:relative;
+}
+select {
+   background: transparent;
+   border: none;
+   font-size: 14px;
+   height: 30px;
+   padding: 5px;
+   width: 250px;
+}
+select:focus{ outline: none;}
+
+.caja::after{
+    content:"\025be";
+    display:table-cell;
+    padding-top:7px;
+    text-align:center;
+    width:30px;
+    height:30px;
+    background-color:#d9d9d9;
+    position:absolute;
+    top:0;
+    right:0px;	
+    pointer-events: none;
+}
 /* Rows
 --------------------------------------------------------------------------------------------------------------- */
 .row0{border-bottom:1px solid;}
@@ -88,22 +154,6 @@ File: Layout CSS
 /* Content */
 .container .content{}
 
-.fileUpload {
-    position: relative;
-    overflow: hidden;
-}
-.fileUpload input.upload {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: 0;
-    padding: 0;
-    font-size: 20px;
-    cursor: pointer;
-    opacity: 0;
-    filter: alpha(opacity=0);
-}
-
 .sectiontitle{display:block; margin-bottom:80px;}
 .sectiontitle *{margin:0;}
 
@@ -118,8 +168,8 @@ File: Layout CSS
 #introblocks > ul > li > article footer a{display:block; position:relative; width:100%; height:39px; line-height:39px; padding:0 20px; text-transform:uppercase;}
 #introblocks > ul > li > article footer a::after{position:absolute; top:0; right:0; height:100%; padding:0 15px; font-family:"FontAwesome"; content:"\f105"; border-left:1px solid;}
 
-#newsletter input, #newsletter button{border:1px solid; border-radius:22px;}
-#newsletter input{display:block; width:100%; padding:8px;}
+#newsletter input, #newsletter button, #newsletter textarea {border:1px solid; border-radius:22px;}
+#newsletter input, #newsletterr textarea {display:block; width:100%; padding:8px;}
 #newsletter button{padding:8px 18px 10px; border:none; text-transform:uppercase; font-weight:700; cursor:pointer;}
 
 /* Comments */
@@ -287,7 +337,7 @@ input:focus, textarea:focus, *:required:focus{border-color:#6677BC;}
 .overlay{color:#000000; background-color:inherit;}
 .overlay::after{color:inherit; background-color:#F5F5F5;}
 
-.btn, .btn.inverse:hover, a .icon, a.inverse:hover .icon{color:#FFFFFF; background-color:#6677BC; border-color:#6677BC;}
+.btn, .btn.inverse:hover, a .icon, a.inverse:hover .icon{color:#FFFFFF; background-color:#23B8C1; border-color:#23B8C1;}
 .btn:hover, .btn.inverse, a:hover .icon, a.inverse .icon{color:inherit; background-color:transparent; border-color:inherit;}
 
 
@@ -326,9 +376,10 @@ input:focus, textarea:focus, *:required:focus{border-color:#6677BC;}
 #introblocks > ul > li > article{color:#474747; background-color:#FFFFFF;}
 #introblocks > ul > li > article footer, #introblocks > ul > li > article footer a::after{border-color:#D7D7D7;}
 
-#newsletter input, #newsletter button{color:#474747; border-color:#D7D7D7;}
-#newsletter input{background-color:#FFFFFF;}
+#newsletter input, #newsletter button, #newsletter textarea{color:#474747; border-color:#D7D7D7;}
+#newsletter input, #newsletter textarea {background-color:#FFFFFF;}
 #newsletter input:focus{border-color:#6677BC;}
+#newsletter textarea:focus{border-color:#6677BC;}
 #newsletter button{color:#FFFFFF; background-color:#6677BC;}
 
 
@@ -457,4 +508,3 @@ table a, #comments a{background-color:inherit;}
 	#pageintro li article{max-width:none; width:100%;}
 	#pageintro li .heading{font-size:1.6rem;}
 }
-

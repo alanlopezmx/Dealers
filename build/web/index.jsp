@@ -35,7 +35,7 @@
       <ul>
         <% if(session.getAttribute("") == null){ %>
         <li><a href="index.html"><i class="fa fa-shopping-cart" style="font-size:1.8rem;"></i></a></li>
-        <li><a href="uploadCategoria.jsp">Iniciar Sesión</a></li>
+        <li><a href="administrador.jsp">Iniciar Sesión</a></li>
         <li><a href="registrarse.jsp">Registrarse</a></li>
         <%}%>
       </ul>
@@ -70,7 +70,7 @@
                 }
             }
             for(int i=0;i<n;i++){
-                out.println("<li><article><a href='#'><img src='returnPromo.jsp?idImagen=" + objConn.rs.getString(1) + "' alt=''></a></article></li>");
+                out.println("<li><article><a href='#'><img src='returnImagen.jsp?idImagen=" + objConn.rs.getString(1) + "' alt=''></a></article></li>");
                 objConn.rs.next();
             }
         %>
@@ -111,11 +111,11 @@
                 int cont = 4;
                 for(int i=0;i<n;i++){
                     if(cont == 4){
-                        out.println("<li class='one_quarter first'><a href='#'><img src='returnImage.jsp?idCategoria=" + objConn.rs.getString(1) + "' alt=''></a></li>");
+                        out.println("<li class='one_quarter first'><a href='#'><img src='returnCategoria.jsp?idCategoria=" + objConn.rs.getString(1) + "' alt=''></a></li>");
                         cont = 0;
                     }
                     else{
-                        out.println("<li class='one_quarter'><a href='#'><img src='returnImage.jsp?idCategoria=" + objConn.rs.getString(1) + "' alt=''></a></li>");
+                        out.println("<li class='one_quarter'><a href='#'><img src='returnCategoria.jsp?idCategoria=" + objConn.rs.getString(1) + "' alt=''></a></li>");
                     }
                     objConn.rs.next();
                     cont++;
