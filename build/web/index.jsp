@@ -1,5 +1,8 @@
-<!DOCTYPE html>
 
+<%@page import="java.sql.Blob"%>
+<!DOCTYPE html>
+<%@page contentType="text/html" pageEncoding="UTF-8" session="true"%>
+<jsp:useBean id="objConn" class="mysqlpackage.MySqlConn"/>
 <html>
 <head>
 <title>Dealers</title>
@@ -30,9 +33,11 @@
     </div>
     <div class="fl_right">
       <ul>
+        <% if(session.getAttribute("") == null){ %>
         <li><a href="index.html"><i class="fa fa-shopping-cart" style="font-size:1.8rem;"></i></a></li>
-        <li><a href="#">Iniciar Sesión</a></li>
-        <li><a href="#">Registrarse</a></li>
+        <li><a href="uploadCategoria.jsp">Iniciar SesiÃ³n</a></li>
+        <li><a href="registrarse.jsp">Registrarse</a></li>
+        <%}%>
       </ul>
     </div>
     <!-- ################################################################################################ -->
@@ -52,31 +57,23 @@
     <!-- ################################################################################################ -->
     <div class="flexslider basicslider">
       <ul class="slides">
-        <li>
-          <article>
-            <img src='images/1.png'>
-          </article>
-        </li>
-        <li>
-          <article>
-            <img src='images/2.png'>
-          </article>
-        </li>
-        <li>
-          <article>
-            <img src='images/3.png'>
-          </article>
-        </li>
-        <li>
-          <article>
-            <img src='images/4.png'>
-          </article>
-        </li>
-        <li>
-          <article>
-            <img src='images/5.png'>
-          </article>
-        </li>
+        <%
+            String consulta = "select idImagen from imagen where promocion = 1;";
+            objConn.Consult(consulta);
+            int n=0;
+            if(objConn.rs != null){
+                try{
+                    objConn.rs.last();
+                    n = objConn.rs.getRow();
+                    objConn.rs.first();
+                }catch(Exception e){
+                }
+            }
+            for(int i=0;i<n;i++){
+                out.println("<li><article><a href='#'><img src='returnPromo.jsp?idImagen=" + objConn.rs.getString(1) + "' alt=''></a></article></li>");
+                objConn.rs.next();
+            }
+        %>
       </ul>
     </div>
     <!-- ################################################################################################ -->
@@ -99,18 +96,31 @@
             <img src="images/cat.png" alt="">
           </div>
           <ul class="nospace clear">
-            <li class="one_quarter first"><a href="#"><img src="images/cat01.png" alt=""></a></li>
-            <li class="one_quarter"><a href="#"><img src="images/cat01.png" alt=""></a></li>
-            <li class="one_quarter"><a href="#"><img src="images/cat01.png" alt=""></a></li>
-            <li class="one_quarter"><a href="#"><img src="images/cat01.png" alt=""></a></li>
-            <li class="one_quarter first"><a href="#"><img src="images/cat01.png" alt=""></a></li>
-            <li class="one_quarter"><a href="#"><img src="images/cat01.png" alt=""></a></li>
-            <li class="one_quarter"><a href="#"><img src="images/cat01.png" alt=""></a></li>
-            <li class="one_quarter"><a href="#"><img src="images/cat01.png" alt=""></a></li>
-            <li class="one_quarter first"><a href="#"><img src="images/cat01.png" alt=""></a></li>
-            <li class="one_quarter"><a href="#"><img src="images/cat01.png" alt=""></a></li>
-            <li class="one_quarter"><a href="#"><img src="images/cat01.png" alt=""></a></li>
-            <li class="one_quarter"><a href="#"><img src="images/cat01.png" alt=""></a></li>
+            <%
+                consulta = "select idCategoria from categoria;";
+                objConn.Consult(consulta);
+                n=0;
+                if(objConn.rs != null){
+                    try{
+                        objConn.rs.last();
+                        n = objConn.rs.getRow();
+                        objConn.rs.first();
+                    }catch(Exception e){
+                    }
+                }
+                int cont = 4;
+                for(int i=0;i<n;i++){
+                    if(cont == 4){
+                        out.println("<li class='one_quarter first'><a href='#'><img src='returnImage.jsp?idCategoria=" + objConn.rs.getString(1) + "' alt=''></a></li>");
+                        cont = 0;
+                    }
+                    else{
+                        out.println("<li class='one_quarter'><a href='#'><img src='returnImage.jsp?idCategoria=" + objConn.rs.getString(1) + "' alt=''></a></li>");
+                    }
+                    objConn.rs.next();
+                    cont++;
+                }
+            %>
           </ul>
 
         </figure>
