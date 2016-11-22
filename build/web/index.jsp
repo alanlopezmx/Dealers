@@ -3,12 +3,63 @@
 <!DOCTYPE html>
 <%@page contentType="text/html" pageEncoding="UTF-8" session="true"%>
 <jsp:useBean id="objConn" class="mysqlpackage.MySqlConn"/>
+<%
+    String nombreLogin="";
+    String idLogin="";
+    String tipoLogin="";
+    if(session.getAttribute("nombre") != null){
+        nombreLogin = (String)session.getAttribute("nombre");
+        idLogin = (String)session.getAttribute("id");
+        tipoLogin = (String)session.getAttribute("tipo");
+    }
+%>
 <html>
 <head>
 <title>Dealers</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <link href="layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
+
+<script type="text/javascript" language="JavaScript">
+ 
+    function checaLogin(email,pass) {
+        // The XMLHttpRequest object
+        var xmlHttp;
+        try { // Detectar que tipo de navegador se esta utilizando
+            xmlHttp = new XMLHttpRequest(); // Firefox, Opera 8.0+, Safari
+        }
+        catch (e) {
+            try {
+                xmlHttp = new ActiveXObject("Msxml2.XMLHTTP"); // Internet Explorer
+            }
+            catch (e) {
+                try {
+                    xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                catch (e) {
+                    alert("Tu explorador no soporta AJAX.");
+                    return false;
+                }
+            }
+        }
+        var nocacheurl = "checkLogin.jsp?email="+email.value+"&password="+pass.value;
+
+        // The code...
+        xmlHttp.onreadystatechange = function () {
+            if (xmlHttp.readyState == 4 && xmlHttp.readyState != null) {
+                var response = xmlHttp.responseText;
+                response = response.trim();
+                if(response == ""){
+                    window.location = "index.jsp";
+                }
+                document.getElementById("datos").innerHTML = response;
+            }
+        }
+        xmlHttp.open("GET", nocacheurl, true); //parametros (metodo, url, asincorno=true)
+        xmlHttp.send(null);
+    }
+           
+</script>
 </head>
 <body id="top">
 <!-- ################################################################################################ -->
@@ -18,7 +69,7 @@
   <div id="topbar" class="hoc clear">
     <!-- ################################################################################################ -->
     <div class="fl_left imglogo">
-      <img src="images/logo3.png">
+        <a href="index.jsp"> <img src="images/logo3.png"> </a>
     </div>
     <div class="fl_left">
        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
@@ -33,11 +84,23 @@
     </div>
     <div class="fl_right">
       <ul>
-        <% if(session.getAttribute("") == null){ %>
-        <li><a href="index.html"><i class="fa fa-shopping-cart" style="font-size:1.8rem;"></i></a></li>
-        <li><a href="administrador.jsp">Iniciar Sesión</a></li>
-        <li><a href="registrarse.jsp">Registrarse</a></li>
-        <%}%>
+          <% if(nombreLogin.equals("")){ %>
+                <li><a href="#"><i class="fa fa-shopping-cart" style="font-size:1.8rem;"></i></a></li>
+                <li onclick='show("pantalla", "pantalla"); show("login", "login")'><a href="#">Iniciar Sesión</a></li>
+                <li><a href="registrarse.jsp">Registrarse</a></li>
+        <%} else {%>
+                <li><a href="#"><i class="fa fa-shopping-cart" style="font-size:1.8rem;"></i></a></li>
+                <%
+                    if(tipoLogin.equals("NORMAL") || tipoLogin.equals("MAYORITARIO")){
+                %>
+                    <li id="username"> <a href="cliente.jsp"> Bienvenido <%out.print(nombreLogin);%></a></li>
+                <%}else if(tipoLogin.equals("ADMINISTRADOR")){%>
+                    <li id="username"> <a href="administrador.jsp"> Bienvenido <%out.print(nombreLogin);%></a></li>
+                <%}else{%>
+                    <li id="username"> <a href="vendedor.jsp"> Bienvenido <%out.print(nombreLogin);%></a></li>
+                <%}%>
+                <li><a href="cerrarSesion"><i class="fa fa-sign-out" style="font-size:1.8rem;"></i></a></li>    
+        <% }%>
       </ul>
     </div>
     <!-- ################################################################################################ -->
@@ -93,7 +156,7 @@
       <div id="gallery">
         <figure>
           <div class="center-div">
-            <img src="images/cat.png" alt="">
+            <img src="images/cate.png" alt="">
           </div>
           <ul class="nospace clear">
             <%
@@ -173,7 +236,22 @@
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
-
+<div id="pantalla" class="hide" onclick='hide("pantalla"); hide("login");'> </div>
+<div id="login" class="hide">
+    <!--form id="newsletter" name="iniciarsesion"-->
+        <fieldset id="newsletter">
+            <br><b><center><div id="datos">Ingresa tus datos</div></center></b>
+            <i class="fa fa-user-o" style="font-size:1.8rem;"></i>
+            <input id="email" name="email" class="btmspace-15" type="text" value="" placeholder="Correo">
+            <input id="password" name="password" class="btmspace-15" type="password" value="" placeholder="Contraseña">
+            <p align="right">
+                <button onclick="checaLogin(email,password)">
+                    &nbsp&nbsp&nbsp Ingresar &nbsp&nbsp&nbsp
+                </button>
+            </p>
+        </fieldset>
+    <!--/form-->    
+</div>
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->

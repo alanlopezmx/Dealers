@@ -36,7 +36,7 @@
     <div class="wrapper row0">
       <div id="topbar" class="hoc clear">
         <div class="fl_left imglogo">
-          <img src="images/logo3.png">
+          <a href="index.jsp"> <img src="images/logo3.png"> </a>
         </div>
       </div>
     </div>

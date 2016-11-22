@@ -2,7 +2,7 @@
 
 <html>
 <head>
-<title>Dealers | Productos</title>
+<title>Dealers | Cliente</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <link href="layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
@@ -48,6 +48,23 @@
 </script>
 
 </head>
+<%
+    String nombreLogin="";
+    String idLogin="";
+    String tipoLogin="";
+    String msjerror="";
+    if(session.getAttribute("nombre") != null){
+        nombreLogin = (String)session.getAttribute("nombre");
+        idLogin = (String)session.getAttribute("id");
+        tipoLogin = (String)session.getAttribute("tipo");
+    }
+        if(!tipoLogin.equals("NORMAL") || !tipoLogin.equals("MAYORITARIO")){
+%>
+<jsp:forward page="index.jsp"/>
+<%
+    }
+%>
+%>
 <body id="top">
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
@@ -56,7 +73,7 @@
   <div id="topbar" class="hoc clear">
     <!-- ################################################################################################ -->
     <div class="fl_left imglogo">
-      <img src="images/logo3.png">
+      <a href="index.jsp"> <img src="images/logo3.png"> </a>
     </div>
     <div class="fl_left">
        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
@@ -71,9 +88,23 @@
     </div>
     <div class="fl_right">
       <ul>
-        <li><a href="index.html"><i class="fa fa-shopping-cart" style="font-size:1.8rem;"></i></a></li>
-        <li><a href="#">Iniciar Sesión</a></li>
-        <li><a href="#">Registrarse</a></li>
+          <% if(nombreLogin.equals("")){ %>
+                <li><a href="#"><i class="fa fa-shopping-cart" style="font-size:1.8rem;"></i></a></li>
+                <li onclick='show("pantalla", "pantalla"); show("login", "login")'><a href="#">Iniciar Sesión</a></li>
+                <li><a href="registrarse.jsp">Registrarse</a></li>
+        <%} else {%>
+                <li><a href="#"><i class="fa fa-shopping-cart" style="font-size:1.8rem;"></i></a></li>
+                <%
+                    if(tipoLogin.equals("NORMAL") || tipoLogin.equals("MAYORITARIO")){
+                %>
+                    <li id="username"> <a href="cliente.jsp"> Bienvenido <%out.print(nombreLogin);%></a></li>
+                <%}else if(tipoLogin.equals("ADMINISTRADOR")){%>
+                    <li id="username">  <a href="administrador.jsp"> Bienvenido <%out.print(nombreLogin);%></a></li>
+                <%}else{%>
+                    <li id="username"> <a href="vendedor.jsp"> Bienvenido <%out.print(nombreLogin);%></a></li>
+                <%}%>
+                    <li><a href="cerrarSesion"><i class="fa fa-sign-out" style="font-size:1.8rem;"></i></a></li>
+        <% }%>
       </ul>
     </div>
     <!-- ################################################################################################ -->

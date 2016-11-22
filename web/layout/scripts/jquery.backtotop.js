@@ -19,3 +19,11 @@ jQuery(window).scroll(function () {
         jQuery("#backtotop").removeClass("visible");
     }
 });
+
+function hide(div){
+    document.getElementById(div).className = " hide";
+}
+
+function show(div, clase){
+    document.getElementById(div).className = clase;
+}

@@ -13,6 +13,17 @@ Licence URI: http://www.os-templates.com/template-terms
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <link href="../layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
 </head>
+<%
+    String nombreLogin="";
+    String idLogin="";
+    String tipoLogin="";
+    String msjerror="";
+    if(session.getAttribute("nombre") != null){
+        nombreLogin = (String)session.getAttribute("nombre");
+        idLogin = (String)session.getAttribute("id");
+        tipoLogin = (String)session.getAttribute("tipo");
+    }
+%>
 <body id="top">
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
@@ -21,7 +32,7 @@ Licence URI: http://www.os-templates.com/template-terms
   <div id="topbar" class="hoc clear">
     <!-- ################################################################################################ -->
     <div class="fl_left imglogo">
-      <img src="../images/logo3.png">
+      <a href="index.jsp"> <img src="images/logo3.png"> </a>
     </div>
     <div class="fl_left">
        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
@@ -36,9 +47,23 @@ Licence URI: http://www.os-templates.com/template-terms
     </div>
     <div class="fl_right">
       <ul>
-        <li><a href="index.html"><i class="fa fa-shopping-cart" style="font-size:1.8rem;"></i></a></li>
-        <li><a href="#">Iniciar SesiÃ³n</a></li>
-        <li><a href="#">Registrarse</a></li>
+          <% if(nombreLogin.equals("")){ %>
+                <li><a href="#"><i class="fa fa-shopping-cart" style="font-size:1.8rem;"></i></a></li>
+                <li onclick='show("pantalla", "pantalla"); show("login", "login")'><a href="#">Iniciar Sesión</a></li>
+                <li><a href="registrarse.jsp">Registrarse</a></li>
+        <%} else {%>
+                <li><a href="#"><i class="fa fa-shopping-cart" style="font-size:1.8rem;"></i></a></li>
+                <%
+                    if(tipoLogin.equals("NORMAL") || tipoLogin.equals("MAYORITARIO")){
+                %>
+                    <li id="username"> <a href="cliente.jsp"> Bienvenido <%out.print(nombreLogin);%></a></li>
+                <%}else if(tipoLogin.equals("ADMINISTRADOR")){%>
+                    <li id="username"> <a href="administrador.jsp"> Bienvenido <%out.print(nombreLogin);%></a></li>
+                <%}else{%>
+                    <li id="username"> <a href="vendedor.jsp"> Bienvenido <%out.print(nombreLogin);%></a></li>
+                <%}%>
+                    <li><a href="cerrarSesion"><i class="fa fa-sign-out" style="font-size:1.8rem;"></i></a></li>
+        <% }%>
       </ul>
     </div>
     <!-- ################################################################################################ -->
@@ -164,7 +189,22 @@ Licence URI: http://www.os-templates.com/template-terms
     <!-- ################################################################################################ -->
   </footer>
 </div>
-
+<div id="pantalla" class="hide" onclick='hide("pantalla"); hide("login");'> </div>
+<div id="login" class="hide">
+    <form id="newsletter" method="post" action="#" name="iniciarsesion">
+        <fieldset>
+            <br><b><center>Ingresa tus datos</center></b>
+            <i class="fa fa-user-o" style="font-size:1.8rem;"></i>
+            <input class="btmspace-15" type="text" value="" placeholder="Correo">
+            <input class="btmspace-15" type="password" value="" placeholder="Contraseña">
+            <p align="right">
+                <button type="submit" value="submit">
+                    &nbsp&nbsp&nbsp Ingresar &nbsp&nbsp&nbsp
+                </button>
+            </p>
+        </fieldset>
+    </form>    
+</div>
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->

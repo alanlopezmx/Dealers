@@ -12,11 +12,6 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
         <link href="layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
-        <script type="text/javascript">
-            document.getElementById("uploadBtn").onchange = function () {
-            document.getElementById("uploadFile").value = this.value;
-            };
-        </script>
     </head>
     <body>
         <%
@@ -51,20 +46,20 @@
                 
                 case 3: // Alta categoria
         %>
-                   <form id="newsletter" method="post" action="#" name="altacategoria">
+                   <form id="newsletter" method="post" action="uploadCat" action="#" name="altacategoria">
                     <fieldset>
                       <br>
                       <b>&nbsp&nbsp&nbsp&nbsp&nbsp Ingresa los datos de la categoría</b>
                       <br><br>
-                      <input class="btmspace-15" type="text" value="" placeholder="Nombre">
+                      <input name="nombre" class="btmspace-15" type="text" value="" placeholder="Nombre">
                       <section class="one_half first">
                         <input id="uploadFile" placeholder="Elegir Archivo" disabled="disabled" />
                       </section>
                       <section class="one_half">
                         <div class="fileUpload btn btn-primary">
                           <span>Cargar</span>
-                          <input id="uploadBtn" type="file" class="upload"/>
-                      </div>
+                            <input name="file" name="file" id="uploadBtn"type="file" class="upload" onchange='document.getElementById(&apos;uploadFile&apos;).value = this.value;'/>  
+                        </div>
                       </section>
                       <br><br><br>
                       <p align="left">
@@ -239,7 +234,7 @@
                               <section class="one_half">
                                 <div class="fileUpload btn btn-primary">
                                   <span>Cargar</span>
-                                  <input name="file" id="uploadBtn"type="file" class="upload"/>
+                                  <input name="file" id="uploadBtn"type="file" class="upload" onchange='document.getElementById(&apos;uploadFile&apos;).value = this.value;'/>
                               </div>
                               </section>
                             <br><br><br>
