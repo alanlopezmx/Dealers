@@ -8,47 +8,20 @@
 <link href="layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
 
 <script type="text/javascript" language="JavaScript">
- 
-    function actualizaDivContenido(op) {
-        // The XMLHttpRequest object
-        var xmlHttp;
-        try { // Detectar que tipo de navegador se esta utilizando
-            xmlHttp = new XMLHttpRequest(); // Firefox, Opera 8.0+, Safari
-        }
-        catch (e) {
-            try {
-                xmlHttp = new ActiveXObject("Msxml2.XMLHTTP"); // Internet Explorer
-            }
-            catch (e) {
-                try {
-                    xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
-                }
-                catch (e) {
-                    alert("Tu explorador no soporta AJAX.");
-                    return false;
-                }
-            }
-        }
-        var nocacheurl = "adminAjax.jsp?op=" + op;
-
-        // The code...
-        xmlHttp.onreadystatechange = function () {
-            if (xmlHttp.readyState == 4 && xmlHttp.readyState != null) {
-                document.getElementById("contenido").innerHTML = xmlHttp.responseText;
-            }
-        }
-        xmlHttp.open("GET", nocacheurl, true); //parametros (metodo, url, asincorno=true)
-        xmlHttp.send(null);
+    function actualizaDivContenido(op){
+        var idLogin = $('#idLogin').val();
+        $.post('adminAjax.jsp', {
+                op : op,
+                idLogin: idLogin,
+        }, function(responseText) {
+                $('#contenido').html(responseText);
+        });
     }
     
     window.onload = function () {
         actualizaDivContenido(1);
-    }
-           
+    }           
 </script>
-
-</head>
-<body id="top">
 <%
     String nombreLogin="";
     String idLogin="";
@@ -60,11 +33,14 @@
         tipoLogin = (String)session.getAttribute("tipo");
     }
     if(!tipoLogin.equals("ADMINISTRADOR")){
-%>
-<jsp:forward page="index.jsp"/>
-<%
+    %>
+        <jsp:forward page="index.jsp"/>
+    <%
     }
 %>
+</head>
+<body id="top">
+<input type="hidden" id="idLogin" value="<%=idLogin%>">
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
@@ -122,7 +98,7 @@
   <section id="breadcrumb" class="hoc clear">
 
     <!-- ################################################################################################ -->
-    <h6 class="heading"><center>Administación General</center></h6>
+    <h6 class="heading"><center>Administración General</center></h6>
     <!-- ################################################################################################ -->
   </section>
   <!-- ################################################################################################ -->

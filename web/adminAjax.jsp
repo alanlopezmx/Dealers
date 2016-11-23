@@ -12,10 +12,12 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
         <link href="layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
+        <script src="layout/scripts/validaFormularios.js"></script>
     </head>
     <body>
         <%
             int opcion = Integer.parseInt(request.getParameter("op"));
+            String idLogin = request.getParameter("idLogin");
             int n;
             String consulta;
             switch(opcion){
@@ -26,11 +28,29 @@
                           <br>
                           <b>&nbsp&nbsp&nbsp&nbsp&nbsp Ingresa los datos del producto</b>
                           <br><br>
-                          <input class="btmspace-15" type="text" value="" placeholder="Nombre">
+                          <input onchange='soloLetras(this)' class="btmspace-15" type="text" value="" placeholder="Nombre">
                           <input class="btmspace-15" type="textarea" value="" placeholder="Descripción">
                           <textarea class="btmspace-15" name="comment" cols="60" rows="5" placeholder="Descripción larga" style="padding: 8px"></textarea>
                           <input class="btmspace-15" type="text" value="" placeholder="Precio de venta">
-                          <p align="right">
+                          <div class="caja">
+                              <select>
+                                    <option disabled selected> Categoría... </option> 
+                                    <option>Normal</option>
+                                    <option>Mayoritario</option>
+                              </select>
+                            </div>
+                          <br>
+                          <section class="one_half first">
+                                <input id="uploadFile" placeholder="Elegir Imágenes" disabled="disabled" />
+                              </section>
+                              <section class="one_half">
+                                <div class="fileUpload btn btn-primary">
+                                  <span>Cargar</span>
+                                  <input multiple accept="image/*" name="file" id="uploadBtn" type="file" class="upload" onchange='document.getElementById(&apos;uploadFile&apos;).value = this.value;'/>
+                              </div>
+                              </section>
+                            <br><br><br>
+                          <p align="left">
                             <button type="submit" value="submit" style="background-color: #23B8C1">&nbsp&nbsp&nbsp Agregar &nbsp&nbsp&nbsp</button>
                           </p>
                           </fieldset>
@@ -40,7 +60,32 @@
                 
                 case 2: // Modificar producto
         %>
-                    Holaaa
+                    <div class="caja">
+                        <select name="idCategoria" onchange='cargaListaProd(this)'>
+                            <option disabled selected> Selecciona Categoría... </option> 
+                              <%
+                                  consulta = "select idCategoria, nombre from categoria;";
+                                    objConn.Consult(consulta);
+                                    n=0;
+                                    if(objConn.rs != null){
+                                        try{
+                                            objConn.rs.last();
+                                            n = objConn.rs.getRow();
+                                            objConn.rs.first();
+                                        }catch(Exception e){
+                                        }
+                                    }
+                                    for(int i=0;i<n;i++){
+                                        out.println("<option value='" + objConn.rs.getString(1) + "'>" + objConn.rs.getString(2) + "</option>");
+                                        objConn.rs.next();
+                                    }
+                              %>
+                        </select>
+                    </div>
+                    <br>
+                    <div id="seleccionaProd"></div>
+                    <br>
+                    <div id="datosProd"></div>
         <%
                 break;
                 
@@ -234,7 +279,7 @@
                               <section class="one_half">
                                 <div class="fileUpload btn btn-primary">
                                   <span>Cargar</span>
-                                  <input name="file" id="uploadBtn"type="file" class="upload" onchange='document.getElementById(&apos;uploadFile&apos;).value = this.value;'/>
+                                  <input name="file" id="uploadBtn" type="file" class="upload" onchange='document.getElementById(&apos;uploadFile&apos;).value = this.value;'/>
                               </div>
                               </section>
                             <br><br><br>

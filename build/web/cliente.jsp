@@ -7,38 +7,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <link href="layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
 
-<script type="text/javascript" language="JavaScript">
- 
-    function actualizaDivContenido(op) {
-        // The XMLHttpRequest object
-        var xmlHttp;
-        try { // Detectar que tipo de navegador se esta utilizando
-            xmlHttp = new XMLHttpRequest(); // Firefox, Opera 8.0+, Safari
-        }
-        catch (e) {
-            try {
-                xmlHttp = new ActiveXObject("Msxml2.XMLHTTP"); // Internet Explorer
-            }
-            catch (e) {
-                try {
-                    xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
-                }
-                catch (e) {
-                    alert("Tu explorador no soporta AJAX.");
-                    return false;
-                }
-            }
-        }
-        var nocacheurl = "clienteAjax.jsp?op=" + op;
-
-        // The code...
-        xmlHttp.onreadystatechange = function () {
-            if (xmlHttp.readyState == 4 && xmlHttp.readyState != null) {
-                document.getElementById("contenido").innerHTML = xmlHttp.responseText;
-            }
-        }
-        xmlHttp.open("GET", nocacheurl, true); //parametros (metodo, url, asincorno=true)
-        xmlHttp.send(null);
+<script type="text/javascript" language="JavaScript">    
+    function actualizaDivContenido(op){
+        var idLogin = $('#idLogin').val();
+        $.post('clienteAjax.jsp', {
+                op : op,
+                idLogin: idLogin,
+        }, function(responseText) {
+                $('#contenido').html(responseText);
+        });
     }
     
     window.onload = function () {
@@ -58,14 +35,14 @@
         idLogin = (String)session.getAttribute("id");
         tipoLogin = (String)session.getAttribute("tipo");
     }
-        if(!tipoLogin.equals("NORMAL") || !tipoLogin.equals("MAYORITARIO")){
-%>
-<jsp:forward page="index.jsp"/>
-<%
+    if(!tipoLogin.equals("NORMAL") && !tipoLogin.equals("MAYORITARIO")){
+        %>
+        <jsp:forward page="index.jsp"/>
+        <%
     }
 %>
-%>
 <body id="top">
+<input type="hidden" id="idLogin" value="<%=idLogin%>">
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->

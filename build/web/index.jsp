@@ -21,7 +21,14 @@
 <link href="layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
 
 <script type="text/javascript" language="JavaScript">
- 
+    function validateEnter(e,email,pass) {
+        var key = e.keyCode || e.which;
+        if (key == 13) {
+            checaLogin(email,pass);
+            e.preventDefault();
+        }
+    }
+    
     function checaLogin(email,pass) {
         // The XMLHttpRequest object
         var xmlHttp;
@@ -243,7 +250,7 @@
             <br><b><center><div id="datos">Ingresa tus datos</div></center></b>
             <i class="fa fa-user-o" style="font-size:1.8rem;"></i>
             <input id="email" name="email" class="btmspace-15" type="text" value="" placeholder="Correo">
-            <input id="password" name="password" class="btmspace-15" type="password" value="" placeholder="Contraseña">
+            <input onkeypress="validateEnter(event,email,this)" id="password" name="password" class="btmspace-15" type="password" value="" placeholder="Contraseña">
             <p align="right">
                 <button onclick="checaLogin(email,password)">
                     &nbsp&nbsp&nbsp Ingresar &nbsp&nbsp&nbsp

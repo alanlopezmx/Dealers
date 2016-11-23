@@ -41,12 +41,12 @@
                         email = new String(request.getParameter("email").getBytes("ISO-8859-1"),"UTF-8");
                         email=email.trim();
                     }
-                    if(request.getParameter("password")!=null){
-                        password = new String(request.getParameter("password").getBytes("ISO-8859-1"),"UTF-8");
+                    if(request.getParameter("password1")!=null){
+                        password = new String(request.getParameter("password1").getBytes("ISO-8859-1"),"UTF-8");
                         password=password.trim();
                     }
                     
-                             String consulta = "select * from cliente where correo=?;";
+                             String consulta = "select * from usuario where correo=?;";
                              String[] datos = {email};
                              //Ejecutamos la consulta
                             objConn.safeConsult(consulta, datos);
@@ -67,9 +67,9 @@
                                 </jsp:forward>
                             <%}
                             else{
-                                consulta = "insert into Cliente (nombre,ap_paterno,ap_materno,telefono,correo,password,tipo) values("
+                                consulta = "insert into usuario (nombre,ap_paterno,ap_materno,telefono,correo,password,tipo) values("
                                 + "'" + nombre + "','" + appat + "','" + apmat + "','" + telefono + "','" + email + "',sha2('" 
-                                + password + "',512),0);";
+                                + password + "',512),1);";
                                 objConn.Update(consulta);
                                 objConn.desConnect();
                                 %>

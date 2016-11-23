@@ -16,7 +16,7 @@
                 password = new String(request.getParameter("password").getBytes("ISO-8859-1"),"UTF-8");
             }
             //base de datos
-            String consulta = "select idCliente,nombre,ap_paterno,ap_materno,tipo from usuario where correo=? and password=sha2(?,512);";
+            String consulta = "select idUsuario,nombre,ap_paterno,ap_materno,tipo from usuario where correo=? and password=sha2(?,512);";
             String[] datos = {email,password};
             //Ejecutamos la consulta
             objConn.safeConsult(consulta, datos);
