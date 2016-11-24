@@ -17,8 +17,12 @@
 
     <script type="text/javascript">
         window.onload = function () {
-        document.registro.addEventListener('submit', validarFormulario);
-        }
+        document.registro.addEventListener('submit', function(event){
+                    event.preventDefault();
+                    validarFormulario(this);
+                });
+            }
+            
 
         
     </script>

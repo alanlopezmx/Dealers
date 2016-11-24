@@ -15,6 +15,14 @@
                 idLogin: idLogin,
         }, function(responseText) {
                 $('#contenido').html(responseText);
+                switch (op){
+                case 3:
+                    document.altadireccion.addEventListener('submit', function(event){
+                        event.preventDefault();
+                        validarFormulario(this);
+                    });
+                    break;
+            }
         });
     }
     

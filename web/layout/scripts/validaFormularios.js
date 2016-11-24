@@ -70,20 +70,24 @@ function checaPassActual(pass){
     });
 }
 
-function validarFormulario(evObject) {
-    evObject.preventDefault();
+function validarFormulario(formulario) {
     var todoCorrecto = true;
-    var formulario = document.registro;
-    formulario.apmat.style.borderColor = 'rgb(60, 179, 113)';
+    //formulario.apmat.style.borderColor = 'rgb(60, 179, 113)';
     for (var i=0; i<formulario.length; i++) {
-        if(formulario[i].type == 'text' || formulario[i].type == 'password') {
+        if(formulario[i].type == 'text' || formulario[i].type == 'password' || formulario[i].type == 'textarea') {
             if(formulario[i].style.borderColor !='rgb(60, 179, 113)') {
                 todoCorrecto=false;
+            }
+        } else if(formulario[i].type == 'select-one'){
+            if(formulario[i].value == '0'){
+                alert("Falta seleccionar " + formulario[i].name + "!");
             }
         }
     }
     if (todoCorrecto == true) {
         formulario.submit();
+    }else{
+        alert("hay algo mal");
     }
 }
 
@@ -158,6 +162,7 @@ function guardaNuevoPass(pa,p1,p2){
 
 function cargaListaProd(obj){
     var idCategoria = obj.value;
+    $('#datosProd').html("");
     $.post('modificaProd.jsp', {
             idCategoria: idCategoria,
             op: 1,
@@ -173,5 +178,120 @@ function cargaProductos(obj){
             op: 2,
     }, function(respuesta) {
         $('#datosProd').html(respuesta);
+        document.modProd.addEventListener('submit', function(event){
+            event.preventDefault();
+            validarFormulario(this);
+        });
     }); 
+}
+
+function cargaCat(obj){
+    var idCategoria = obj.value;
+    $.post('modificaCat.jsp', {
+            idCategoria: idCategoria,
+    }, function(respuesta) {
+        $('#datosCat').html(respuesta);
+        document.modCat.addEventListener('submit', function(event){
+            event.preventDefault();
+            validarFormulario(this);
+        });
+    }); 
+}
+
+function cargaUsuario(obj){
+    var idUsuario = obj.value;
+    $.post('modificaUsr.jsp', {
+            idUsuario: idUsuario,
+    }, function(respuesta) {
+        $('#datosClient').html(respuesta);
+        document.modusr.addEventListener('submit', function(event){
+            event.preventDefault();
+            validarFormulario(this);
+        });
+    }); 
+}
+
+function cargaProveedor(obj){
+    var idProveedor = obj.value;
+    $.post('modProv.jsp', {
+            idProveedor: idProveedor,
+    }, function(respuesta) {
+        $('#datosProveedor').html(respuesta);
+        document.modprov.addEventListener('submit', function(event){
+            event.preventDefault();
+            validarFormulario(this);
+        });
+    }); 
+}
+
+function cargaAdministrador(obj){
+    var idUsuario = obj.value;
+    $.post('modAdmin.jsp', {
+            idUsuario: idUsuario,
+    }, function(respuesta) {
+        $('#datosAdministrador').html(respuesta);
+        document.modadmin.addEventListener('submit', function(event){
+            event.preventDefault();
+            validarFormulario(this);
+        });
+    }); 
+}
+
+function seleccion(obj){
+   if (obj.value == "0"){
+        obj.style.borderColor = 'red'; 
+        obj.style.borderColor = 'red'; 
+    } else {
+        obj.style.borderColor = '#3CB371';
+        obj.style.borderColor = '#3CB371'; 
+    }
+}
+
+function eliminaProd(){
+    var idProducto = $('#idProducto').val();
+     $.post('eliminaProductosDB.jsp', {
+            idProducto: idProducto,
+    }, function() {
+        window.location.href = "administrador.jsp";
+    });
+}
+
+function eliminaCat(){
+    var idCategoria = $('#idCategoria').val();
+     $.post('eliminaCategoriasDB.jsp', {
+            idCategoria: idCategoria,
+    }, function() {
+        window.location.href = "administrador.jsp";
+    });
+}
+function eliminaUsr(){
+    var idUsuario = $('#idUsuario').val();
+     $.post('eliminaUsuariosDB.jsp', {
+            idUsuario: idUsuario,
+    }, function() {
+        window.location.href = "administrador.jsp";
+    });
+}
+
+function eliminaUsr(){
+    var idUsuario = $('#idUsuario').val();
+     $.post('eliminaUsuariosDB.jsp', {
+            idUsuario: idUsuario,
+    }, function() {
+        window.location.href = "administrador.jsp";
+    });
+}
+
+function eliminaAdmin(){
+    var idUsuario = $('#idUsuario').val();
+     $.post('eliminaUsuariosDB.jsp', {
+            idUsuario: idUsuario,
+    }, function() {
+        window.location.href = "administrador.jsp";
+    });
+}
+
+function cambiaValor(valor){
+    document.getElementById("uploadFile").value = valor;
+    document.getElementById("uploadFile").style.borderColor = '#3CB371';
 }

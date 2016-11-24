@@ -62,32 +62,73 @@
                 break;
                 
                 case 3:
-                %>  <form id="newsletter">
-                        <div class="one_half first direcciones">
-                            <b>Casa</b><br>
-                            Cieneguillas 505 <br>
-                            Ojocaliente II <br>
-                            Tel. 4499993467 <br>
-                            Aguascalientes, México <br>
-                            20196
-                            <p align="right"> <a href="#"> Editar </a> </p>
-                        </div>
-                        <div class="one_half direcciones">
-                            <b>Trabajo</b><br>
-                            Cieneguillas 505 <br>
-                            Ojocaliente II <br>
-                            Tel. 4499993467 <br>
-                            Aguascalientes, México <br>
-                            20196
-                            <p align="right"> <a href="#"> Editar </a> </p> 
-                        </div>
-
+                %>  <fieldset id="newsletter">
+                    <%
+                        consulta = "select * from domicilio where Usuario_idUsuario=" + idLogin + ";";
+                        objConn.Consult(consulta);
+                        n=0;
+                        if(objConn.rs != null){
+                            try{
+                                objConn.rs.last();
+                                n = objConn.rs.getRow();
+                                objConn.rs.first();
+                            }catch(Exception e){
+                            }
+                        }
+                        for(int i=0;i<n;i++){
+                            if (i%2==0){
+                                out.print("<div class='one_half first direcciones'>");
+                            } else {
+                                out.print("<div class='one_half direcciones'>");
+                            }
+                            out.print("<div class='tachita'>X</div>");
+                            out.print("<b>"+objConn.rs.getString(3)+"</b><br>"
+                            +objConn.rs.getString(4)+" "+objConn.rs.getString(5)+" <br>"
+                            +objConn.rs.getString(6)+" <br>"
+                            +objConn.rs.getString(7)+" <br>"
+                            +objConn.rs.getString(8)+" <br>"
+                            +objConn.rs.getString(9)
+                            +"<p align='right'> <a onclick=\"alert('Hola'); show('nuevadir','nuevadir'); show('sombra','sombra');\"> Editar </a> </p>"
+                            +"</div>");
+                            objConn.rs.next();
+                        }    
+                    %>
+                       
                         <div class="clear"></div>
                         <br>
                         <p align="center">
-                            <button type="submit" value="submit" style="background-color: #23B8C1">&nbsp&nbsp&nbsp Agregar Dirección &nbsp&nbsp&nbsp</button>
+                            <button onclick='show("nuevadir","nuevadir"); show("sombra","sombra");' style="background-color: #23B8C1">&nbsp&nbsp&nbsp Agregar Dirección &nbsp&nbsp&nbsp</button>
                         </p>
-                    </form>
+                    </fieldset>
+                     <div id="sombra" class="hide" onclick='hide("sombra"); hide("nuevadir");'> </div>
+                    <div id="nuevadir" class="hide">
+                        <form id="newsletter" method="post" action="insertDireccion.jsp" name="altadireccion">
+                            <fieldset>
+                                <br>
+                                <b><center>Agregar nueva dirección</center></b>
+                                <br><br>
+                                <input type="hidden" name="idCliente" value="<%=idLogin%>">
+                                <input onchange="noVacio(this)" name="dirname" class="btmspace-15" type="text" value="" placeholder="Nombre de dirección">
+                                <section class="one_half first">
+                                    <input onchange="noVacio(this)" name="calle" class="btmspace-15" type="text" value="" placeholder="Calle">
+                                </section>  
+                                <section class="one_half">
+                                    <input onchange="soloNumeros(this)" name="numero" class="btmspace-15" type="text" value="" placeholder="Número">
+                                </section>
+                                <input onchange="noVacio(this)" name="colonia" class="btmspace-15" type="text" value="" placeholder="Colonia">
+                                <section class="one_half first">
+                                <input onchange="soloLetras(this)" name="ciudad" class="btmspace-15" type="text" value="" placeholder="Ciudad">
+                                </section>
+                                <section class="one_half">
+                                    <input onchange="soloNumeros(this)" name="cp" class="btmspace-15" type="text" value="" placeholder="Código Postal">
+                                </section>
+                                <input onchange="soloLetras(this)" name="estado" class="btmspace-15" type="text" value="" placeholder="Estado">
+                                <p align="right">
+                                    <button type="submit" value="submit">&nbsp&nbsp&nbsp Agregar &nbsp&nbsp&nbsp</button>
+                                </p>
+                            </fieldset>
+                        </form>
+                    </div>
         <%
                 break;
                 
