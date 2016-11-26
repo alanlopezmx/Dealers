@@ -18,8 +18,11 @@
         <input type="hidden" name="idCategoria" id="idCategoria" value="<%=idCategoria%>"/>
         <b>Nombre:<br></b>
         <input onchange='noVacio(this)' name="nombre" class="btmspace-15" type="text" value="<%=objConn.rs.getString(2)%>" placeholder="Nombre" style="border-color: rgb(60, 179, 113)">
+        <div class="one_half">
+            <img src='returnCategoria.jsp?idCategoria=<%=idCategoria%>' alt=''>
+        </div>
         <section class="one_half first">
-            <input id="uploadFile" placeholder="Elegir Archivo" disabled="disabled"/>
+            <input id="uploadFile" name="uploadFile" placeholder="Elegir Archivo" disabled="disabled"/>
         </section>
         <section class="one_half">
             <div class="fileUpload btn btn-primary">
@@ -32,7 +35,8 @@
             <button type="submit" style="background-color: #23B8C1">&nbsp&nbsp&nbsp Modificar &nbsp&nbsp&nbsp</button> 
         </div>
     </form>
-    <div>  
+    <div class="fl_left">  
         <button onclick='eliminaCat()' style="background-color: #23B8C1">&nbsp&nbsp&nbsp Eliminar &nbsp&nbsp&nbsp</button>
     </div>
 </fieldset>
+<%objConn.desConnect();%>

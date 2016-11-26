@@ -34,4 +34,5 @@
         String []datos = {pass,idLogin};
         objConn.safeUpdate(consulta, datos);
     }
+    objConn.desConnect();
 %>

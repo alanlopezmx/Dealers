@@ -45,3 +45,4 @@
         <button onclick='eliminaAdmin()' style="background-color: #23B8C1">&nbsp&nbsp&nbsp Eliminar &nbsp&nbsp&nbsp</button>
     </div>
 </fieldset>
+<%objConn.desConnect();%>

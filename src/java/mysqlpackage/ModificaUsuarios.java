@@ -36,35 +36,35 @@ public class ModificaUsuarios extends HttpServlet {
         String tipo = "";
         String idUsuario = "";
         if (request.getParameter("idUsuario") != null) {
-            idUsuario = new String(request.getParameter("idUsuario").getBytes("ISO-8859-1"), "UTF-8");
+            idUsuario = request.getParameter("idUsuario");
             idUsuario = idUsuario.trim();
         }
         if (request.getParameter("nombre") != null) {
-            nombre = new String(request.getParameter("nombre").getBytes("ISO-8859-1"), "UTF-8");
+            nombre = request.getParameter("nombre");
             nombre = nombre.trim();
         }
         if (request.getParameter("appat") != null) {
-            appat = new String(request.getParameter("appat").getBytes("ISO-8859-1"), "UTF-8");
+            appat = request.getParameter("appat");
             appat = appat.trim();
         }
         if (request.getParameter("apmat") != null) {
-            apmat = new String(request.getParameter("apmat").getBytes("ISO-8859-1"), "UTF-8");
+            apmat = request.getParameter("apmat");
             apmat = apmat.trim();
         }
         if (request.getParameter("telefono") != null) {
-            telefono = new String(request.getParameter("telefono").getBytes("ISO-8859-1"), "UTF-8");
+            telefono = request.getParameter("telefono");
             telefono = telefono.trim();
         }
         if (request.getParameter("email") != null) {
-            email = new String(request.getParameter("email").getBytes("ISO-8859-1"), "UTF-8");
+            email = request.getParameter("email");
             email = email.trim();
         }
         if (request.getParameter("password1") != null) {
-            password = new String(request.getParameter("password1").getBytes("ISO-8859-1"), "UTF-8");
+            password = request.getParameter("password1");
             password = password.trim();
         }
         if (request.getParameter("tipo") != null) {
-            tipo = new String(request.getParameter("tipo").getBytes("ISO-8859-1"), "UTF-8");
+            tipo = request.getParameter("tipo");
             tipo = tipo.trim();
         }
         

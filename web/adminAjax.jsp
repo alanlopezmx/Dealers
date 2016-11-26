@@ -65,6 +65,34 @@
                         <input multiple accept="image/*" name="file" id="uploadBtn" type="file" class="upload" onchange='cambiaValor(this.value)'/>
                     </div>
                 </section>
+                <div class="clear"></div>
+                <br>
+                <%                    consulta = "select * from sucursal;";
+                    objConn.Consult(consulta);
+                    n = 0;
+                    if (objConn.rs != null) {
+                        try {
+                            objConn.rs.last();
+                            n = objConn.rs.getRow();
+                            objConn.rs.first();
+                        } catch (Exception e) {
+                        }
+                    }
+                    if (n > 0) {
+                        for (int i = 0; i < n; i++) {
+                %>
+                <section class="one_third first">
+                    <p align="right"><b>Sucursal <%=objConn.rs.getString(2)%>: </b></p>
+                </section>
+                <section class="one_half">
+                    <section class="one_quarter">
+                        <input name="cantidad" id="cantidad" type="text" value="0" onchange="soloNumeros(this);"/>
+                    </section>
+                </section>
+                <%
+                            objConn.rs.next();
+                        }
+                    }%>
                 <br><br><br>
                 <p align="left">
                     <button type="submit" style="background-color: #23B8C1">&nbsp&nbsp&nbsp Agregar &nbsp&nbsp&nbsp</button>
@@ -203,7 +231,7 @@
 
             case 6: // modificar cliente
         %>
-         <br>
+        <br>
         <b>&nbsp&nbsp&nbsp&nbsp&nbsp Modificar Clientes</b>
         <br><br>
         <div class="caja">
@@ -222,7 +250,7 @@
                         }
                     }
                     for (int i = 0; i < n; i++) {
-                        out.println("<option value='" + objConn.rs.getString(1) + "'>" + objConn.rs.getString(2) + " " + objConn.rs.getString(3) + " " + objConn.rs.getString(4) +  "</option>");
+                        out.println("<option value='" + objConn.rs.getString(1) + "'>" + objConn.rs.getString(2) + " " + objConn.rs.getString(3) + " " + objConn.rs.getString(4) + "</option>");
                         objConn.rs.next();
                     }
                 %>
@@ -292,7 +320,7 @@
                         }
                     }
                     for (int i = 0; i < n; i++) {
-                        out.println("<option value='" + objConn.rs.getString(1) + "'>" + objConn.rs.getString(2) + " " + objConn.rs.getString(3) + " " + objConn.rs.getString(4) +  "</option>");
+                        out.println("<option value='" + objConn.rs.getString(1) + "'>" + objConn.rs.getString(2) + " " + objConn.rs.getString(3) + " " + objConn.rs.getString(4) + "</option>");
                         objConn.rs.next();
                     }
                 %>
@@ -323,7 +351,7 @@
                     <input name="password1" class="btmspace-15" type="password" value="" placeholder="Contraseña" onchange="noVacio(this)">
                 </section>  
                 <section class="one_half">
-                    <input name="password2" class="btmspace-15" type="password" value="" placeholder="Confirmar Contraseña" onchange="checaPass(password1,this)">
+                    <input name="password2" class="btmspace-15" type="password" value="" placeholder="Confirmar Contraseña" onchange="checaPass(password1, this)">
                 </section>
                 <p align="right">
                     <button type="submit" value="submit" style="background-color: #23B8C1">&nbsp&nbsp&nbsp Agregar &nbsp&nbsp&nbsp</button>
@@ -354,7 +382,7 @@
                         }
                     }
                     for (int i = 0; i < n; i++) {
-                        out.println("<option value='" + objConn.rs.getString(1) + "'>" + objConn.rs.getString(2) + " " + objConn.rs.getString(3) + " " + objConn.rs.getString(4) +  "</option>");
+                        out.println("<option value='" + objConn.rs.getString(1) + "'>" + objConn.rs.getString(2) + " " + objConn.rs.getString(3) + " " + objConn.rs.getString(4) + "</option>");
                         objConn.rs.next();
                     }
                 %>
@@ -412,8 +440,180 @@
             </fieldset>
         </form>
         <%
+                break;
+
+            case 12: // Agregar sucursal
+        %>
+        <form id="newsletter" method="post" action="altaSucursal" name="altasucursal">
+            <fieldset>
+                <br>
+                <b>&nbsp&nbsp&nbsp&nbsp&nbsp Ingresa los datos de la sucursal</b>
+                <br><br>
+                <input class="btmspace-15" type="text" value="" placeholder="Nombre" name="nombre" onchange="noVacio(this)">
+                <section class="one_half first">
+                    <input class="btmspace-15" type="text" value="" placeholder="Calle" name="calle" onchange="noVacio(this)">
+                </section>
+                <section class="one_half">
+                    <input class="btmspace-15" type="text" value="" placeholder="Número" name="numero" onchange="soloNumeros(this)">
+                </section>
+                <section class="one_half first">
+                    <input class="btmspace-15" type="text" value="" placeholder="Colonia" name="colonia" onchange="noVacio(this)">
+                </section>
+                <section class="one_half">
+                    <input class="btmspace-15" type="text" value="" placeholder="Ciudad" name="ciudad" onchange="noVacio(this)">
+                </section>
+                <section class="one_half first">
+                    <input class="btmspace-15" type="text" value="" placeholder="Estado" name="estado" onchange="noVacio(this)">
+                </section>  
+                <section class="one_half">
+                    <input class="btmspace-15" type="text" value="" placeholder="Código Postal" name="cp" onchange="soloNumeros(this)">
+                </section>
+                <input class="btmspace-15" type="text" value="" placeholder="Teléfono" name="telefono" onchange="soloNumeros(this)">
+                <p align="right">
+                    <button type="submit" value="submit">&nbsp&nbsp&nbsp Agregar &nbsp&nbsp&nbsp</button>
+                </p>
+            </fieldset>
+        </form>
+        <%
+                break;
+
+            case 13: //Modificar o Eliminar Sucursal
+        %> 
+        <br>
+        <b>&nbsp&nbsp&nbsp&nbsp&nbsp Modificar Sucursal</b>
+        <br><br>
+        <div class="caja">
+            <select name="idSucursal" onchange='cargaSucursal(this)'>
+                <option value="0" disabled selected> Selecciona la sucursal... </option> 
+                <%
+                    consulta = "select idSucursal, nombre from sucursal;";
+                    objConn.Consult(consulta);
+                    n = 0;
+                    if (objConn.rs != null) {
+                        try {
+                            objConn.rs.last();
+                            n = objConn.rs.getRow();
+                            objConn.rs.first();
+                        } catch (Exception e) {
+                        }
+                    }
+                    for (int i = 0; i < n; i++) {
+                        out.println("<option value='" + objConn.rs.getString(1) + "'>" + objConn.rs.getString(2) + "</option>");
+                        objConn.rs.next();
+                    }
+                %>
+            </select>
+        </div>
+        <br>
+        <div id="datosSucursal"></div>
+        <%          break;
+            case 14: //datos personales
+        %>
+        <fieldset id="newsletter">
+            <%
+                consulta = "select nombre, ap_paterno, ap_materno, telefono from usuario where idUsuario=?;";
+                String[] datos = {idLogin};
+                //Ejecutamos la consulta
+                objConn.safeConsult(consulta, datos);
+            %>
+            <input onchange='soloLetras(this)' id="nombre" name="nombre" class="btmspace-15" type="text" value="<%=objConn.rs.getString(1)%>" placeholder="Nombre" disabled>
+            <section class="one_half first">
+                <input onchange='soloLetras(this)' id="appat" name="appat" class="btmspace-15" type="text" value="<%=objConn.rs.getString(2)%>" placeholder="Apellido Paterno" disabled>
+            </section>
+            <section class="one_half">
+                <input onchange='soloLetras(this)' id="apmat" name="apmat" class="btmspace-15" type="text" value="<%=objConn.rs.getString(3)%>" placeholder="Apellido Materno" disabled>
+            </section>
+            <input onchange='soloNumeros(this)' id="telefono" name="telefono" class="btmspace-15" type="text" value="<%=objConn.rs.getString(4)%>" placeholder="Teléfono" disabled>
+            <p align="center">
+                <button type="button" onclick='habilitar(nombre, appat, apmat, telefono)' style="background-color: #23B8C1"><div id="txtbtn">&nbsp&nbsp&nbsp Modificar &nbsp&nbsp&nbsp</div></button>
+            </p>
+        </fieldset>
+        <%
+                break;
+            case 15: // modificar contraseña
+        %>
+        <form id="newsletter" method="post" action="#">
+            <fieldset>
+                <center><div id='msjPass'></div></center><br>
+                <input name="passActual" class="btmspace-15" type="password" value="" placeholder="Contraseña Actual" onchange='checaPassActual(this)'>
+                <input name="password1" class="btmspace-15" type="password" value="" placeholder="Nueva Contraseña" onchange='noVacio(this)'>
+                <input name="password2" class="btmspace-15" type="password" value="" placeholder="Confirmar Contraseña" onchange='checaPass(password1, this)'>
+                <p align="center">
+                    <button type="button" onclick='guardaNuevoPass(passActual, password1, password2)' style="background-color: #23B8C1">&nbsp&nbsp&nbsp Guardar &nbsp&nbsp&nbsp</button>
+                </p>
+            </fieldset>
+        </form>
+        <%
+                break;
+            case 16: // historial de ventas
+        %>
+        holaaa
+        <%
+                break;
+            case 17: // alta vendedor
+        %>
+        <form id="newsletter" method="post" action="insertUsuario" name="altavendedor">
+            <fieldset>
+                <br>
+                <b>&nbsp&nbsp&nbsp&nbsp&nbsp Ingresa los datos del vendedor</b>
+                <br><br>
+                <input name="nombre" class="btmspace-15" type="text" value="" placeholder="Nombre" onchange="soloLetras(this)">
+                <section class="one_half first">
+                    <input name="appat" class="btmspace-15" type="text" value="" placeholder="Apellido Paterno" onchange="soloLetras(this)">
+                </section>
+                <section class="one_half">
+                    <input name="apmat" class="btmspace-15" type="text" value="" placeholder="Apellido Materno" onchange="soloLetrasyNull(this)">
+                </section>
+                <input name="telefono" class="btmspace-15" type="text" value="" placeholder="Teléfono" onchange="soloNumeros(this)">
+                <input name="email" class="btmspace-15" type="text" value="" placeholder="Correo" onchange="noVacio(this)">
+                <section class="one_half first">
+                    <input name="password1" class="btmspace-15" type="password" value="" placeholder="Contraseña" onchange="noVacio(this)">
+                </section>  
+                <section class="one_half">
+                    <input name="password2" class="btmspace-15" type="password" value="" placeholder="Confirmar Contraseña" onchange="checaPass(password1, this)">
+                </section>
+                <input name="tipo" value="VENDEDOR" type="hidden"/>
+                <p align="right">
+                    <button type="submit" value="submit" style="background-color: #23B8C1">&nbsp&nbsp&nbsp Agregar &nbsp&nbsp&nbsp</button>
+                </p>
+            </fieldset>
+        </form>
+        <%
+                break;
+
+            case 18: // modificar vendedor
+        %>
+        <br>
+        <b>&nbsp&nbsp&nbsp&nbsp&nbsp Modificar vendedor</b>
+        <br><br>
+        <div class="caja">
+            <select name="idVendedor" onchange='cargaVendedor(this)'>
+                <option value="0" disabled selected> Selecciona al vendedor... </option> 
+                <%
+                    consulta = "select idUsuario, nombre,ap_paterno,ap_materno from usuario where tipo='VENDEDOR';";
+                    objConn.Consult(consulta);
+                    n = 0;
+                    if (objConn.rs != null) {
+                        try {
+                            objConn.rs.last();
+                            n = objConn.rs.getRow();
+                            objConn.rs.first();
+                        } catch (Exception e) {
+                        }
+                    }
+                    for (int i = 0; i < n; i++) {
+                        out.println("<option value='" + objConn.rs.getString(1) + "'>" + objConn.rs.getString(2) + " " + objConn.rs.getString(3) + " " + objConn.rs.getString(4) + "</option>");
+                        objConn.rs.next();
+                    }
+                %>
+            </select>
+        </div>
+        <br>
+        <div id="datosVendedor"></div>
+        <%
                     break;
             }
+            objConn.desConnect();
         %>
     </body>
 </html>

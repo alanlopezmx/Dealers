@@ -12,6 +12,34 @@ File: Layout CSS
 @import url("custom.flexslider.css");
 @import url("framework.css");
 
+#modificaDir, #modificaTar{
+    position: absolute;
+    top: -20%;
+    left: 20%;
+    z-index: 1;
+    width: 60%;
+    height: auto;
+    background:white;
+    border-radius: 5px;
+    text-align: center;
+    box-shadow: 0px 0px 16px 1px rgba(0,0,0,0.2);
+    -webkit-border-radius: 3px 5px 1px 4px;
+    -moz-border-radius: 4px;
+    border-radius: 6px;
+    padding: 10px 40px 10px;
+    z-index: 4;
+}
+
+.tachita{
+    position: relative;
+    float: right;
+    width: 25px;
+    height: 25px;
+    top: -15px;
+    right: -30px;
+    font-size: 18px;
+}
+
 .direcciones{
     -webkit-box-sizing: boder-box;
     -moz-box-sizing: boder-box;
@@ -46,6 +74,11 @@ File: Layout CSS
     opacity: 0;
     filter: alpha(opacity=0);
 }
+
+#container { overflow:auto; }
+.image { width:100px;height:100px;float:left;position:relative; }
+a.delete { display:none;position:absolute;top:0;right:0;width:30px;height:30px;text-indent:-999px;background:red; }
+.image:hover a.delete { display:block; }
 
 .caja {	
    border:1px solid #d9d9d9;
@@ -84,6 +117,9 @@ select:focus{ outline: none;}
      width: 30%
 }
 
+/* Nuevo inicio
+--------------------------------------------------------------------------------------------------------------- */
+
 .hide{
     -webkit-transition:.5s;
     -moz-transition:.5s;
@@ -92,7 +128,17 @@ select:focus{ outline: none;}
     opacity:0;
     -ms-opacity:0;
     -moz-opacity:0;
-    visibility:hidden;
+    visibility: hidden;
+}
+
+.flotante{
+    background:white;
+    border-radius: 5px;
+    text-align: center;
+    box-shadow: 0px 0px 16px 1px rgba(0,0,0,0.2);
+    -webkit-border-radius: 3px 5px 1px 4px;
+    -moz-border-radius: 4px;
+    border-radius: 6px;
 }
 
 #login{
@@ -101,31 +147,25 @@ select:focus{ outline: none;}
     left: 60%;
     top: 80px;
     float: left;
-    background:white;
-    border-radius: 5px;
-    text-align: center;
-    box-shadow: 0px 0px 16px 1px rgba(0,0,0,0.2);
-    -webkit-border-radius: 3px 5px 1px 4px;
-    -moz-border-radius: 4px;
-    border-radius: 6px;
     padding: 10px 20px 10px;
-    z-index: 2;
+    z-index: 13;
 }
 
 #pantalla{
     position:fixed;
     top: 0%;
     left: 0%;
-    z-index: 1;
+    z-index: 12;
     width: 100%;
     height: 100%;
+    background: none;
 }
 
 #sombra{
     position:fixed;
     top: 0%;
     left: 0%;
-    z-index: 3;
+    z-index: 14;
     width: 100%;
     height: 100%;
     background: rgba(255,255,255,0.91);
@@ -137,23 +177,60 @@ select:focus{ outline: none;}
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#292e2e', GradientType=1 );
 }
 
-#nuevadir{
+#nuevadir, #nuevaTar{
     position:fixed;
     top: 20%;
     left: 20%;
     z-index: 1;
     width: 60%;
     height: auto;
-    background:white;
-    border-radius: 5px;
-    text-align: center;
-    box-shadow: 0px 0px 16px 1px rgba(0,0,0,0.2);
-    -webkit-border-radius: 3px 5px 1px 4px;
-    -moz-border-radius: 4px;
-    border-radius: 6px;
     padding: 10px 40px 10px;
-    z-index: 4;
+    z-index: 15;
 }
+
+#agregar{
+    position:fixed;
+    top: 25%;
+    left: 25%;
+    width: 50%;
+    height: auto;
+    padding: 30px 40px 40px;
+    z-index: 15;
+}
+
+.sucursal{
+    margin-top: 5%;    
+}
+
+.sucursal h2{
+    margin: 0 0 20px 0;
+    font-size: 16px;
+    line-height: normal;
+    font-weight: normal;
+}
+
+#carrito{
+    position:absolute;
+    top: 12%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 75%;
+    padding: 10px 1% 20px;
+    z-index: 15;
+}
+
+.contenedor {
+          width: 100%
+      }
+
+.contenedor img {
+    width: 100%;
+}
+
+
+/* Nuevo fin
+--------------------------------------------------------------------------------------------------------------- */
 
 #username a:hover{
     color: #000000;

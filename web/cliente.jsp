@@ -22,6 +22,13 @@
                         validarFormulario(this);
                     });
                     break;
+                    
+                case 4:
+                    document.altaTarjeta.addEventListener('submit', function(event){
+                        event.preventDefault();
+                        validarFormulario(this);
+                    });
+                    break;
             }
         });
     }

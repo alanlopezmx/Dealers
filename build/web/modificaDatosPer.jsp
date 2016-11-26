@@ -14,4 +14,5 @@
                 + "' where idUsuario='" + request.getParameter("idLogin") + "';";
             objConn.Update(consulta);  
             session.setAttribute("nombre", request.getParameter("nombre"));
+            objConn.desConnect();
         %>

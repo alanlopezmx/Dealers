@@ -6,6 +6,9 @@
 package mysqlpackage;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -43,15 +46,15 @@ public class ModificaProveedores extends HttpServlet {
             idProveedor = idProveedor.trim();
         }
         if (request.getParameter("nombre") != null) {
-            nombre = new String(request.getParameter("nombre").getBytes("ISO-8859-1"), "UTF-8");
+            nombre = request.getParameter("nombre");
             nombre = nombre.trim();
         }
         if (request.getParameter("appat") != null) {
-            appat = new String(request.getParameter("appat").getBytes("ISO-8859-1"), "UTF-8");
+            appat = request.getParameter("appat");
             appat = appat.trim();
         }
         if (request.getParameter("apmat") != null) {
-            apmat = new String(request.getParameter("apmat").getBytes("ISO-8859-1"), "UTF-8");
+            apmat = request.getParameter("apmat");
             apmat = apmat.trim();
         }
         if (request.getParameter("telefono") != null) {
@@ -59,11 +62,11 @@ public class ModificaProveedores extends HttpServlet {
             telefono = telefono.trim();
         }
         if (request.getParameter("rfc") != null) {
-            rfc = new String(request.getParameter("rfc").getBytes("ISO-8859-1"), "UTF-8");
+            rfc = request.getParameter("rfc");
             rfc = rfc.trim();
         }
         if (request.getParameter("calle") != null) {
-            calle = new String(request.getParameter("calle").getBytes("ISO-8859-1"), "UTF-8");
+            calle = request.getParameter("calle");
             calle = calle.trim();
         }
         if (request.getParameter("numero") != null) {
@@ -71,19 +74,19 @@ public class ModificaProveedores extends HttpServlet {
             numero = numero.trim();
         }
         if (request.getParameter("colonia") != null) {
-            colonia = new String(request.getParameter("colonia").getBytes("ISO-8859-1"), "UTF-8");
+            colonia = request.getParameter("colonia");
             colonia = colonia.trim();
         }
         if (request.getParameter("ciudad") != null) {
-            ciudad = new String(request.getParameter("ciudad").getBytes("ISO-8859-1"), "UTF-8");
+            ciudad = request.getParameter("ciudad");
             ciudad = ciudad.trim();
         }
         if (request.getParameter("estado") != null) {
-            estado = new String(request.getParameter("estado").getBytes("ISO-8859-1"), "UTF-8");
+            estado = request.getParameter("estado");
             estado = estado.trim();
         }
         if (request.getParameter("pais") != null) {
-            pais = new String(request.getParameter("pais").getBytes("ISO-8859-1"), "UTF-8");
+            pais = request.getParameter("pais");
             pais = pais.trim();
         }
         if (request.getParameter("cp") != null) {
@@ -104,14 +107,18 @@ public class ModificaProveedores extends HttpServlet {
             } catch (Exception e) {
             }
         }
-        if (n > 0) { // ya existe ese usuario
-            objConn.desConnect();
-
-        } else {
-            consulta = "update proveedor set nombre=?,ap_paterno=?,ap_materno=?,telefono=?,rfc=?,calle=?,numero=?,colonia=?,ciudad=?,estado=?,pais=?,cp=? where idProveedor=?;";
-            String[] datos2={nombre,appat,apmat,telefono,rfc,calle,numero,colonia,ciudad,estado,pais,cp,idProveedor};
-            objConn.safeUpdate(consulta,datos2);
-            objConn.desConnect();
+        try {
+            if (n > 0 && !objConn.rs.getString(1).equals(idProveedor)) { // ya existe ese usuario
+                objConn.desConnect();
+                
+            } else {
+                consulta = "update proveedor set nombre=?,ap_paterno=?,ap_materno=?,telefono=?,rfc=?,calle=?,numero=?,colonia=?,ciudad=?,estado=?,pais=?,cp=? where idProveedor=?;";
+                String[] datos2={nombre,appat,apmat,telefono,rfc,calle,numero,colonia,ciudad,estado,pais,cp,idProveedor};
+                objConn.safeUpdate(consulta,datos2);
+                objConn.desConnect();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ModificaProveedores.class.getName()).log(Level.SEVERE, null, ex);
         }
         getServletContext().getRequestDispatcher("/administrador.jsp").forward(request, response);
     }

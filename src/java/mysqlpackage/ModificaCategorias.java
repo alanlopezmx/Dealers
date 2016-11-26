@@ -58,7 +58,7 @@ public class ModificaCategorias extends HttpServlet {
             statement = objConn.prepareStatement(sql);
             statement.setString(1, nombre);
             statement.setInt(3, idCategoria);
-            if (inputStream != null) {
+            if (filePart.getSize() != 0) {
                 // fetches input stream of the upload file for the blob column
                 statement.setBlob(2, inputStream);
             } else {

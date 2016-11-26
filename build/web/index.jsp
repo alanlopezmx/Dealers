@@ -20,53 +20,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <link href="layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
 
-<script type="text/javascript" language="JavaScript">
-    function validateEnter(e,email,pass) {
-        var key = e.keyCode || e.which;
-        if (key == 13) {
-            checaLogin(email,pass);
-            e.preventDefault();
-        }
-    }
-    
-    function checaLogin(email,pass) {
-        // The XMLHttpRequest object
-        var xmlHttp;
-        try { // Detectar que tipo de navegador se esta utilizando
-            xmlHttp = new XMLHttpRequest(); // Firefox, Opera 8.0+, Safari
-        }
-        catch (e) {
-            try {
-                xmlHttp = new ActiveXObject("Msxml2.XMLHTTP"); // Internet Explorer
-            }
-            catch (e) {
-                try {
-                    xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
-                }
-                catch (e) {
-                    alert("Tu explorador no soporta AJAX.");
-                    return false;
-                }
-            }
-        }
-        var nocacheurl = "checkLogin.jsp?email="+email.value+"&password="+pass.value;
-
-        // The code...
-        xmlHttp.onreadystatechange = function () {
-            if (xmlHttp.readyState == 4 && xmlHttp.readyState != null) {
-                var response = xmlHttp.responseText;
-                response = response.trim();
-                if(response == ""){
-                    window.location = "index.jsp";
-                }
-                document.getElementById("datos").innerHTML = response;
-            }
-        }
-        xmlHttp.open("GET", nocacheurl, true); //parametros (metodo, url, asincorno=true)
-        xmlHttp.send(null);
-    }
-           
-</script>
 </head>
 <body id="top">
 <!-- ################################################################################################ -->
@@ -104,7 +57,7 @@
                 <%}else if(tipoLogin.equals("ADMINISTRADOR")){%>
                     <li id="username"> <a href="administrador.jsp"> Bienvenido <%out.print(nombreLogin);%></a></li>
                 <%}else{%>
-                    <li id="username"> <a href="vendedor.jsp"> Bienvenido <%out.print(nombreLogin);%></a></li>
+                    <li id="username"> <a href="administrador.jsp"> Bienvenido <%out.print(nombreLogin);%></a></li>
                 <%}%>
                 <li><a href="cerrarSesion"><i class="fa fa-sign-out" style="font-size:1.8rem;"></i></a></li>    
         <% }%>
@@ -181,15 +134,16 @@
                 int cont = 4;
                 for(int i=0;i<n;i++){
                     if(cont == 4){
-                        out.println("<li class='one_quarter first'><a href='#'><img src='returnCategoria.jsp?idCategoria=" + objConn.rs.getString(1) + "' alt=''></a></li>");
+                        out.println("<li class='one_quarter first'><a href='productos.jsp?idcategoria=" +objConn.rs.getString(1) + "'><img src='returnCategoria.jsp?idCategoria=" + objConn.rs.getString(1) + "' alt=''></a></li>");
                         cont = 0;
                     }
                     else{
-                        out.println("<li class='one_quarter'><a href='#'><img src='returnCategoria.jsp?idCategoria=" + objConn.rs.getString(1) + "' alt=''></a></li>");
+                        out.println("<li class='one_quarter'><a href='productos.jsp?idcategoria=" +objConn.rs.getString(1) + "'><img src='returnCategoria.jsp?idCategoria=" + objConn.rs.getString(1) + "' alt=''></a></li>");
                     }
                     objConn.rs.next();
                     cont++;
                 }
+                objConn.desConnect();
             %>
           </ul>
 

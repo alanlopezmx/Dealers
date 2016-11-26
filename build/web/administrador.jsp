@@ -52,6 +52,11 @@
                                 event.preventDefault();
                                 validarFormulario(this);
                             });
+                        case 12:
+                            document.altasucursal.addEventListener('submit', function (event) {
+                                event.preventDefault();
+                                validarFormulario(this);
+                            });
 
                     }
                 });
@@ -71,7 +76,7 @@
                 idLogin = (String) session.getAttribute("id");
                 tipoLogin = (String) session.getAttribute("tipo");
             }
-            if (!tipoLogin.equals("ADMINISTRADOR")) {
+            if (!tipoLogin.equals("ADMINISTRADOR") && !tipoLogin.equals("VENDEDOR")) {
         %>
         <jsp:forward page="index.jsp"/>
         <%
@@ -112,7 +117,7 @@
                                     if (tipoLogin.equals("NORMAL") || tipoLogin.equals("MAYORITARIO")) {
                                 %>
                         <li id="username"> <a href="cliente.jsp"> Bienvenido <%out.print(nombreLogin);%></a></li>
-                            <%} else if (tipoLogin.equals("ADMINISTRADOR")) {%>
+                            <%} else if (tipoLogin.equals("ADMINISTRADOR") || tipoLogin.equals("VENDEDOR")) {%>
                         <li id="username">  <a href="administrador.jsp"> Bienvenido <%out.print(nombreLogin);%></a></li>
                             <%} else {%>
                         <li id="username"> <a href="vendedor.jsp"> Bienvenido <%out.print(nombreLogin);%></a></li>
@@ -154,6 +159,7 @@
                     <!-- ################################################################################################ -->
                     <nav class="sdb_holder">
                         <ul>
+                            <%if (tipoLogin.equals("ADMINISTRADOR")) {%>
                             <li> <b> Producto </b>
                                 <ul>
                                     <li><a href="javascript:actualizaDivContenido(1);">Alta</a></li>
@@ -167,12 +173,20 @@
                                     <li><a href="javascript:actualizaDivContenido(4);">Modificar / Eliminar</a></li>
                                 </ul>
                             </li>
+                            <%}%>
                             <li> <br> <b>Clientes</b>
                                 <ul>
                                     <li><a href="javascript:actualizaDivContenido(5);">Alta</a></li>
                                     <li><a href="javascript:actualizaDivContenido(6);">Modificar / Eliminar</a></li>
                                 </ul>
-                            </li>   
+                            </li>
+                            <%if (tipoLogin.equals("ADMINISTRADOR")) {%>
+                            <li> <br> <b>Vendedores</b>
+                                <ul>
+                                    <li><a href="javascript:actualizaDivContenido(17);">Alta</a></li>
+                                    <li><a href="javascript:actualizaDivContenido(18);">Modificar / Eliminar</a></li>
+                                </ul>
+                            </li>
                             <li> <br> <b>Proveedores</b>
                                 <ul>
                                     <li><a href="javascript:actualizaDivContenido(7);">Alta</a></li>
@@ -185,6 +199,22 @@
                                     <li><a href="javascript:actualizaDivContenido(10);">Modificar / Eliminar</a></li>
                                 </ul>
                             </li>
+                            <li><br> <b>Sucursales</b>
+                                <ul>
+                                    <li><a href="javascript:actualizaDivContenido(12);">Alta</a></li>
+                                    <li><a href="javascript:actualizaDivContenido(13);">Modificar / Eliminar</a></li>
+                                </ul>
+                            </li>
+                            <%}
+                                if (tipoLogin.equals("VENDEDOR")) {%>
+                            <li><br> <b>Información</b>
+                                <ul>
+                                    <li><a href="javascript:actualizaDivContenido(14);">Datos Personales</a></li>
+                                    <li><a href="javascript:actualizaDivContenido(15);">Modificar Contraseña</a></li>
+                                    <li><a href="javascript:actualizaDivContenido(16);">Historial de Ventas</a></li>
+                                </ul>
+                            </li>
+                            <%}%>
                         </ul>
                     </nav>
 

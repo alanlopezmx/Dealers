@@ -19,6 +19,7 @@
             + request.getParameter("estado") + "','"
             + request.getParameter("cp")+ "');";
     objConn.Update(consulta);
+    objConn.desConnect();
 %>
 <jsp:forward page="cliente.jsp">
     <jsp:param name="mensaje" value="Modificacion exitosa"/>

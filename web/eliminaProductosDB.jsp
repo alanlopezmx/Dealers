@@ -18,6 +18,7 @@
     //Ejecutamos la consulta
     objConn.safeUpdate(consulta, datos);
     //n indicara cuantos registros cumplen las condiciones
+    objConn.desConnect();
 %>
 
 

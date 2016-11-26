@@ -84,6 +84,39 @@
             </select>
         </div>
         <br>
+        <div id="container">
+            <%
+                consulta = "select * from imagen where Producto_idProducto='" + idProducto + "';";
+                String tmp;
+                objConn.Consult(consulta);
+                n = 0;
+                if (objConn.rs != null) {
+                    try {
+                        objConn.rs.last();
+                        n = objConn.rs.getRow();
+                        objConn.rs.first();
+                    } catch (Exception e) {
+                    }
+                }
+                for (int i = 0; i < n; i++) {
+                    tmp = objConn.rs.getString(1);
+                    out.println("<div class='image' id='image" +(i+1) +"' style='background-image:returnImagen.jsp?idImagen=" + objConn.rs.getString(1) + ";'>");
+                    out.println("<a href='#' class='delete'>Delete</a>");
+                    out.println("</div>");
+                    objConn.rs.next();
+                }
+            %>
+        </div>
+        <section class="one_half first">
+            <input id="uploadFile" name="uploadFile" placeholder="Elegir Archivo" disabled="disabled"/>
+        </section>
+        <section class="one_half">
+            <div class="fileUpload btn btn-primary">
+                <span>Cargar</span>
+                <input name="file" accept="image/*" id="uploadBtn"type="file" class="upload" onchange='cambiaValor(this.value)'/>  
+            </div>
+        </section>
+        <br><br><br>
         <div class="fl_left" style="margin-right: 20px;">
             <button type="submit" style="background-color: #23B8C1">&nbsp&nbsp&nbsp Modificar &nbsp&nbsp&nbsp</button> 
         </div>
@@ -96,4 +129,5 @@
 </fieldset>
 <%
     }
+    objConn.desConnect();
 %>

@@ -23,6 +23,7 @@
                 + "', Categoria_idCategoria='" + categoria
                 + "' where idProducto='" + idProducto + "';";
             objConn.Update(consulta); 
+            objConn.desConnect();
 %>
 <jsp:forward page = "administrador.jsp">
     <jsp:param name="mensaje" value="Modificado" />
