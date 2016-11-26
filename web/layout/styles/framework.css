@@ -54,6 +54,23 @@ img{width:auto; max-width:100%; height:auto; margin:0; padding:0; border:none; l
 body, input, textarea, select{font-family:Verdana, Geneva, sans-serif;}
 h1, h2, h3, h4, h5, h6, .heading{font-family:Georgia, "Times New Roman", Times, serif;}
 
+#contenido table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+#contenido th {
+  background-color: #23B8C1;
+}
+#contenido td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+#contenido tr:nth-child(even) {
+    background-color: #dddddd;
+}
 
 /* Forms
 --------------------------------------------------------------------------------------------------------------- */

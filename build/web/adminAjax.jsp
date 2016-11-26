@@ -85,15 +85,15 @@
                         out.println("<br><br>");
                         for (int i = 0; i < n; i++) {
                 %>
-                
-                
+
+
                 <input name="suc<%=i%>" value="<%=objConn.rs.getString(1)%>" type="hidden">
                 <section class="three_quarter first">
                     <input disabled type="text" value="Sucursal <%=objConn.rs.getString(2)%>:" style="border:0px;border-color: rgb(60, 179, 113);text-align:right;"/>
                 </section>
                 <section class="one_quarter">
                     <section class="one_half">
-                        <input name="cantidad<%=i%>" id="cantidad" type="text" value="0" onchange="soloNumeros(this);"/>
+                        <input name="cantidad<%=i%>" id="cantidad" type="text" value="0" onchange="soloNumeros(this);" style="border-color: rgb(60, 179, 113);"/>
                     </section>
                 </section>
                 <%
@@ -579,10 +579,33 @@
                 <section class="one_half">
                     <input name="password2" class="btmspace-15" type="password" value="" placeholder="Confirmar Contraseña" onchange="checaPass(password1, this)">
                 </section>
+                <div class="caja">
+                    <select name="idSucursal" onchange='cargaSucursal(this)'>
+                        <option value="0" disabled selected> Selecciona la sucursal... </option> 
+                        <%
+                            consulta = "select idSucursal, nombre from sucursal;";
+                            objConn.Consult(consulta);
+                            n = 0;
+                            if (objConn.rs != null) {
+                                try {
+                                    objConn.rs.last();
+                                    n = objConn.rs.getRow();
+                                    objConn.rs.first();
+                                } catch (Exception e) {
+                                }
+                            }
+                            for (int i = 0; i < n; i++) {
+                                out.println("<option value='" + objConn.rs.getString(1) + "'>" + objConn.rs.getString(2) + "</option>");
+                                objConn.rs.next();
+                            }
+                        %>
+                    </select>
+                </div>
                 <input name="tipo" value="VENDEDOR" type="hidden"/>
                 <p align="right">
                     <button type="submit" value="submit" style="background-color: #23B8C1">&nbsp&nbsp&nbsp Agregar &nbsp&nbsp&nbsp</button>
                 </p>
+
             </fieldset>
         </form>
         <%

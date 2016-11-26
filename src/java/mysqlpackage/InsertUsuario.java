@@ -31,33 +31,38 @@ public class InsertUsuario extends HttpServlet {
         String email = "";
         String telefono = "";
         String tipo = "";
+        String idSucursal ="";
         if (request.getParameter("nombre") != null) {
-            nombre = new String(request.getParameter("nombre").getBytes("ISO-8859-1"), "UTF-8");
+            nombre = request.getParameter("nombre");
             nombre = nombre.trim();
         }
         if (request.getParameter("appat") != null) {
-            appat = new String(request.getParameter("appat").getBytes("ISO-8859-1"), "UTF-8");
+            appat = request.getParameter("appat");
             appat = appat.trim();
         }
         if (request.getParameter("apmat") != null) {
-            apmat = new String(request.getParameter("apmat").getBytes("ISO-8859-1"), "UTF-8");
+            apmat = request.getParameter("apmat");
             apmat = apmat.trim();
         }
         if (request.getParameter("telefono") != null) {
-            telefono = new String(request.getParameter("telefono").getBytes("ISO-8859-1"), "UTF-8");
+            telefono = request.getParameter("telefono");
             telefono = telefono.trim();
         }
         if (request.getParameter("email") != null) {
-            email = new String(request.getParameter("email").getBytes("ISO-8859-1"), "UTF-8");
+            email = request.getParameter("email");
             email = email.trim();
         }
         if (request.getParameter("password1") != null) {
-            password = new String(request.getParameter("password1").getBytes("ISO-8859-1"), "UTF-8");
+            password = request.getParameter("password1");
             password = password.trim();
         }
         if (request.getParameter("tipo") != null) {
-            tipo = new String(request.getParameter("tipo").getBytes("ISO-8859-1"), "UTF-8");
+            tipo = request.getParameter("tipo");
             tipo = tipo.trim();
+        }
+        if (request.getParameter("idSucursal") != null) {
+            idSucursal = request.getParameter("idSucursal");
+            idSucursal = idSucursal.trim();
         }
 
         String consulta = "select * from usuario where correo=?;";
@@ -77,9 +82,9 @@ public class InsertUsuario extends HttpServlet {
             objConn.desConnect();
 
         } else {
-            consulta = "insert into usuario (nombre,ap_paterno,ap_materno,telefono,correo,password,tipo) values("
+            consulta = "insert into usuario (nombre,ap_paterno,ap_materno,telefono,correo,password,tipo,sucursal_idSucursal) values("
                     + "'" + nombre + "','" + appat + "','" + apmat + "','" + telefono + "','" + email + "',sha2('"
-                    + password + "',512),'" + tipo + "');";
+                    + password + "',512),'" + tipo + "','" + idSucursal + "');";
             objConn.Update(consulta);
             objConn.desConnect();
         }

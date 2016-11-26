@@ -35,6 +35,8 @@ public class ModificaUsuarios extends HttpServlet {
         String telefono = "";
         String tipo = "";
         String idUsuario = "";
+        String idSucursal = "";
+        boolean vendedor = false;
         if (request.getParameter("idUsuario") != null) {
             idUsuario = request.getParameter("idUsuario");
             idUsuario = idUsuario.trim();
@@ -67,7 +69,12 @@ public class ModificaUsuarios extends HttpServlet {
             tipo = request.getParameter("tipo");
             tipo = tipo.trim();
         }
-        
+        if (request.getParameter("idSucursal") != null) {
+            idSucursal = request.getParameter("idSucursal");
+            idSucursal = idSucursal.trim();
+            vendedor = true;
+        }
+
         String consulta = "select * from usuario where correo=?;";
         String[] datos = {email};
         //Ejecutamos la consulta
@@ -85,16 +92,27 @@ public class ModificaUsuarios extends HttpServlet {
         try {
             if (n > 0 && !objConn.rs.getString(1).equals(idUsuario)) { // ya existe ese usuario
                 objConn.desConnect();
-                
+
             } else {
-                if(!password.isEmpty()){
-                    consulta = "update usuario set nombre=?,ap_paterno=?,ap_materno=?,telefono=?,correo=?,password=sha2(?,512),tipo=? where idUsuario=?;";
-                    String[] datos2={nombre,appat,apmat,telefono,email,password,tipo,idUsuario};
-                    objConn.safeUpdate(consulta,datos2);
-                }else{
+                if (!password.isEmpty()) {
+                    if (vendedor) {
+                        consulta = "update usuario set nombre=?,ap_paterno=?,ap_materno=?,telefono=?,correo=?,password=sha2(?,512),tipo=?,sucursal_idSucursal=? where idUsuario=?;";
+                        String[] datos2 = {nombre, appat, apmat, telefono, email, password, tipo, idSucursal, idUsuario};
+                        objConn.safeUpdate(consulta, datos2);
+                    } else {
+                        consulta = "update usuario set nombre=?,ap_paterno=?,ap_materno=?,telefono=?,correo=?,password=sha2(?,512),tipo=? where idUsuario=?;";
+                        String[] datos2 = {nombre, appat, apmat, telefono, email, password, tipo, idUsuario};
+                        objConn.safeUpdate(consulta, datos2);
+                    }
+
+                } else if (vendedor) {
+                    consulta = "update usuario set nombre=?,ap_paterno=?,ap_materno=?,telefono=?,correo=?,tipo=?,sucursal_idSucursal=? where idUsuario=?;";
+                    String[] datos2 = {nombre, appat, apmat, telefono, email, tipo, idSucursal, idUsuario};
+                    objConn.safeUpdate(consulta, datos2);
+                } else {
                     consulta = "update usuario set nombre=?,ap_paterno=?,ap_materno=?,telefono=?,correo=?,tipo=? where idUsuario=?;";
-                    String[] datos2={nombre,appat,apmat,telefono,email,tipo,idUsuario};
-                    objConn.safeUpdate(consulta,datos2);
+                    String[] datos2 = {nombre, appat, apmat, telefono, email, tipo, idUsuario};
+                    objConn.safeUpdate(consulta, datos2);
                 }
                 objConn.desConnect();
             }

@@ -4,11 +4,13 @@
     Author     : Héctor Alan López Díaz <alanlopez1995@hotmail.com>
 --%>
 
+<%@page import="com.sun.org.apache.bcel.internal.generic.IfInstruction"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:useBean id="objConn" class="mysqlpackage.MySqlConn"/>
 <%
     String idUsuario = request.getParameter("idUsuario");
-    String consulta = "select * from usuario where idUsuario='" + idUsuario + "';";
+    String consulta;
+    consulta = "select * from usuario where idUsuario='" + idUsuario + "';";
     objConn.Consult(consulta);
 %>
 <!DOCTYPE html>
@@ -54,6 +56,52 @@
         <%}%>
         <%if (objConn.rs.getString(8).equals("VENDEDOR")) {%>
         <input name="tipo" value="VENDEDOR" type="hidden"/>
+        <div class="caja">
+            <select name="idSucursal">
+                <%
+                    consulta = "select sucursal_idSucursal from usuario where idUsuario='" + idUsuario + "';";
+                    objConn.Consult(consulta);
+                    int idSucursal = -1;
+                    int n = 0;
+                    if (objConn.rs != null) {
+                        try {
+                            objConn.rs.last();
+                            n = objConn.rs.getRow();
+                            objConn.rs.first();
+                        } catch (Exception e) {
+                        }
+                    }
+                    if (n > 0 && objConn.rs.getString(1)!=null) {
+                        idSucursal = Integer.parseInt(objConn.rs.getString(1));
+                    }
+                    if(idSucursal==-1){
+                        out.println("<option value='0' disabled selected> Selecciona la sucursal... </option> ");
+                    }
+                    else{
+                        out.println("<option value='0' disabled> Selecciona la sucursal... </option> ");
+                    }
+                    consulta = "select idSucursal, nombre from sucursal;";
+                    objConn.Consult(consulta);
+                    n = 0;
+                    if (objConn.rs != null) {
+                        try {
+                            objConn.rs.last();
+                            n = objConn.rs.getRow();
+                            objConn.rs.first();
+                        } catch (Exception e) {
+                        }
+                    }
+                    for (int i = 0; i < n; i++) {
+                        if (idSucursal == Integer.parseInt(objConn.rs.getString(1))) {
+                            out.println("<option selected value='" + objConn.rs.getString(1) + "'>" + objConn.rs.getString(2) + "</option>");
+                        } else {
+                            out.println("<option value='" + objConn.rs.getString(1) + "'>" + objConn.rs.getString(2) + "</option>");
+                        }
+                        objConn.rs.next();
+                    }
+                %>
+            </select>
+        </div>
         <%}%>
         <br><br><br>
         <div class="fl_left" style="margin-right: 20px;">

@@ -12,6 +12,22 @@ File: Layout CSS
 @import url("custom.flexslider.css");
 @import url("framework.css");
 
+.imgcarrito{
+    margin-left: 60px;
+    width: 75%;
+}
+
+hr.style-two {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(35, 184, 193, 1), rgba(0, 0, 0, 0));
+}
+
+.añadeMargen{
+    margin-left: 150px; 
+    margin-bottom: 30px;
+}
+
 #modificaDir, #modificaTar{
     position: absolute;
     top: -20%;
@@ -210,8 +226,8 @@ select:focus{ outline: none;}
 }
 
 #carrito{
-    position:absolute;
-    top: 12%;
+    position: absolute;
+    top: -35%;
     left: 0;
     right: 0;
     margin: auto;

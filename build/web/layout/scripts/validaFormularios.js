@@ -462,3 +462,11 @@ function llenaCamposTarjeta(id){
         });
     });
 }
+
+function detalleCompra(idVenta){
+    $.post('detalleCompra.jsp', {
+            idVenta: idVenta,
+    }, function(respuesta) {
+         $('#carrito').html(respuesta);
+    });
+}

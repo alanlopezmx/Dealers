@@ -128,15 +128,15 @@
   <main class="hoc container clear">
     <!-- main body -->
     <!-- ################################################################################################ -->
-    <div class="sidebar one_quarter first">
+    <div class="sidebar one_quarter first" style="margin-bottom: 25px">
       <!-- ################################################################################################ -->
       <nav class="sdb_holder">
         <ul>
-          <li><a href="javascript:actualizaDivContenido(1);">Datos Personales</a></li>
-          <li><a href="javascript:actualizaDivContenido(2);">Modificar Contraseña</a></li>
-          <li><a href="javascript:actualizaDivContenido(3);">Direcciones</a></li>
-          <li><a href="javascript:actualizaDivContenido(4);">Tarjetas</a></li>
-          <li><a href="javascript:actualizaDivContenido(5);">Historial de Compras</a></li>
+          <li><a href="javascript:actualizaDivContenido(1);" onclick="$('#contenido').removeClass('three_quarter'); $('#contenido').addClass('one_half'); $('#contenido').addClass('añadeMargen');">Datos Personales</a></li>
+          <li><a href="javascript:actualizaDivContenido(2);" onclick="$('#contenido').removeClass('three_quarter'); $('#contenido').addClass('one_half'); $('#contenido').addClass('añadeMargen');">Modificar Contraseña</a></li>
+          <li><a href="javascript:actualizaDivContenido(3);" onclick="$('#contenido').removeClass('three_quarter'); $('#contenido').addClass('one_half'); $('#contenido').addClass('añadeMargen');">Direcciones</a></li>
+          <li><a href="javascript:actualizaDivContenido(4);" onclick="$('#contenido').removeClass('three_quarter'); $('#contenido').addClass('one_half'); $('#contenido').addClass('añadeMargen');">Tarjetas</a></li>
+          <li><a href="javascript:actualizaDivContenido(5);" onclick="$('#contenido').removeClass('one_half'); $('#contenido').removeClass('añadeMargen'); $('#contenido').addClass('three_quarter');">Historial de Compras</a></li>
         </ul>
       </nav>
 
@@ -144,7 +144,7 @@
     
     <!-- ################################################################################################ -->
     <!-- ################################################################################################ -->
-    <div id="contenido" class="content one_half" style="margin-left: 150px; margin-bottom: 30px;">
+    <div id="contenido" class="content one_half añadeMargen">
       <!-- ################################################################################################ -->
       
     </div>

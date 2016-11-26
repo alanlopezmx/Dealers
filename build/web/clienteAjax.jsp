@@ -209,8 +209,51 @@
                 break;
 
             case 5:
+                consulta = "select * from venta where Usuario_idUsuario=" + idLogin + ";";
+                objConn.Consult(consulta);
+                n = 0;
+                if (objConn.rs != null) {
+                    try {
+                        objConn.rs.last();
+                        n = objConn.rs.getRow();
+                        objConn.rs.first();
+                    } catch (Exception e) {
+                    }
+                }
+                
+                if (n==0){
+                    %> 
+                    <br>
+                    <b><center>Aún no haz realizado ninguna compra</center></b>
+                    <br><br>
+                    <%
+                } else {
+                    %> <table>
+                    <tr>
+                      <th>ID de Compra </th>
+                      <th>Fecha</th>
+                      <th>Estado</th>
+                      <th>Método de pago</th>
+                      <th>Total</th>
+                      <th>Opciones</th>
+                    </tr>
+                    <%
+                    for (int i = 0; i < n; i++) {
+                        out.print("<tr>");
+                        out.print("<td>"+ objConn.rs.getString(1) + "</td>"
+                                + "<td>"+ objConn.rs.getString(3) + "</td>"
+                                + "<td>"+ objConn.rs.getString(5) + "</td>"
+                                + "<td>"+ objConn.rs.getString(7) + "</td>"
+                                + "<td>$"+ objConn.rs.getString(4) + "</td>"
+                                + "<td><a href='#' onclick=\"detalleCompra(" + objConn.rs.getString(1) + "); show('sombra', 'sombra'); show('carrito', 'carrito wrapper row3')\">Ver detalle</a></td>");
+                        objConn.rs.next();
+                    }
+                }
+           
         %>
-        Holaaa
+            </table>
+            <div id="sombra" class="hide" onclick='hide("sombra"); hide("carrito");'></div>
+            <div id="carrito" class="wrapper row3 hide"> </div>
         <%
                     break;
             }
