@@ -19,7 +19,7 @@
                         case 1:
                             document.altaproducto.addEventListener('submit', function (event) {
                                 event.preventDefault();
-                                validarFormulario(this);
+                                validarFormulario3(this);
                             });
                             break;
 

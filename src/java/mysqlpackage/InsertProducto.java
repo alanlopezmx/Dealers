@@ -13,7 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
- 
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -22,13 +22,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
- 
+
 @WebServlet("/insertProducto")
 @MultipartConfig(maxFileSize = 16177215)
 public class InsertProducto extends HttpServlet {
-     
+
     MySqlConn objConn;
-     
+
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
         objConn = new MySqlConn();
@@ -38,10 +38,11 @@ public class InsertProducto extends HttpServlet {
         float precio_venta = Float.parseFloat(request.getParameter("precio_venta"));
         int Categoria_idCategoria = Integer.parseInt(request.getParameter("categoria"));
         int lastId = 0;
+        int cantidadSucursales = Integer.parseInt(request.getParameter("cantidadSucursales"));
         List<Part> fileParts = request.getParts().stream().filter(part -> "file".equals(part.getName())).collect(Collectors.toList()); // Retrieves <input type="file" name="file" multiple="true">
         String consulta = "insert into producto(nombre,descripcion,descripcion_larga,precio_venta,Categoria_idCategoria)"
                 + " values(?,?,?,?,?);";
-        
+
         try {
             PreparedStatement preparedStatement = objConn.prepareStatement(consulta);
             preparedStatement.setString(1, nombre);
@@ -55,22 +56,37 @@ public class InsertProducto extends HttpServlet {
             }
             consulta = "select max(idProducto) from producto;";
             objConn.Consult(consulta);
-            if(objConn.rs!=null){
+            if (objConn.rs != null) {
                 lastId = Integer.parseInt(objConn.rs.getString(1));
             }
-            consulta = "insert into imagen(imagen,Producto_idProducto,promocion) values(?,?,?);";
-            preparedStatement = objConn.prepareStatement(consulta);
-            preparedStatement.setInt(2, lastId);
-            preparedStatement.setInt(3, 0);
-            for (Part filePart : fileParts) {
-                InputStream fileContent = filePart.getInputStream();
-                preparedStatement.setBlob(1, fileContent);
-                row = preparedStatement.executeUpdate();
-                if (row > 0) {
-                    System.out.println("Insercion imagen correcta");
+            int size = fileParts.size();
+            if (size == 1) {
+                if (fileParts.get(0).getSize() == 0) {
+                    size = 0;
                 }
-            }   
-            
+            }
+            if (size != 0) {
+                consulta = "insert into imagen(imagen,Producto_idProducto,promocion) values(?,?,?);";
+                preparedStatement = objConn.prepareStatement(consulta);
+                preparedStatement.setInt(2, lastId);
+                preparedStatement.setInt(3, 0);
+                for (Part filePart : fileParts) {
+                    InputStream fileContent = filePart.getInputStream();
+                    preparedStatement.setBlob(1, fileContent);
+                    row = preparedStatement.executeUpdate();
+                    if (row > 0) {
+                        System.out.println("Insercion imagen correcta");
+                    }
+                }
+            }
+            for (int i = 0; i < cantidadSucursales; i++) {
+                if (!request.getParameter("cantidad" + i).equals("0")) {
+                    consulta = "insert into producto_has_sucursal values('" + lastId + "','" + request.getParameter("suc" + i)
+                            + "','" + request.getParameter("cantidad" + i) + "');";
+                    objConn.Update(consulta);
+                }
+            }
+
         } catch (SQLException ex) {
             System.out.println("ERROR: " + ex.getMessage());
             ex.printStackTrace();
@@ -79,7 +95,7 @@ public class InsertProducto extends HttpServlet {
                 objConn.desConnect();
             }
         }
-        
+
         getServletContext().getRequestDispatcher("/administrador.jsp").forward(request, response);
     }
 }

@@ -57,7 +57,7 @@
                 </div>
                 <br>
                 <section class="one_half first">
-                    <input id="uploadFile" placeholder="Elegir Imágenes" disabled="disabled" />
+                    <input id="uploadFile" name="uploadFile" placeholder="Elegir Imágenes" disabled="disabled" />
                 </section>
                 <section class="one_half">
                     <div class="fileUpload btn btn-primary">
@@ -79,14 +79,21 @@
                         }
                     }
                     if (n > 0) {
+                        out.println("<input name='cantidadSucursales' value='" + n + "' type='hidden'>");
+                        out.println("<br>");
+                        out.println("<b>&nbsp&nbsp&nbsp&nbsp&nbsp Cantidad a agregar</b>");
+                        out.println("<br><br>");
                         for (int i = 0; i < n; i++) {
                 %>
-                <section class="one_third first">
-                    <p align="right"><b>Sucursal <%=objConn.rs.getString(2)%>: </b></p>
+                
+                
+                <input name="suc<%=i%>" value="<%=objConn.rs.getString(1)%>" type="hidden">
+                <section class="three_quarter first">
+                    <input disabled type="text" value="Sucursal <%=objConn.rs.getString(2)%>:" style="border:0px;border-color: rgb(60, 179, 113);text-align:right;"/>
                 </section>
-                <section class="one_half">
-                    <section class="one_quarter">
-                        <input name="cantidad" id="cantidad" type="text" value="0" onchange="soloNumeros(this);"/>
+                <section class="one_quarter">
+                    <section class="one_half">
+                        <input name="cantidad<%=i%>" id="cantidad" type="text" value="0" onchange="soloNumeros(this);"/>
                     </section>
                 </section>
                 <%

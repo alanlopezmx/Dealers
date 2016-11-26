@@ -104,7 +104,29 @@ function validarFormulario2(formulario) {
     if (todoCorrecto == true) {
         formulario.submit();
     } else {
-        alert("hay algo mal");
+        alert("hay algo mal2");
+    }
+}
+function validarFormulario3(formulario) {
+    var todoCorrecto = true;
+    //formulario.apmat.style.borderColor = 'rgb(60, 179, 113)';
+    for (var i = 0; i < formulario.length; i++) {
+        if (formulario[i].type == 'text' || formulario[i].type == 'textarea') {
+            if(formulario[i].name == 'uploadFile')
+                continue;
+            if (formulario[i].style.borderColor != 'rgb(60, 179, 113)') {
+                todoCorrecto = false;
+            }
+        } else if (formulario[i].type == 'select-one') {
+            if (formulario[i].value == '0') {
+                alert("Falta seleccionar " + formulario[i].name + "!");
+            }
+        }
+    }
+    if (todoCorrecto == true) {
+        formulario.submit();
+    } else {
+        alert("hay algo mal3");
     }
 }
 

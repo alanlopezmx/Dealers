@@ -4,6 +4,7 @@
     Author     : monic
 --%>
 
+<%@page import="mysqlpackage.MySqlConn"%>
 <%@page contentType="text/html" pageEncoding="UTF-8" session="true"%>
 <jsp:useBean id="objConn" class="mysqlpackage.MySqlConn"/>
 <%
@@ -45,7 +46,7 @@
     String categoria = objConn.rs.getString(6);
 %> 
 <fieldset id="newsletter">
-    <form method="post" name="modProd" action="modificaProductoDB.jsp">
+    <form method="post" name="modProd" action="modificaProductoDB" enctype="multipart/form-data">
 
         <input type="hidden" name="idProducto" id="idProducto" value="<%=idProducto%>"/>
         <b>Nombre:<br></b>
@@ -100,26 +101,87 @@
                 }
                 for (int i = 0; i < n; i++) {
                     tmp = objConn.rs.getString(1);
-                    out.println("<div class='image' id='image" +(i+1) +"' style='background-image:returnImagen.jsp?idImagen=" + objConn.rs.getString(1) + ";'>");
-                    out.println("<a href='#' class='delete'>Delete</a>");
-                    out.println("</div>");
-                    objConn.rs.next();
-                }
+                    if (i % 3 == 0) {
             %>
-        </div>
-        <section class="one_half first">
-            <input id="uploadFile" name="uploadFile" placeholder="Elegir Archivo" disabled="disabled"/>
-        </section>
-        <section class="one_half">
-            <div class="fileUpload btn btn-primary">
-                <span>Cargar</span>
-                <input name="file" accept="image/*" id="uploadBtn"type="file" class="upload" onchange='cambiaValor(this.value)'/>  
+            <div class="one_third first">
+                <%} else {%>
+                <div class="one_third">
+                    <%}%>
+                    <img src='returnImagen.jsp?idImagen=<%=objConn.rs.getString(1)%>' alt=''>
+                </div>
+                <%
+                        objConn.rs.next();
+                    }
+                %>
             </div>
-        </section>
-        <br><br><br>
-        <div class="fl_left" style="margin-right: 20px;">
-            <button type="submit" style="background-color: #23B8C1">&nbsp&nbsp&nbsp Modificar &nbsp&nbsp&nbsp</button> 
-        </div>
+            <section class="one_half first">
+                <input id="uploadFile" name="uploadFile" placeholder="Elegir Archivo" disabled="disabled"/>
+            </section>
+            <section class="one_half">
+                <div class="fileUpload btn btn-primary">
+                    <span>Cargar</span>
+                    <input name="file" multiple="true" accept="image/*" id="uploadBtn"type="file" class="upload" onchange='cambiaValor(this.value)'/>  
+                </div>
+            </section>
+            <div class="clear"></div>
+            <%
+                consulta = "select * from sucursal;";
+                MySqlConn objConn2 = new MySqlConn();
+                objConn.Consult(consulta);
+                int cantidad = 0;
+                n = 0;
+                if (objConn.rs != null) {
+                    try {
+                        objConn.rs.last();
+                        n = objConn.rs.getRow();
+                        objConn.rs.first();
+                    } catch (Exception e) {
+                    }
+                }
+                if (n > 0) {
+                    out.println("<input name='cantidadSucursales' value='" + n + "' type='hidden'>");
+                    out.println("<br>");
+                    out.println("<b>&nbsp&nbsp&nbsp&nbsp&nbsp Cantidad a modificar</b>");
+                    out.println("<br><br>");
+                    for (int i = 0; i < n; i++) {
+                        cantidad = 0;
+                        consulta = "select * from producto_has_sucursal where sucursal_idSucursal='" + objConn.rs.getString(1) + "';";
+                        objConn2.Consult(consulta);
+                        int n2 = 0;
+                        if (objConn2.rs != null) {
+                            try {
+                                objConn2.rs.last();
+                                n2 = objConn2.rs.getRow();
+                                objConn2.rs.first();
+                            } catch (Exception e) {
+                            }
+                        }
+                        if (n2 > 0) { // si existe el producto en la sucursal
+                            cantidad = Integer.parseInt(objConn2.rs.getString(3));
+                        }
+
+            %>
+
+
+            <input name="suc<%=i%>" value="<%=objConn.rs.getString(1)%>" type="hidden">
+            <section class="three_quarter first">
+                <input disabled type="text" value="Sucursal <%=objConn.rs.getString(2)%>:" style="border:0px;border-color: rgb(60, 179, 113);text-align:right;"/>
+            </section>
+            <section class="one_quarter">
+                <section class="one_half">
+                    <input name="cantidad<%=i%>" id="cantidad" type="text" value="<%=cantidad%>" onchange="soloNumeros(this);" style="border-color: rgb(60, 179, 113);text-align:right;"/>
+                </section>
+            </section>
+            <%
+                        objConn.rs.next();
+                        objConn2.rs.next();
+                    }
+                    objConn2.desConnect();
+                }%>
+            <br><br><br>
+            <div class="fl_left" style="margin-right: 20px;">
+                <button type="submit" style="background-color: #23B8C1">&nbsp&nbsp&nbsp Modificar &nbsp&nbsp&nbsp</button> 
+            </div>
 
 
     </form>
