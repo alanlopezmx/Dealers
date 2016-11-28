@@ -17,8 +17,8 @@
     <body>
         <%
             int opcion = Integer.parseInt(request.getParameter("op"));
-            String idLogin = (String)session.getAttribute("id");
-            String tipo = (String)session.getAttribute("tipo");
+            String idLogin = (String) session.getAttribute("id");
+            String tipo = (String) session.getAttribute("tipo");
             int n;
             String consulta;
             switch (opcion) {
@@ -554,12 +554,12 @@
         <%
                 break;
             case 16: // historial de ventas
-            if (tipo.equals("ADMINISTRADOR")){
-                 consulta = "select venta.*,usuario.correo from venta, usuario where usuario.idUsuario = venta.Usuario_idUsuario and estado_venta=4 order by venta.fecha desc;";
-            } else {
-                consulta = "select venta.*,usuario.correo from venta, usuario where usuario.idUsuario =" + idLogin + " and venta.Usuario_idUsuario = usuario.idUsuario and estado_venta=4 order by venta.fecha desc;";
-            }
-                 objConn.Consult(consulta);
+                if (tipo.equals("ADMINISTRADOR")) {
+                    consulta = "select venta.*,usuario.correo from venta, usuario where usuario.idUsuario = venta.Usuario_idUsuario and estado_venta=4 order by venta.fecha desc;";
+                } else {
+                    consulta = "select venta.*,usuario.correo from venta, usuario where usuario.idUsuario =" + idLogin + " and venta.Usuario_idUsuario = usuario.idUsuario and estado_venta=4 order by venta.fecha desc;";
+                }
+                objConn.Consult(consulta);
                 n = 0;
                 if (objConn.rs != null) {
                     try {
@@ -569,42 +569,41 @@
                     } catch (Exception e) {
                     }
                 }
-                
-                if (n==0){
-                    %> 
-                    <br>
-                    <b><center>No se ha concretado ninguna venta aún</center></b>
-                    <br><br>
-                    <%
-                } else {
-                    %> <table>
-                    <tr>
-                      <th>ID de Venta </th>
-                      <th>Correo</th>
-                      <th>Fecha</th>
-                      <th>Met. de Pago</th>
-                      <th>Total</th>
-                      <th>Opciones</th>
-                    </tr>
-                    <%
+
+                if (n == 0) {
+        %> 
+        <br>
+        <b><center>No se ha concretado ninguna venta aún</center></b>
+        <br><br>
+        <%
+        } else {
+        %> <table>
+            <tr>
+                <th>ID de Venta </th>
+                <th>Correo</th>
+                <th>Fecha</th>
+                <th>Met. de Pago</th>
+                <th>Total</th>
+                <th>Opciones</th>
+            </tr>
+            <%
                     for (int i = 0; i < n; i++) {
                         out.print("<tr>");
-                        out.print("<td>"+ objConn.rs.getString(1) + "</td>"
-                                + "<td>"+ objConn.rs.getString(8) + "</td>"
-                                + "<td>"+ objConn.rs.getString(3) + "</td>"
-                                + "<td>"+ objConn.rs.getString(7) + "</td>"
-                                + "<td>$"+ objConn.rs.getString(4) + "</td>"
-                                + "<td><a href='#' onclick=\"detalleCompra(" + objConn.rs.getString(1) +",'Venta','" + objConn.rs.getString(5) +"'); show('sombra', 'sombra'); show('carrito', 'carrito wrapper row3')\">Ver detalle</a></td>");
+                        out.print("<td>" + objConn.rs.getString(1) + "</td>"
+                                + "<td>" + objConn.rs.getString(8) + "</td>"
+                                + "<td>" + objConn.rs.getString(3) + "</td>"
+                                + "<td>" + objConn.rs.getString(7) + "</td>"
+                                + "<td>$" + objConn.rs.getString(4) + "</td>"
+                                + "<td><a href='#' onclick=\"detalleCompra(" + objConn.rs.getString(1) + ",'Venta','" + objConn.rs.getString(5) + "'); show('sombra', 'sombra'); show('carrito', 'carrito wrapper row3')\">Ver detalle</a></td>");
                         objConn.rs.next();
                     }
                 }
-           
-        %>
-            </table>
-            <div id="sombra" class="hide" onclick='hide("sombra"); hide("carrito");'></div>
-            <div id="carrito" class="wrapper row3 hide" style="top: -10%;"> </div>
-        <%
-                break;
+
+            %>
+        </table>
+        <div id="sombra" class="hide" onclick='hide("sombra"); hide("carrito");'></div>
+        <div id="carrito" class="wrapper row3 hide" style="top: -10%;"> </div>
+        <%                break;
             case 17: // alta vendedor
         %>
         <form id="newsletter" method="post" action="insertUsuario" name="altavendedor">
@@ -689,71 +688,74 @@
         <br>
         <div id="datosVendedor"></div>
         <%
-                    break;
-                    
+                break;
+
             case 19: // ver pedidos
-                if (tipo.equals("ADMINISTRADOR")){
+                if (tipo.equals("ADMINISTRADOR")) {
                     consulta = "select venta.*,usuario.correo from venta, usuario where usuario.idUsuario = venta.Usuario_idUsuario and estado_venta!=4 order by venta.fecha desc;";
                 } else {
-                    consulta = "select sucursal.nombre from sucursal, usuario where usuario.idUsuario = '"+ idLogin + "' and sucursal.idSucursal = usuario.Sucursal_idSucursal;";
+                    consulta = "select sucursal.nombre from sucursal, usuario where usuario.idUsuario = '" + idLogin + "' and sucursal.idSucursal = usuario.Sucursal_idSucursal;";
                     objConn.Consult(consulta);
-                    %>
-                    <p align="right"><b> Sucursal:</b> <%=objConn.rs.getString(1)%> </p>
-                    <%  
-                    consulta = "select distinct venta.*,usuario.correo from venta, usuario, producto_has_venta" 
-                           +" where usuario.idUsuario =" + idLogin
-                           + " and producto_has_venta.Sucursal_idSucursal = usuario.Sucursal_idSucursal"
-                           +" and usuario.Sucursal_idSucursal = producto_has_venta.Sucursal_idSucursal"
-                            +" and usuario.idUsuario = venta.Usuario_idUsuario"
-                            +" and estado_venta!=4 order by venta.fecha desc;";
+        %>
+        <p align="right"><b> Sucursal:</b> <%=objConn.rs.getString(1)%> </p>
+        <%
+                consulta = "select distinct venta.*,usuario.correo from venta, usuario, producto_has_venta"
+                        + " where usuario.idUsuario =" + idLogin
+                        + " and producto_has_venta.Sucursal_idSucursal = usuario.Sucursal_idSucursal"
+                        + " and usuario.Sucursal_idSucursal = producto_has_venta.Sucursal_idSucursal"
+                        + " and usuario.idUsuario = venta.Usuario_idUsuario"
+                        + " and estado_venta!=4 order by venta.fecha desc;";
+            }
+            objConn.Consult(consulta);
+            n = 0;
+            if (objConn.rs != null) {
+                try {
+                    objConn.rs.last();
+                    n = objConn.rs.getRow();
+                    objConn.rs.first();
+                } catch (Exception e) {
                 }
-                objConn.Consult(consulta);
-                n = 0;
-                if (objConn.rs != null) {
-                    try {
-                        objConn.rs.last();
-                        n = objConn.rs.getRow();
-                        objConn.rs.first();
-                    } catch (Exception e) {
-                    }
-                }
-                
-                if (n==0){
-                    %> 
-                    <br>
-                    <b><center>No hay pedidos pendientes</center></b>
-                    <br><br>
-                    <%
-                } else {
-                    %> <table>
-                    <tr>
-                      <th>ID de Pedido </th>
-                      <th>Correo</th>
-                      <th>Fecha</th>
-                      <th>Estado</th>
-                      <th>Total</th>
-                      <th>Opciones</th>
-                    </tr>
-                    <%
+            }
+
+            if (n == 0) {
+        %> 
+        <br>
+        <b><center>No hay pedidos pendientes</center></b>
+        <br><br>
+        <%
+        } else {
+        %> <table>
+            <tr>
+                <th>ID de Pedido </th>
+                <th>Correo</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+                <th>Total</th>
+                <th>Opciones</th>
+            </tr>
+            <%
                     for (int i = 0; i < n; i++) {
                         out.print("<tr>");
-                        out.print("<td>"+ objConn.rs.getString(1) + "</td>"
-                                + "<td>"+ objConn.rs.getString(8) + "</td>"
-                                + "<td>"+ objConn.rs.getString(3) + "</td>"
-                                + "<td>"+ objConn.rs.getString(5) + "</td>"
-                                + "<td>$"+ objConn.rs.getString(4) + "</td>"
-                                + "<td><a href='#' onclick=\"detalleCompra(" + objConn.rs.getString(1) +",'Pedido','" + objConn.rs.getString(5) +"'); show('sombra', 'sombra'); show('carrito', 'carrito wrapper row3')\">Ver detalle</a></td>");
+                        out.print("<td>" + objConn.rs.getString(1) + "</td>"
+                                + "<td>" + objConn.rs.getString(8) + "</td>"
+                                + "<td>" + objConn.rs.getString(3) + "</td>"
+                                + "<td>" + objConn.rs.getString(5) + "</td>"
+                                + "<td>$" + objConn.rs.getString(4) + "</td>"
+                                + "<td><a href='#' onclick=\"detalleCompra(" + objConn.rs.getString(1) + ",'Pedido','" + objConn.rs.getString(5) + "'); show('sombra', 'sombra'); show('carrito', 'carrito wrapper row3')\">Ver detalle</a></td>");
                         objConn.rs.next();
                     }
                 }
-           
+
+            %>
+        </table>
+        <div id="sombra" class="hide" onclick='hide("sombra"); hide("carrito");'></div>
+        <div id="carrito" class="wrapper row3 hide" style="top: -10%;"> </div>
+        <%                break;
+            case 20:
         %>
-            </table>
-            <div id="sombra" class="hide" onclick='hide("sombra"); hide("carrito");'></div>
-            <div id="carrito" class="wrapper row3 hide" style="top: -10%;"> </div>
+        <table id="tblAppendGrid">
+        </table>
         <%
-                    break;
-                    
             }
             objConn.desConnect();
         %>

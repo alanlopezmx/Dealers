@@ -29,7 +29,7 @@ public class MySqlConn {
                     +"user=root&password=dealers";*/
             connectionUrl =
                      "jdbc:mysql://localhost/dealers?"
-                    +"user=root&password=dario";
+                    +"user=root&password=1234";
             
             conn = DriverManager.getConnection(connectionUrl);
         } catch (SQLException e) {

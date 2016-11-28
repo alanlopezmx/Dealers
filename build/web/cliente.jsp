@@ -6,7 +6,27 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <link href="layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
+<script type="text/javascript" language="JavaScript">
+            function busqueda() {
+                var busqueda = $('#busqtext').val();
+                $.ajax({
+                    type: 'POST',
+                    url: 'busqajax.jsp',
+                    data: {
+                        busqueda: busqueda,
+                    },
+                    success: function (respuesta) {
+                        $('#busq').html(respuesta);
+                    },
+                    async: false
+                });
+            }
 
+            window.onload = function () {
+                $('#busqtext').on('change textInput input', busqueda);
+            }
+
+        </script>
 <script type="text/javascript" language="JavaScript">    
     function actualizaDivContenido(op){
         var idLogin = $('#idLogin').val();
@@ -57,6 +77,7 @@
     }
 %>
 <body id="top">
+    <div class="busqueda" id="busq"></div>
 <input type="hidden" id="idLogin" value="<%=idLogin%>">
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
@@ -73,7 +94,7 @@
     <div id="busqueda" class="fl_left">
         <form class="group" method="post" action="#">
           <fieldset>
-            <input type="email" value="" placeholder="Busca Aqui&hellip;">
+            <input type="email" value="" id="busqtext" placeholder="Busca Aqui&hellip;">
             <button class="fa fa-search" type="submit" title="Submit"><em>Submit</em></button>
           </fieldset>
         </form>
