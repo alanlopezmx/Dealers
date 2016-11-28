@@ -9,10 +9,8 @@
 
         <script type="text/javascript" language="JavaScript">
             function actualizaDivContenido(op) {
-                var idLogin = $('#idLogin').val();
                 $.post('adminAjax.jsp', {
                     op: op,
-                    idLogin: idLogin,
                 }, function (responseText) {
                     $('#contenido').html(responseText);
                     switch (op) {
@@ -52,18 +50,20 @@
                                 event.preventDefault();
                                 validarFormulario(this);
                             });
+                            break;
                         case 12:
                             document.altasucursal.addEventListener('submit', function (event) {
                                 event.preventDefault();
                                 validarFormulario(this);
                             });
+                            break;
 
                     }
                 });
             }
 
             window.onload = function () {
-                actualizaDivContenido(1);
+                actualizaDivContenido(5);
             }
         </script>
         <%
@@ -84,7 +84,6 @@
         %>
     </head>
     <body id="top">
-        <input type="hidden" id="idLogin" value="<%=idLogin%>">
         <!-- ################################################################################################ -->
         <!-- ################################################################################################ -->
         <!-- ################################################################################################ -->
@@ -159,62 +158,71 @@
                     <!-- ################################################################################################ -->
                     <nav class="sdb_holder">
                         <ul>
-                            <%if (tipoLogin.equals("ADMINISTRADOR")) {%>
-                            <li> <b> Producto </b>
+                            <li> <b>Clientes</b>
                                 <ul>
-                                    <li><a href="javascript:actualizaDivContenido(1);">Alta</a></li>
-                                    <li><a href="javascript:actualizaDivContenido(2);">Modificar / Eliminar</a></li>
-                                    <li><a href="javascript:actualizaDivContenido(11);">Agregar Promoción</a></li>
+                                    <li><a href="javascript:actualizaDivContenido(5);" onclick="$('#contenido').removeClass('three_quarter'); $('#contenido').addClass('one_half'); $('#contenido').addClass('añadeMargen');">Alta</a></li>
+                                    <li><a href="javascript:actualizaDivContenido(6);" onclick="$('#contenido').removeClass('three_quarter'); $('#contenido').addClass('one_half'); $('#contenido').addClass('añadeMargen');">Modificar / Eliminar</a></li>
+                                </ul>
+                            </li>
+                            <%if (tipoLogin.equals("ADMINISTRADOR")) {%>
+                            <li> <br> <b> Producto </b>
+                                <ul>
+                                    <li><a href="javascript:actualizaDivContenido(1);" onclick="$('#contenido').removeClass('three_quarter'); $('#contenido').addClass('one_half'); $('#contenido').addClass('añadeMargen');">Alta</a></li>
+                                    <li><a href="javascript:actualizaDivContenido(2);" onclick="$('#contenido').removeClass('three_quarter'); $('#contenido').addClass('one_half'); $('#contenido').addClass('añadeMargen');">Modificar / Eliminar</a></li>
+                                    <li><a href="javascript:actualizaDivContenido(11);" onclick="$('#contenido').removeClass('three_quarter'); $('#contenido').addClass('one_half'); $('#contenido').addClass('añadeMargen');">Agregar Promoción</a></li>
                                 </ul>
                             </li>
                             <li> <br> <b> Categoria </b>
                                 <ul>
-                                    <li><a href="javascript:actualizaDivContenido(3);">Alta</a></li>
-                                    <li><a href="javascript:actualizaDivContenido(4);">Modificar / Eliminar</a></li>
+                                    <li><a href="javascript:actualizaDivContenido(3);" onclick="$('#contenido').removeClass('three_quarter'); $('#contenido').addClass('one_half'); $('#contenido').addClass('añadeMargen');">Alta</a></li>
+                                    <li><a href="javascript:actualizaDivContenido(4);" onclick="$('#contenido').removeClass('three_quarter'); $('#contenido').addClass('one_half'); $('#contenido').addClass('añadeMargen');">Modificar / Eliminar</a></li>
+                                </ul>
+                            </li>
+                            
+                            <%}%>
+                            <li><br> <b>Ventas</b>
+                                <ul>
+                                    <li><a href="javascript:actualizaDivContenido(19);" onclick="$('#contenido').removeClass('one_half'); $('#contenido').removeClass('añadeMargen'); $('#contenido').addClass('three_quarter');">Ver Pedidos</a></li>
+                                    <li><a href="javascript:actualizaDivContenido(16);" onclick="$('#contenido').removeClass('one_half'); $('#contenido').removeClass('añadeMargen'); $('#contenido').addClass('three_quarter');">Historial de Ventas</a></li>
+                                </ul>
+                            </li>
+                            <%
+                            if (tipoLogin.equals("VENDEDOR")) {%>
+                              
+                            <li><br> <b>Información Personal</b>
+                                <ul>
+                                    <li><a href="javascript:actualizaDivContenido(14);" onclick="$('#contenido').removeClass('three_quarter'); $('#contenido').addClass('one_half'); $('#contenido').addClass('añadeMargen');">Datos Personales</a></li>
+                                    <li><a href="javascript:actualizaDivContenido(15);" onclick="$('#contenido').removeClass('three_quarter'); $('#contenido').addClass('one_half'); $('#contenido').addClass('añadeMargen');">Modificar Contraseña</a></li>
                                 </ul>
                             </li>
                             <%}%>
-                            <li> <br> <b>Clientes</b>
-                                <ul>
-                                    <li><a href="javascript:actualizaDivContenido(5);">Alta</a></li>
-                                    <li><a href="javascript:actualizaDivContenido(6);">Modificar / Eliminar</a></li>
-                                </ul>
-                            </li>
+                            
                             <%if (tipoLogin.equals("ADMINISTRADOR")) {%>
                             <li> <br> <b>Vendedores</b>
                                 <ul>
-                                    <li><a href="javascript:actualizaDivContenido(17);">Alta</a></li>
-                                    <li><a href="javascript:actualizaDivContenido(18);">Modificar / Eliminar</a></li>
+                                    <li><a href="javascript:actualizaDivContenido(17);" onclick="$('#contenido').removeClass('three_quarter'); $('#contenido').addClass('one_half'); $('#contenido').addClass('añadeMargen');">Alta</a></li>
+                                    <li><a href="javascript:actualizaDivContenido(18);" onclick="$('#contenido').removeClass('three_quarter'); $('#contenido').addClass('one_half'); $('#contenido').addClass('añadeMargen');">Modificar / Eliminar</a></li>
                                 </ul>
                             </li>
                             <li> <br> <b>Proveedores</b>
                                 <ul>
-                                    <li><a href="javascript:actualizaDivContenido(7);">Alta</a></li>
-                                    <li><a href="javascript:actualizaDivContenido(8);">Modificar / Eliminar</a></li>
+                                    <li><a href="javascript:actualizaDivContenido(7);" onclick="$('#contenido').removeClass('three_quarter'); $('#contenido').addClass('one_half'); $('#contenido').addClass('añadeMargen');">Alta</a></li>
+                                    <li><a href="javascript:actualizaDivContenido(8);" onclick="$('#contenido').removeClass('three_quarter'); $('#contenido').addClass('one_half'); $('#contenido').addClass('añadeMargen');">Modificar / Eliminar</a></li>
                                 </ul>
                             </li>
                             <li><br> <b>Administradores</b>
                                 <ul>
-                                    <li><a href="javascript:actualizaDivContenido(9);">Alta</a></li>
-                                    <li><a href="javascript:actualizaDivContenido(10);">Modificar / Eliminar</a></li>
+                                    <li><a href="javascript:actualizaDivContenido(9);" onclick="$('#contenido').removeClass('three_quarter'); $('#contenido').addClass('one_half'); $('#contenido').addClass('añadeMargen');">Alta</a></li>
+                                    <li><a href="javascript:actualizaDivContenido(10);" onclick="$('#contenido').removeClass('three_quarter'); $('#contenido').addClass('one_half'); $('#contenido').addClass('añadeMargen');">Modificar / Eliminar</a></li>
                                 </ul>
                             </li>
                             <li><br> <b>Sucursales</b>
                                 <ul>
-                                    <li><a href="javascript:actualizaDivContenido(12);">Alta</a></li>
-                                    <li><a href="javascript:actualizaDivContenido(13);">Modificar / Eliminar</a></li>
+                                    <li><a href="javascript:actualizaDivContenido(12);" onclick="$('#contenido').removeClass('three_quarter'); $('#contenido').addClass('one_half'); $('#contenido').addClass('añadeMargen');">Alta</a></li>
+                                    <li><a href="javascript:actualizaDivContenido(13);" onclick="$('#contenido').removeClass('three_quarter'); $('#contenido').addClass('one_half'); $('#contenido').addClass('añadeMargen');">Modificar / Eliminar</a></li>
                                 </ul>
                             </li>
-                            <%}
-                                if (tipoLogin.equals("VENDEDOR")) {%>
-                            <li><br> <b>Información</b>
-                                <ul>
-                                    <li><a href="javascript:actualizaDivContenido(14);">Datos Personales</a></li>
-                                    <li><a href="javascript:actualizaDivContenido(15);">Modificar Contraseña</a></li>
-                                    <li><a href="javascript:actualizaDivContenido(16);">Historial de Ventas</a></li>
-                                </ul>
-                            </li>
-                            <%}%>
+                           <%}%>
                         </ul>
                     </nav>
 
@@ -222,7 +230,7 @@
 
                 <!-- ################################################################################################ -->
                 <!-- ################################################################################################ -->
-                <div id="contenido" class="content one_half" style="margin-left: 150px; margin-bottom: 30px;">
+                <div id="contenido" class="content one_half añadeMargen">
                     <!-- ################################################################################################ -->
 
                 </div>
@@ -231,7 +239,7 @@
         <!-- ################################################################################################ -->
         <!-- ################################################################################################ -->
         <!-- ################################################################################################ -->
-        <div class="wrapper row4 bgded overlay" style="background-image:url('../images/demo/backgrounds/03.png');">
+        <div class="wrapper row4 bgded overlay">
             <footer id="footer" class="hoc clear">
                 <!-- ################################################################################################ -->
                 <h3 class="heading">Dealers</h3>

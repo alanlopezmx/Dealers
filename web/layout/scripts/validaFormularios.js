@@ -463,10 +463,39 @@ function llenaCamposTarjeta(id){
     });
 }
 
-function detalleCompra(idVenta){
+function detalleCompra(idVenta, tipo, estado){
     $.post('detalleCompra.jsp', {
             idVenta: idVenta,
+            tipo: tipo,
+            estado: estado,
     }, function(respuesta) {
          $('#carrito').html(respuesta);
     });
+}
+
+function finalizarPedido(idVenta){
+    $.post('finalizarPedido.jsp', {
+            idVenta: idVenta,
+    }, function() {
+        $.post('adminAjax.jsp', {
+            op: 19,
+        }, function (responseText) {
+            $('#contenido').html(responseText);
+        });
+    });
+}
+
+function agregarGuia(idVenta,guia){
+    if (/^[0-9]+$/.test(guia.value) == true && guia.value.trim != "") {
+        $.post('agregarGuia.jsp', {
+                idVenta: idVenta,
+                guia: guia.value,
+        }, function() {
+            $.post('adminAjax.jsp', {
+                op: 19,
+            }, function (responseText) {
+                $('#contenido').html(responseText);
+            });
+        });
+    }
 }

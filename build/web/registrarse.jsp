@@ -45,6 +45,9 @@
       </div>
       <div class="one_half">
         <div class="row">
+            <% if(request.getParameter("mensaje")!=null)
+                out.println(request.getParameter("mensaje"));
+            %>
           <form name="registro" method="post" action="insertUser.jsp">
             <fieldset id="newsletter">
               <br>

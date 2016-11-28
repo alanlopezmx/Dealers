@@ -15,6 +15,7 @@ public class MySqlConn {
     public Statement stmt = null;
     public ResultSet rs = null;
     public Connection conn = null;
+    public String exMsg;
     public MySqlConn() {
         Connect();
     }
@@ -28,7 +29,7 @@ public class MySqlConn {
                     +"user=root&password=dealers";*/
             connectionUrl =
                      "jdbc:mysql://localhost/dealers?"
-                    +"user=root&password=1234";
+                    +"user=root&password=Monica.24";
             
             conn = DriverManager.getConnection(connectionUrl);
         } catch (SQLException e) {
@@ -57,7 +58,9 @@ public class MySqlConn {
                 rs = stmt.getResultSet();
                 rs.first();
             }
+            exMsg = "";
         } catch (SQLException ex) {
+            exMsg = ex.getMessage();
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLState: " + ex.getSQLState());
             System.out.println("Error: " + ex.getErrorCode());
@@ -79,7 +82,9 @@ public class MySqlConn {
         try {
             stmt = conn.createStatement();
             rModif = stmt.executeUpdate(query);
+            exMsg = "";
         } catch (SQLException ex) {
+            exMsg = ex.getMessage();
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLState: " + ex.getSQLState());
             System.out.println("Error: " + ex.getErrorCode());
@@ -106,7 +111,9 @@ public class MySqlConn {
                 safeStmt.setString(i+1, datos[i]);
             }
             rModif = safeStmt.executeUpdate();
+            exMsg = "";
         } catch (SQLException ex) {
+            exMsg = ex.getMessage();
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLState: " + ex.getSQLState());
             System.out.println("Error: " + ex.getErrorCode());
@@ -166,18 +173,12 @@ public class MySqlConn {
                 rs = safeStmt.getResultSet();
                 rs.first();
             }
+            exMsg = "";
         } catch (SQLException ex) {
+            exMsg = ex.getMessage();
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLState: " + ex.getSQLState());
             System.out.println("Error: " + ex.getErrorCode());
         }
     }
 }
-
-
-/*
- *
- * String connectionUrl = "jdbc:mysql://localhost/consultorio?"
-                    +"user=root&password=lircla";
-
- */

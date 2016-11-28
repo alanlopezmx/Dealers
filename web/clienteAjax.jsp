@@ -245,7 +245,7 @@
                                 + "<td>"+ objConn.rs.getString(5) + "</td>"
                                 + "<td>"+ objConn.rs.getString(7) + "</td>"
                                 + "<td>$"+ objConn.rs.getString(4) + "</td>"
-                                + "<td><a href='#' onclick=\"detalleCompra(" + objConn.rs.getString(1) + "); show('sombra', 'sombra'); show('carrito', 'carrito wrapper row3')\">Ver detalle</a></td>");
+                                + "<td><a href='#' onclick=\"detalleCompra(" + objConn.rs.getString(1) +",'Compra'); show('sombra', 'sombra'); show('carrito', 'carrito wrapper row3')\">Ver detalle</a></td>");
                         objConn.rs.next();
                     }
                 }

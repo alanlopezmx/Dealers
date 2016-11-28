@@ -34,10 +34,9 @@ public class UploadImagen extends HttpServlet {
         objConn = new MySqlConn();
         
         // gets values of text fields
-        String prod = request.getParameter("promocion");
         int idProducto = Integer.parseInt(request.getParameter("idProducto"));
         int promocion = Integer.parseInt(request.getParameter("promocion"));
-        String consulta = "select count(*) from imagen where Producto_idProducto='" + idProducto + "';";
+        String consulta = "select count(*) from imagen where Producto_idProducto='" + idProducto + "' and promocion='" + promocion + "';";
         objConn.Consult(consulta);
         int count = 0;
         if(objConn.rs != null){
@@ -83,9 +82,10 @@ public class UploadImagen extends HttpServlet {
                 }
             }
             else{
-               sql = "update imagen set imagen= ? where Producto_idProducto=?;";
+               sql = "update imagen set imagen= ? where Producto_idProducto=? and promocion=?";
                 statement = objConn.prepareStatement(sql);
                 statement.setInt(2, idProducto);
+                statement.setInt(3, promocion);
                 if (inputStream != null) {
                     // fetches input stream of the upload file for the blob column
                     statement.setBlob(1, inputStream);

@@ -71,6 +71,6 @@ public class FileUploadDBServlet extends HttpServlet {
                 objConn.desConnect();
             }
         }
-        getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/admnistrador.jsp").forward(request, response);
     }
 }

@@ -11,7 +11,9 @@
 <%
     MySqlConn objConn2 = new MySqlConn();
     String idVenta = request.getParameter("idVenta");
-    String consulta = "select distinct sucursal.nombre, producto.*,Producto_has_Venta.precio_venta,Producto_has_Venta.cantidad from  venta,producto,Producto_has_Venta, sucursal,Producto_has_Sucursal"
+    String tipo = request.getParameter("tipo");
+    String estado = request.getParameter("estado");
+    String consulta = "select distinct sucursal.nombre, producto.*,Producto_has_Venta.precio_venta,Producto_has_Venta.cantidad from  venta,producto,Producto_has_Venta, sucursal"
             + " where venta.idVenta = '" + idVenta + "'"
             + " and Producto_has_Venta.Venta_idVenta = venta.idVenta"
             + " and Producto_has_Venta.Producto_idProducto = producto.idProducto"
@@ -31,16 +33,18 @@
 %>
 <div class="content" style="margin: 0px;"> 
     <br>
-    <div style="margin: 0 auto; width: 30%;"> <h1> <b> Detalle de Compra </b> </h1> </div>
+    <div style="margin: 0 auto; width: 30%;"> <h1> <b> Detalle de <%=tipo%> </b> </h1> </div>
     <br>
     <hr class="style-two">
-    <%  String idProducto = objConn.rs.getString(2);
+    <%  if (n>0){
+        String idProducto = objConn.rs.getString(2);
         for (int i = 0; i < n; i++) {
             consulta = "select * from imagen where producto_idProducto='" + objConn.rs.getString(2) + "';";
             objConn2.Consult(consulta);
     %>
     <div class="group btmspace-10 demo">
         <div class="one_quarter first">
+            <br>
             <div class="imgcarrito">
                 <img src="returnImagen.jsp?idImagen=<%=objConn2.rs.getString(1)%>">
             </div>
@@ -65,9 +69,35 @@
         </div>
     </div>
     <hr class="style-two">
+    <br>
     <%
             objConn.rs.next();
         }
+    }
+    if (estado.equals("Pendiente") || estado.equals("Enviado")) {
+    %>
+    <div id="newsletter" class="fl_right">
+        <button onclick="finalizarPedido(<%=idVenta%>)" style="background-color: #23B8C1">&nbsp&nbsp&nbsp Finalizar Pedido &nbsp&nbsp&nbsp</button>
+    </div>
+    <%
+    } else if (estado.equals("Pagado")){
+    %>
+    
+        <fieldset id="newsletter">
+            <div class="two_third first">
+                <div class="one_half first">
+                &nbsp&nbsp&nbsp 
+                </div>
+                <div class="one_half">
+                    <input id="guia" name="guia" class="btmspace-15" type="text" value="" placeholder="No. De Guia" onchange="soloNumeros(this)"> 
+                </div>
+            </div>
+            <div  class="one_third fl_right">
+                <button onclick="agregarGuia(<%=idVenta%>,guia)" style="background-color: #23B8C1">&nbsp&nbsp&nbsp Agregar No. de Guia &nbsp&nbsp&nbsp</button>
+            </div>
+        </fieldset>
+    <%    
+    }
     %>
 </div>
 <%objConn.desConnect();
