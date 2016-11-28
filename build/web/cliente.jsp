@@ -81,18 +81,19 @@
     <div class="fl_right">
       <ul>
           <% if(nombreLogin.equals("")){ %>
-                <li><a href="#"><i class="fa fa-shopping-cart" style="font-size:1.8rem;"></i></a></li>
+                <li><i style="font-style: #23B8C1; font-size:1.8rem;"></i></li>
                 <li onclick='show("pantalla", "pantalla"); show("login", "login")'><a href="#">Iniciar Sesión</a></li>
                 <li><a href="registrarse.jsp">Registrarse</a></li>
         <%} else {%>
-                <li><a href="#"><i class="fa fa-shopping-cart" style="font-size:1.8rem;"></i></a></li>
                 <%
                     if(tipoLogin.equals("NORMAL") || tipoLogin.equals("MAYORITARIO")){
                 %>
+                    <li><a href="#"><i class="fa fa-shopping-cart" style="font-size:1.8rem;"></i></a></li>
                     <li id="username"> <a href="cliente.jsp"> Bienvenido <%out.print(nombreLogin);%></a></li>
                 <%}else if(tipoLogin.equals("ADMINISTRADOR")){%>
                     <li id="username">  <a href="administrador.jsp"> Bienvenido <%out.print(nombreLogin);%></a></li>
                 <%}else{%>
+                    <li><a href="#"><i class="fa fa-shopping-cart" style="font-size:1.8rem;"></i></a></li>
                     <li id="username"> <a href="vendedor.jsp"> Bienvenido <%out.print(nombreLogin);%></a></li>
                 <%}%>
                     <li><a href="cerrarSesion"><i class="fa fa-sign-out" style="font-size:1.8rem;"></i></a></li>
@@ -153,26 +154,22 @@
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
-<div class="wrapper row4 bgded overlay">
+<div class="wrapper row4 bgded overlay" style="background-image:url('images/demo/backgrounds/03.png');">
   <footer id="footer" class="hoc clear">
     <!-- ################################################################################################ -->
     <h3 class="heading">Dealers</h3>
     <nav>
       <ul class="nospace inline pushright uppercase">
         <li></li>
-        <li><a href="#">Acerca de</a></li>
-        <li><a href="#">Contacto</a></li>
-        <li><a href="#">Terminos</a></li>
-        <li><a href="#">Privacidad</a></li>
+        <li><a href="acercade.jsp">Acerca de</a></li>
+        <li><a href="contacto.jsp">Contacto</a></li>
+        <li><a href="terminos.jsp">Terminos</a></li>
       </ul>
     </nav>
     <ul class="faico clear">
       <li><a class="faicon-facebook" href="#"><i class="fa fa-facebook"></i></a></li>
       <li><a class="faicon-twitter" href="#"><i class="fa fa-twitter"></i></a></li>
-      <li><a class="faicon-dribble" href="#"><i class="fa fa-dribbble"></i></a></li>
       <li><a class="faicon-linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
-      <li><a class="faicon-google-plus" href="#"><i class="fa fa-google-plus"></i></a></li>
-      <li><a class="faicon-vk" href="#"><i class="fa fa-vk"></i></a></li>
     </ul>
     <!-- ################################################################################################ -->
   </footer>

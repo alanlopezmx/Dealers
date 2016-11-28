@@ -506,7 +506,7 @@ a{color:#23B8C1;}
 a:active, a:focus{background:transparent;}/* IE10 + 11 Bugfix - prevents grey background */
 hr, .borderedbox{border-color:#D7D7D7;}
 label span{color:#FF0000; background-color:inherit;}
-input:focus, textarea:focus, *:required:focus{border-color:#6677BC;}
+input:focus, textarea:focus, *:required:focus{border-color:#23B8C1;}
 .overlay{color:#000000; background-color:inherit;}
 .overlay::after{color:inherit; background-color:#F5F5F5;}
 
@@ -522,9 +522,9 @@ input:focus, textarea:focus, *:required:focus{border-color:#6677BC;}
 .row4{color:#000000; background-color:#000000;}
 .row5, .row5 a{color:#474747; background-color:#FFFFFF;}
 
-.coloured{color:#FFFFFF; background-color:#6677BC;}
+.coloured{color:#FFFFFF; background-color:#23B8C1;}
 .coloured .btn{color:inherit; background-color:transparent; border-color:inherit;}
-.coloured .btn:hover{color:#6677BC; background-color:#FFFFFF;}
+.coloured .btn:hover{color:#23B8C1; background-color:#FFFFFF;}
 
 
 /* Top Bar */
@@ -538,7 +538,7 @@ input:focus, textarea:focus, *:required:focus{border-color:#6677BC;}
 
 /* Page Intro */
 #pageintro footer input, #pageintro footer button{color:#000000; background-color:#FFFFFF;}
-#pageintro footer button{color:#FFFFFF; background-color:#6677BC;}
+#pageintro footer button{color:#FFFFFF; background-color:#23B8C1;}
 
 .flex-direction-nav a{color:#000000;}
 .flex-control-paging li a{background-color:rgba(255,255,255,1); border-color:rgba(255,255,255,0);}
@@ -552,39 +552,39 @@ input:focus, textarea:focus, *:required:focus{border-color:#6677BC;}
 #newsletter input, #newsletter button, #newsletter textarea{color:#474747; border-color:#D7D7D7;}
 #newsletter input, #newsletter textarea {background-color:#FFFFFF;}
 #newsletter input:focus{border-color:#23B8C1;}
-#newsletter textarea:focus{border-color:#6677BC;}
+#newsletter textarea:focus{border-color:#23B8C1;}
 #newsletter button{color:#FFFFFF; background-color:#23B8C1;}
 
 
 /* Footer */
 #footer .heading{color:inherit;}
 #footer nav a{color:inherit;}
-#footer nav li:first-child a, #footer nav a:hover{color:#6677BC;}
+#footer nav li:first-child a, #footer nav a:hover{color:#23B8C1;}
 
 
 /* Navigation */
 #mainav li a{color:inherit;}
-#mainav .active a, #mainav a:hover, #mainav li:hover > a{color:#6677BC; background-color:inherit;}
+#mainav .active a, #mainav a:hover, #mainav li:hover > a{color:#23B8C1; background-color:inherit;}
 #mainav li li a, #mainav .active li a{color:#FFFFFF; background-color:rgba(0,0,0,.6); border-color:rgba(0,0,0,.6);}
-#mainav li li:hover > a, #mainav .active .active > a{color:#FFFFFF; background-color:#6677BC;}
+#mainav li li:hover > a, #mainav .active .active > a{color:#FFFFFF; background-color:#23B8C1;}
 #mainav form select{color:#FFFFFF; background-color:#000000; border-color:rgba(136,136,136,.5);/* #888888 */}
 
 #breadcrumb ul{border-color:rgba(255,255,255,.2);}
 #breadcrumb a{color:inherit; background-color:inherit;}
-#breadcrumb li:last-child a{color:#6677BC;}
+#breadcrumb li:last-child a{color:#23B8C1;}
 
 .container .sidebar nav a{color:inherit; border-color:#D7D7D7;}
-.container .sidebar nav a:hover{color:#6677BC;}
+.container .sidebar nav a:hover{color:#23B8C1;}
 
 .pagination a, .pagination strong{border-color:#D7D7D7;}
-.pagination .current *{color:#FFFFFF; background-color:#6677BC;}
+.pagination .current *{color:#FFFFFF; background-color:#23B8C1;}
 
 #backtotop{color:#FFFFFF; background-color:#35465D;}
 
 
 /* Tables + Comments */
 table, th, td, #comments .avatar, #comments input, #comments textarea{border-color:#D7D7D7;}
-#comments input:focus, #comments textarea:focus, #comments *:required:focus{border-color:#6677BC;}
+#comments input:focus, #comments textarea:focus, #comments *:required:focus{border-color:#23B8C1;}
 th{color:#FFFFFF; background-color:#373737;}
 tr, #comments li, #comments input[type="submit"], #comments input[type="reset"]{color:inherit; background-color:#FBFBFB;}
 tr:nth-child(even), #comments li:nth-child(even){color:inherit; background-color:#F7F7F7;}

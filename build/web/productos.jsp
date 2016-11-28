@@ -56,18 +56,19 @@ Licence URI: http://www.os-templates.com/template-terms
     <div class="fl_right">
       <ul>
           <% if(nombreLogin.equals("")){ %>
-                <li><a href="#"><i class="fa fa-shopping-cart" style="font-size:1.8rem;"></i></a></li>
+          <li><i style="font-style: #23B8C1; font-size:1.8rem;"></i></li>
                 <li onclick='show("pantalla", "pantalla"); show("login", "login")'><a href="#">Iniciar Sesión</a></li>
                 <li><a href="registrarse.jsp">Registrarse</a></li>
         <%} else {%>
-                <li><a href="#"><i class="fa fa-shopping-cart" style="font-size:1.8rem;"></i></a></li>
                 <%
                     if(tipoLogin.equals("NORMAL") || tipoLogin.equals("MAYORITARIO")){
                 %>
+                    <li><a href="#"><i class="fa fa-shopping-cart" style="font-size:1.8rem;"></i></a></li>
                     <li id="username"> <a href="cliente.jsp"> Bienvenido <%out.print(nombreLogin);%></a></li>
                 <%}else if(tipoLogin.equals("ADMINISTRADOR")){%>
                     <li id="username"> <a href="administrador.jsp"> Bienvenido <%out.print(nombreLogin);%></a></li>
                 <%}else{%>
+                    <li><a href="#"><i class="fa fa-shopping-cart" style="font-size:1.8rem;"></i></a></li>
                     <li id="username"> <a href="vendedor.jsp"> Bienvenido <%out.print(nombreLogin);%></a></li>
                 <%}%>
                     <li><a href="cerrarSesion"><i class="fa fa-sign-out" style="font-size:1.8rem;"></i></a></li>
