@@ -753,8 +753,54 @@
         <%                break;
             case 20:
         %>
-        <table id="tblAppendGrid">
+        <fieldset id="newsletter">
+            <div class="caja fl_right">
+            <select id="idProveedor" name="idProveedor" onchange='cargaProveedor(this)'>
+                <option value="0" disabled selected> Selecciona al proveedor... </option> 
+                <%
+                    consulta = "select idProveedor, nombre,ap_paterno,ap_materno from proveedor;";
+                    objConn.Consult(consulta);
+                    n = 0;
+                    if (objConn.rs != null) {
+                        try {
+                            objConn.rs.last();
+                            n = objConn.rs.getRow();
+                            objConn.rs.first();
+                        } catch (Exception e) {
+                        }
+                    }
+                    for (int i = 0; i < n; i++) {
+                        out.println("<option value='" + objConn.rs.getString(1) + "'>" + objConn.rs.getString(2) + " " + objConn.rs.getString(3) + " " + objConn.rs.getString(4) + "</option>");
+                        objConn.rs.next();
+                    }
+                %>
+            </select>
+        </div>
+            <br><br>
+        <table id="pedidoProv">
+            <tr>
+                <th>ID Producto </th>
+                <th>Nombre Producto</th>
+                <th>Cantidad</th>
+                <th>Precio Compra</th>
+                <th>Total</th>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="text" onkeyup="buscaProd(event,this)"/></td>
+                <td><input type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57'onchange="sacaTotal(this)"/></td>
+                <td><input type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' onchange="sacaTotal(this)"/></td>
+                <td></td>
+            </tr>
         </table>
+        <div class="one_quarter first">
+            <button onclick="newRow(pedidoProv)" style="background-color: #23B8C1">&nbsp&nbsp&nbsp Añadir &nbsp&nbsp&nbsp</button>
+        </div>
+        <div class="one_quarter"></div>
+        <div class="one_half">    
+            <button onclick="realizarPedido(pedidoProv,idProveedor.value)" style="background-color: #23B8C1">&nbsp&nbsp&nbsp Realizar Pedido &nbsp&nbsp&nbsp</button>
+        </div>
+        </fieldset>
         <%
             }
             objConn.desConnect();

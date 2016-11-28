@@ -112,7 +112,7 @@ function validarFormulario3(formulario) {
     //formulario.apmat.style.borderColor = 'rgb(60, 179, 113)';
     for (var i = 0; i < formulario.length; i++) {
         if (formulario[i].type == 'text' || formulario[i].type == 'textarea') {
-            if(formulario[i].name == 'uploadFile')
+            if (formulario[i].name == 'uploadFile')
                 continue;
             if (formulario[i].style.borderColor != 'rgb(60, 179, 113)') {
                 todoCorrecto = false;
@@ -428,11 +428,11 @@ function llenaCampos(idDir) {
     });
 }
 
-function validaMes(obj){
-    if (/^[0-9]+$/.test(obj.value)==true && obj.value<=12 && obj.value>0) {
-        obj.style.borderColor = '#3CB371'; 
+function validaMes(obj) {
+    if (/^[0-9]+$/.test(obj.value) == true && obj.value <= 12 && obj.value > 0) {
+        obj.style.borderColor = '#3CB371';
     } else {
-        obj.style.borderColor = 'red'; 
+        obj.style.borderColor = 'red';
     }
 }
 
@@ -443,40 +443,40 @@ function ConfirmEliminarTarjeta(id) {
     }
 }
 
-function eliminaTar(id){
+function eliminaTar(id) {
     $.post('eliminaTarDB.jsp', {
-            idTar: id,
-    }, function() {
+        idTar: id,
+    }, function () {
         window.location.href = "cliente.jsp";
     });
 }
 
-function llenaCamposTarjeta(id){
+function llenaCamposTarjeta(id) {
     $.post('llenaTarjetas.jsp', {
-            idTar: id,
-    }, function(respuesta) {
-         $('#modificaTar').html(respuesta);
-         document.modificaTarjeta.addEventListener('submit', function(event){
+        idTar: id,
+    }, function (respuesta) {
+        $('#modificaTar').html(respuesta);
+        document.modificaTarjeta.addEventListener('submit', function (event) {
             event.preventDefault();
             validarFormulario(this);
         });
     });
 }
 
-function detalleCompra(idVenta, tipo, estado){
+function detalleCompra(idVenta, tipo, estado) {
     $.post('detalleCompra.jsp', {
-            idVenta: idVenta,
-            tipo: tipo,
-            estado: estado,
-    }, function(respuesta) {
-         $('#carrito').html(respuesta);
+        idVenta: idVenta,
+        tipo: tipo,
+        estado: estado,
+    }, function (respuesta) {
+        $('#carrito').html(respuesta);
     });
 }
 
-function finalizarPedido(idVenta){
+function finalizarPedido(idVenta) {
     $.post('finalizarPedido.jsp', {
-            idVenta: idVenta,
-    }, function() {
+        idVenta: idVenta,
+    }, function () {
         $.post('adminAjax.jsp', {
             op: 19,
         }, function (responseText) {
@@ -485,12 +485,12 @@ function finalizarPedido(idVenta){
     });
 }
 
-function agregarGuia(idVenta,guia){
+function agregarGuia(idVenta, guia) {
     if (/^[0-9]+$/.test(guia.value) == true && guia.value.trim != "") {
         $.post('agregarGuia.jsp', {
-                idVenta: idVenta,
-                guia: guia.value,
-        }, function() {
+            idVenta: idVenta,
+            guia: guia.value,
+        }, function () {
             $.post('adminAjax.jsp', {
                 op: 19,
             }, function (responseText) {
@@ -498,4 +498,96 @@ function agregarGuia(idVenta,guia){
             });
         });
     }
+}
+function newRow(object) {
+    var rowCount = object.getElementsByTagName("tr").length;
+    var row = object.insertRow(rowCount);
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    var cell3 = row.insertCell(2);
+    var cell4 = row.insertCell(3);
+    var cell5 = row.insertCell(4);
+    cell1.innerHTML = "";
+    cell2.innerHTML = "<input type='text' onkeyup='buscaProd(event,this)'/>";
+    cell3.innerHTML = "<input type='text' onkeypress='return event.charCode >= 48 && event.charCode <= 57'onchange='sacaTotal(this)'/>";
+    cell4.innerHTML = "<input type='text' onkeypress='return event.charCode >= 48 && event.charCode <= 57'onchange='sacaTotal(this)'/>";
+    cell5.innerHTML = "";
+
+}
+
+function buscaProd(event, object) {
+    var celda = object.parentNode;
+    var fila = celda.parentNode;
+    var id, nombre;
+    var tamano = object.value.length;
+    if (event.keyCode >= 97 && event.keyCode <= 122 || event.keyCode >= 65 && event.keyCode <= 90 || event.keyCode >= 48 && event.keyCode <= 57 || event.keyCode >= 160 && event.keyCode <= 165) { // retonro
+        $.post('buscaProd.jsp', {
+            busqueda: object.value,
+        }, function (respuesta) {
+            respuesta = respuesta.trim();
+            if (respuesta != "") {
+                id = respuesta.split(",")[0];
+                nombre = respuesta.split(",")[1];
+                fila.cells[0].innerHTML = id;
+                object.value = nombre;
+                object.setSelectionRange(tamano, nombre.length);
+            }
+        });
+    }
+}
+
+function sacaTotal(object) {
+    var celda = object.parentNode;
+    var fila = celda.parentNode;
+    var precio = fila.cells[3].children[0].value;
+    var cantidad = fila.cells[2].children[0].value;
+    var total = precio * cantidad;
+    fila.cells[4].innerHTML = '$' + total;
+}
+
+function realizarPedido(tabla, idProveedor) {
+    if (idProveedor != 0){
+        var size = tabla.rows.length;
+        var total = 0;
+        var numero;
+        var idProducto;
+        var idCompra;
+        var cantidad;
+        var precio;
+        for (var i = 1; i < size; i++) {
+            if (tabla.rows[i].cells[0] == "")
+                continue;
+            else {
+                numero = parseFloat(tabla.rows[i].cells[4].innerHTML.substring(1, tabla.rows[i].cells[4].innerHTML.length));
+                total += parseFloat(tabla.rows[i].cells[4].innerHTML.substring(1, tabla.rows[i].cells[4].innerHTML.length));
+            }
+        }
+        //insertar compra
+        $.post('insertCompra.jsp', {
+            idProveedor: idProveedor,
+            total: total
+        }, function (respuesta) {
+            idCompra = respuesta.trim();
+            for (var i = 1; i < size; i++) {
+                if (tabla.rows[i].cells[0].innerHTML == "")
+                    continue;
+                else {
+                    cantidad = tabla.rows[i].cells[2].children[0].value;
+                    precio = tabla.rows[i].cells[3].children[0].value;
+                    idProducto = tabla.rows[i].cells[0].innerHTML;
+                    $.post('insertProdHasCompra.jsp', {
+                        idProducto: idProducto,
+                        cantidad: cantidad,
+                        idCompra: idCompra,
+                        precio: precio
+                    }, function () {
+                    }
+                    );
+                }
+            }
+            window.location.href = "administrador.jsp";
+        }
+        );
+    }
+
 }

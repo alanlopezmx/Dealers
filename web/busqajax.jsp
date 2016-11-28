@@ -21,4 +21,5 @@
         objConn.rs.next();	
         }
     }
+objConn.desConnect();
 %>

@@ -230,6 +230,7 @@
                                 <ul>
                                     <li><a href="javascript:actualizaDivContenido(7);" onclick="$('#contenido').removeClass('three_quarter'); $('#contenido').addClass('one_half'); $('#contenido').addClass('añadeMargen');">Alta</a></li>
                                     <li><a href="javascript:actualizaDivContenido(8);" onclick="$('#contenido').removeClass('three_quarter'); $('#contenido').addClass('one_half'); $('#contenido').addClass('añadeMargen');">Modificar / Eliminar</a></li>
+                                    <li><a href="javascript:actualizaDivContenido(20);" onclick="$('#contenido').removeClass('one_half'); $('#contenido').removeClass('añadeMargen'); $('#contenido').addClass('three_quarter');">Realizar Pedido</a></li>
                                 </ul>
                             </li>
                             <li><br> <b>Administradores</b>
