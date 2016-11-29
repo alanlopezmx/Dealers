@@ -1,3 +1,4 @@
+<%@page import="java.text.DecimalFormat"%>
 <%@page import="mysqlpackage.MySqlConn"%>
 <!DOCTYPE html>
 <!--
@@ -7,6 +8,12 @@ Author URI: http://www.os-templates.com/
 Licence: Free to use under our free template licence terms
 Licence URI: http://www.os-templates.com/template-terms
 -->
+<%!
+    public double decimal(String precio, double x){
+        return Double.parseDouble(new DecimalFormat("##.##").format(Integer.parseInt(precio)*x));
+    }
+%>
+
 <html>
 <head>
 <title>Dealers | Productos</title>
@@ -40,12 +47,14 @@ Licence URI: http://www.os-templates.com/template-terms
     String idLogin="";
     String tipoLogin="";
     String msjerror="";
+    double x=1;
     if(session.getAttribute("nombre") != null){
         nombreLogin = (String)session.getAttribute("nombre");
         idLogin = (String)session.getAttribute("id");
         tipoLogin = (String)session.getAttribute("tipo");
+        if(tipoLogin.equals("MAYORITARIO"))
+            x = 0.95;
     }
-    
     int idcategoria = Integer.parseInt(request.getParameter("idcategoria"));
     MySqlConn objConn = new MySqlConn();
     MySqlConn objConn1 = new MySqlConn();
@@ -168,7 +177,7 @@ Licence URI: http://www.os-templates.com/template-terms
                                         + "<div>"
                                         + "<h6 class='heading'>"+ objConn1.rs.getString(2) +"</h6>"
                                         + "<p>"+ objConn1.rs.getString(3) +"</p>"
-                                        + "<p align='right'> Precio: $"+ objConn1.rs.getString(4) +" </p>"
+                                        + "<p align='right'> Precio: $"+ decimal(objConn1.rs.getString(4),x) +" </p>"
                                         + "</div>"
                                         + "<img src='returnImagen.jsp?idImagen=" + aux + "' alt=''>"
                                         + "<footer><a href='producto.jsp?idproducto="+ objConn1.rs.getString(1) +"'>Ver más</a></footer>"
@@ -181,7 +190,7 @@ Licence URI: http://www.os-templates.com/template-terms
                                         + "<div>"
                                         + "<h6 class='heading'>"+ objConn1.rs.getString(2) +"</h6>"
                                         + "<p>"+ objConn1.rs.getString(3) +"</p>"
-                                        + "<p align='right'> Precio: $"+ objConn1.rs.getString(4) +" </p>"
+                                        + "<p align='right'> Precio: $"+ decimal(objConn1.rs.getString(4),x) +" </p>"
                                         + "</div>"
                                         + "<img src='returnImagen.jsp?idImagen=" + aux + "' alt=''>"
                                         + "<footer><a href='producto.jsp?idproducto="+ objConn1.rs.getString(1) +"'>Ver más</a></footer>"

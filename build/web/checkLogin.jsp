@@ -4,6 +4,8 @@
     Author     : Héctor Alan López Díaz <alanlopez1995@hotmail.com>
 --%>
 
+<%@page import="java.util.ArrayList"%>
+<%@page import="mysqlpackage.producto"%>
 <%@page contentType="text/html" pageEncoding="UTF-8" session="true"%>
 <jsp:useBean id="objConn" class="mysqlpackage.MySqlConn"/>
 <%
@@ -37,7 +39,8 @@
         session.setAttribute("nombre", nombre);
         session.setAttribute("id", objConn.rs.getString(1));
         session.setAttribute("tipo", objConn.rs.getString(5));
-
+        ArrayList<producto> ba = new ArrayList<>();
+        session.setAttribute("carrito", ba);
     } else {
 %>
 Email o Contraseña incorrectos<br>Vuelve a intentarlo  

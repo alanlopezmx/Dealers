@@ -1,6 +1,18 @@
+<%@page import="java.text.DecimalFormat"%>
+<%@page import="sun.net.www.content.audio.x_aiff"%>
+<%@page import="java.util.Collections"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="mysqlpackage.producto"%>
 <%@page import="javax.swing.table.DefaultTableModel"%>
 <%@page import="mysqlpackage.MySqlConn"%>
 <%@page import="java.sql.SQLException"%>
+
+<%!
+    public double decimal(String precio, double x) {
+        return Double.parseDouble(new DecimalFormat("##.##").format(Integer.parseInt(precio) * x));
+    }
+%>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -9,78 +21,28 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <link href="layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
         <script type="text/javascript" src="layout/scripts/validaFormularios.js"></script>
-        <script type="text/javascript" language="JavaScript">
-            function busqueda() {
-                var busqueda = $('#busqtext').val();
-                $.ajax({
-                    type: 'POST',
-                    url: 'busqajax.jsp',
-                    data: {
-                        busqueda: busqueda,
-                    },
-                    success: function (respuesta) {
-                        $('#busq').html(respuesta);
-                    },
-                    async: false
-                });
+        <script>
+            function confirmDelete() {
+                return confirm("¿Realmente deseas eliminar el comentario?")
             }
-
-            window.onload = function () {
-                $('#busqtext').on('change textInput input', busqueda);
-            }
-
         </script>
-        <style>
-            div.stars {
-                float: right;
-                width: 270px;
-                display: inline-block;
-            }
-
-            input.star { display: none; }
-
-            label.star {
-                float: right;
-                padding: 10px;
-                font-size: 25px;
-                color: #444;
-                transition: all .2s;
-            }
-
-            input.star:checked ~ label.star:before {
-                content: '\f005';
-                color: #FD4;
-                transition: all .25s;
-            }
-
-            input.star-5:checked ~ label.star:before {
-                color: #FE7;
-                text-shadow: 0 0 20px #952;
-            }
-
-            input.star-1:checked ~ label.star:before { color: #F62; }
-
-            label.star:hover { transform: rotate(-15deg) scale(1.3); }
-
-            label.star:before {
-                content: '\f006';
-                font-family: FontAwesome;
-            }
-        </style>
     </head>
     <%
+        ArrayList<producto> a = null;
         String nombreLogin = "";
         String idLogin = "";
         String tipoLogin = "";
         String msjerror = "";
+        double x = 1;
         if (session.getAttribute("nombre") != null) {
+            a = (ArrayList<producto>) session.getAttribute("carrito");
             nombreLogin = (String) session.getAttribute("nombre");
             idLogin = (String) session.getAttribute("id");
             tipoLogin = (String) session.getAttribute("tipo");
+
         }
     %>
     <body id="top">
-        <div class="busqueda" id="busq"></div>
         <!-- ################################################################################################ -->
         <div class="wrapper row0">
             <div id="topbar" class="hoc clear">
@@ -94,7 +56,7 @@
                 <div id="busqueda" class="fl_left">
                     <form class="group" method="post" action="#">
                         <fieldset>
-                            <input type="email" value="" id="busqtext" placeholder="Busca Aqui&hellip;">
+                            <input type="email" value="" placeholder="Busca Aqui&hellip;">
                             <button class="fa fa-search" type="submit" title="Submit"><em>Submit</em></button>
                         </fieldset>
                     </form>
@@ -103,20 +65,19 @@
                     <ul>
                         <% if (nombreLogin.equals("")) { %>
                         <li onclick='show("sombra", "sombra"); show("carrito", "carrito wrapper row3")'>
-                        <li><i style="font-style: #23B8C1; font-size:1.8rem;"></i></li>
+                            <a href="#"><i class="fa fa-shopping-cart" style="font-size:1.8rem;"></i></a></li>
                         <li onclick='show("pantalla", "pantalla"); show("login", "login")'><a href="#">Iniciar Sesión</a></li>
                         <li><a href="registrarse.jsp">Registrarse</a></li>
                             <%} else{%>
                         <li onclick='show("sombra", "sombra"); show("carrito", "carrito")'>
+                            <a href="#"><i class="fa fa-shopping-cart" style="font-size:1.8rem;"></i></a></li>
                                 <%
                                     if (tipoLogin.equals("NORMAL") || tipoLogin.equals("MAYORITARIO")) {
                                         ;            %>
-                        <li><a href="#"><i class="fa fa-shopping-cart" style="font-size:1.8rem;"></i></a></li>
                         <li id="username"> <a href="cliente.jsp"> Bienvenido <%out.print(nombreLogin);%></a></li>
                             <%} else if (tipoLogin.equals("ADMINISTRADOR")) {%>
                         <li id="username">  <a href="administrador.jsp"> Bienvenido <%out.print(nombreLogin);%></a></li>
                             <%} else {%>
-                        <li><a href="#"><i class="fa fa-shopping-cart" style="font-size:1.8rem;"></i></a></li>
                         <li id="username"> <a href="vendedor.jsp"> Bienvenido <%out.print(nombreLogin);%></a></li>
                             <%}%>
                         <li><a href="cerrarSesion"><i class="fa fa-sign-out" style="font-size:1.8rem;"></i></a></li>
@@ -128,7 +89,12 @@
         </div>
         <!-- ################################################################################################ -->
         <%
-            int idproducto = Integer.parseInt(request.getParameter("idproducto"));
+            int idproducto;
+            try {
+                idproducto = Integer.parseInt(request.getParameter("idproducto"));
+            } catch (Exception e) {
+                idproducto = 1;
+            }
             String consulta = "select nombre, Categoria_idCategoria, precio_venta, descripcion_larga "
                     + "from producto where idProducto=" + idproducto + ";";
             MySqlConn objConn = new MySqlConn();
@@ -138,6 +104,7 @@
             MySqlConn objConn4 = new MySqlConn();
             MySqlConn objConn5 = new MySqlConn();
             MySqlConn objConn6 = new MySqlConn();
+            MySqlConn objConn7 = new MySqlConn();
             objConn.Consult(consulta);
             int n = 0, n1 = 0, n2 = 0, n3 = 0;
             if (objConn.rs != null) {
@@ -241,18 +208,23 @@
                                 <%out.print(idproducto);%>
                                 <br><%out.print(objConn1.rs.getString(1));%>
                                 <br><%out.print(objConn2.rs.getString(1));%>
-                                <br>$<%out.print(objConn.rs.getString(3));%>
+                                <br>$<%out.print(decimal(objConn.rs.getString(3), x));%>
                                 <br><%out.print(objConn.rs.getString(4));%>
                             </p>
+                            <% if(session.getAttribute("nombre") != null){ %>
                             <div id=comments>
                                 <center>  <!--<button type="button"> Agregar al Carrito </button>-->
                                     <input type="submit" name="btncarrito" value="Agregar al Carrito" onclick='show("sombra", "sombra"); show("agregar", "agregar");' >
                                 </center>
                             </div>
+                            <%}%>
                         </div>
+                            
+                       
                     </div>
 
                     <div class="clear"></div>
+                    <BR>
                     <div id="comments">
                         <br>
                         <h2>Comentarios</h2>
@@ -303,6 +275,18 @@
                                             + "<div class='comcont'>"
                                             + "<p><b>Calificación: </b>" + estrellas + "</p>"
                                             + "<p>" + objConn5.rs.getString(3) + "</p>"
+                                            + "<p align='right'>");
+                                    if (session.getAttribute("nombre") != null) {
+                                        if (tipoLogin.equals("ADMINISTRADOR")) {
+                                            out.println(""
+                                                    + "<a href='deleteComment.jsp?idProducto=" + idproducto + "&idComentario=" + objConn5.rs.getString(1) + "'  onClick='return confirmDelete();'><label class='fa fa-trash' style='font-size:1.2rem; cursor: pointer;'></label></a>");
+                                        } else if (idLogin.equals(objConn5.rs.getString(6))) {
+                                            out.println(""
+                                                    + "<a href='deleteComment.jsp?idProducto=" + idproducto + "&idComentario=" + objConn5.rs.getString(1) + "' onClick='return confirmDelete();'><label class='fa fa-trash' style='font-size:1.2rem; cursor: pointer;'></label></a>");
+                                        }
+                                    }
+                                    out.println(""
+                                            + "</p>"
                                             + "</div>"
                                             + "</article>"
                                             + "</li>");
@@ -355,24 +339,24 @@
         <!-- ################################################################################################ -->
         <div class="wrapper row4 bgded overlay" style="background-image:url('images/demo/backgrounds/03.png');">
             <footer id="footer" class="hoc clear">
-              <!-- ################################################################################################ -->
-              <h3 class="heading">Dealers</h3>
-              <nav>
-                <ul class="nospace inline pushright uppercase">
-                  <li></li>
-                  <li><a href="acercade.jsp">Acerca de</a></li>
-                  <li><a href="contacto.jsp">Contacto</a></li>
-                  <li><a href="terminos.jsp">Terminos</a></li>
+                <!-- ################################################################################################ -->
+                <h3 class="heading">Dealers</h3>
+                <nav>
+                    <ul class="nospace inline pushright uppercase">
+                        <li></li>
+                        <li><a href="acercade.jsp">Acerca de</a></li>
+                        <li><a href="contacto.jsp">Contacto</a></li>
+                        <li><a href="terminos.jsp">Terminos</a></li>
+                    </ul>
+                </nav>
+                <ul class="faico clear">
+                    <li><a class="faicon-facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                    <li><a class="faicon-twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                    <li><a class="faicon-linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
                 </ul>
-              </nav>
-              <ul class="faico clear">
-                <li><a class="faicon-facebook" href="#"><i class="fa fa-facebook"></i></a></li>
-                <li><a class="faicon-twitter" href="#"><i class="fa fa-twitter"></i></a></li>
-                <li><a class="faicon-linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
-              </ul>
-              <!-- ################################################################################################ -->
+                <!-- ################################################################################################ -->
             </footer>
-          </div>
+        </div>
 
         <div id="pantalla" class="hide" onclick='hide("pantalla"); hide("login");'> </div>
         <div id="login" class="hide">
@@ -396,70 +380,126 @@
         <a id="backtotop" href="#top"><i class="fa fa-chevron-up"></i></a>
 
         <div id="sombra" class="hide" onclick='hide("sombra"); hide("agregar"); hide("carrito");'></div>
+        <% if(session.getAttribute("nombre") != null){ %>
         <div id="agregar" class="hide">
             <div style="margin: 0 auto; width: 65%;"> <img src="images/addcarrito.PNG" alt=""> </div>
-            <br>
-            <div class="sucursal">
-                <div class="three_quarter first" style="text-align: left">
-                    <h2>Nombre Sucursal</h2>
-                    <b>Domicilio</b>
-                    <br>
-                    Calle
+            <form action="agregarCarrito.jsp?idproducto=<%out.print(idproducto);%>" method="post" name="agregarCarrito">
+                <%
+                    consulta = "select * from existencias where idProducto = " + idproducto + ";";
+                    objConn.Consult(consulta);
+                    int nSuc = 0;
+                    if (objConn.rs != null) {
+                        try {
+                            objConn.rs.last();
+                            nSuc = objConn.rs.getRow();
+                            objConn.rs.first();
+                        } catch (Exception e) {
+                        }
+                    }
+                    for (int i = 0; i < nSuc; i++) {
+                %>
+                <br>
+                <div class="sucursal">
+                    <div class="three_quarter first" style="text-align: left">
+                        <h2 style="text-align: center;"><%out.print(objConn.rs.getString(4));%></h2>
+                        <b>Domicilio</b>
+                        <br>
+                        <%
+                            int cantidad = 0;
+                            for (producto prod : a) {
+                                int idP = Integer.parseInt(objConn.rs.getString(1));
+                                if (prod.idProducto == idP && prod.idSucursal == Integer.parseInt(objConn.rs.getString(3))) {
+                                    cantidad = prod.cantidad;
+                                }
+                            }
+                            out.print(
+                                    objConn.rs.getString(5) + "  #"
+                                    + objConn.rs.getString(6) + " Colonia "
+                                    + objConn.rs.getString(7) + " C.P. "
+                                    + objConn.rs.getString(10) + " <br> "
+                                    + objConn.rs.getString(8) + ", "
+                                    + objConn.rs.getString(9) + "<br>"
+                                    + "<b>Telefono</b><br>"
+                                    + objConn.rs.getString(11) + "<br>"
+                            );
+                        %>
+                    </div>
+                    <div class="one_quarter fl_right" style="margin: auto;">
+                        <b>Disponibles: </b> <%out.print(objConn.rs.getString(2));%> <%--<input id="disponibles" value="88" type="text" style="width: 25%; text-align: center; border: none">--%>
+                        <br><br>
+                        <i class="fa fa-minus-circle one_quarter" onclick='sub(<%out.print("cant" + objConn.rs.getString(3));%>)' style="font-size:1.8rem;width: 30%;cursor: pointer;"></i>
+                        <input id="cant<%out.print(objConn.rs.getString(3));%>" class="btmspace-15 one_third" type="text" value="<%out.print(cantidad);%>" style="width: 25%; text-align: center;" name="cant<%out.print(objConn.rs.getString(3));%>">
+                        <i class="fa fa-plus-circle one_quarter" onclick='add(<%out.print("cant" + objConn.rs.getString(3));%>,<%out.print(objConn.rs.getString(2));%>)' style="font-size:1.8rem; width: 30%;margin-left: 5px;cursor: pointer;"></i>
+                    </div>
                 </div>
-                <div class="one_quarter fl_right" style="margin: auto;">
-                    <b>Disponibles: </b> 
-                    <br><br>
-                    <i class="fa fa-minus-circle one_quarter" onclick='sub()' style="font-size:1.8rem;width: 30%"></i>
-                    <input id="cantidad" class="btmspace-15 one_third" type="text" value=1 style="width: 20%; text-align: center;">
-                    <i class="fa fa-plus-circle one_quarter" onclick='add()' style="font-size:1.8rem; width: 30%;margin-left: 10px;"></i>
+                <%
+                        objConn.rs.next();
+                    }
+                %>
+                <div id="newsletter" class="fl_right"style="margin-right: 20px;margin-top: 40px;">
+                    <button type="submit" value="submit" style="background-color: #23B8C1" onclick='actDisponible()'>&nbsp&nbsp&nbsp Agregar &nbsp&nbsp&nbsp</button>
                 </div>
-            </div>
-
-
-            <div id="newsletter" class="fl_right" style="margin-top: 40px;" >    
-                <button type="submit" value="submit" style="background-color: #23B8C1">&nbsp&nbsp&nbsp Comprar &nbsp&nbsp&nbsp</button>
-            </div>
-            <div id="newsletter" class="fl_right"style="margin-right: 20px;margin-top: 40px;">
-                <button type="submit" value="submit" style="background-color: #23B8C1">&nbsp&nbsp&nbsp Agregar &nbsp&nbsp&nbsp</button>
-            </div>
+            </form>
 
         </div>
 
         <div id="carrito" class="wrapper row3 hide">
+            <br>
+            <div style="margin: 0 auto; width: 25%;"> <img src="images/carrito.PNG" alt=""> </div>
+            <br>
             <div class="content" style="margin: 0px;"> 
-                <br>
-                <div style="margin: 0 auto; width: 25%;"> <img src="images/carrito.PNG" alt=""> </div>
-                <br>
-                <div class="group btmspace-50 demo">
-                    <div class="one_quarter first">
-                        <div class="contenedor">
-                            <figure class="avatar"><img src="images/5_2.png" alt=""></figure>
+                <form action="compra.jsp?idproducto=<%out.print(idproducto);%>" method="post" name="agregarCarrito">
+                    <%
+                        for (producto prod : a) {
+                            consulta = "select * from carrito where idProducto = " + prod.idProducto + " and idSucursal = " + prod.idSucursal + ";";
+                            objConn7.Consult(consulta);
+                            int nProd = 0;
+                            if (objConn7.rs != null) {
+                                try {
+                                    objConn7.rs.last();
+                                    nProd = objConn7.rs.getRow();
+                                    objConn7.rs.first();
+                                } catch (Exception e) {
+                                }
+                            }
+                            if (nProd > 0) {
+                    %>  
+                    <div class="group btmspace-15 demo">
+                        <div class="one_quarter first">
+                            <div class="contenedor">
+                                <%out.print("<img src='returnImagen.jsp?idImagen=" + objConn7.rs.getString(2) + "' alt=''>");%>
+                            </div>
+                        </div>
+                        <div class="one_half" style="color: #000000; margin: 0px;">
+                            <h2> <%out.print(objConn7.rs.getString(3));%> </h2>
+                            <b>Descripción: </b> <%out.print(objConn7.rs.getString(4));%>
+                            <br><b>Disponibilidad: </b> <%out.print(objConn7.rs.getString(7));%>
+                            <br><b>Sucursal: </b> <%out.print(objConn7.rs.getString(6));%>
+                        </div>
+                        <div class="one_quarter" style="margin: 0px; width: 25%">
+                            <div class="two_third first" style="color: #000000;">
+                                <br><br><br>
+                                <i class="fa fa-minus-circle one_quarter" onclick='sub2(<%out.print("cant2" + prod.idProducto + "_" + prod.idSucursal + "," + prod.idProducto + "," + prod.idSucursal);%>)' style="font-size:1.8rem;width: 30%;cursor: pointer;"></i>
+                                <input id="cant2<%out.print(prod.idProducto + "_" + prod.idSucursal);%>" class="btmspace-15 one_third" type="text" value="<%out.print(prod.cantidad);%>" style="width: 25%; text-align: center;" name="cant2<%out.print(prod.idProducto + "_" + prod.idSucursal);%>" onchange="actualizacarrito(<%out.print(prod.idProducto + "," + prod.idSucursal + "," + prod.cantidad);%>)">
+                                <i class="fa fa-plus-circle one_quarter" onclick='add2(<%out.print("cant2" + prod.idProducto + "_" + prod.idSucursal + "," + prod.idProducto + "," + prod.idSucursal + "," + objConn7.rs.getString(7));%>)' style="font-size:1.8rem; width: 30%;margin-left: 5px;cursor: pointer;"></i>
+                            </div>
+                            <div class="one_third" style="color: #000000;">
+                                <b>Precio: </b><br> $<%out.print(decimal(objConn7.rs.getString(8), x));%>
+                                <br><br><b>Subtotal: </b><br> $<%out.print(decimal(objConn7.rs.getString(8), x) * prod.cantidad);%>
+                            </div>
                         </div>
                     </div>
-                    <div class="one_half" style="color: #000000; margin: 0px;">
-                        <h2> Nombre </h2>
-                        <b>Descripción: </b> El articulo fabricado con la mas alta calidad en dispositivos electronicos.
-                        <br><b>Disponibilidad: </b> 6
-                        <br><b>Sucursal: </b> Ojo Caliente
+                    <hr class="style-two">
+                    <%    }
+                        }
+                    %> 
+                    <div id="newsletter" class="fl_right">
+                        <button type="submit" value="submit" style="background-color: #23B8C1">&nbsp&nbsp&nbsp Realizar Compra &nbsp&nbsp&nbsp</button>
                     </div>
-                    <div class="one_quarter" style="margin: 0px; width: 25%">
-                        <div class="two_third first" style="color: #000000;">
-                            <br><br><br>
-                            <i class="fa fa-minus-circle fl_left" onclick='sub()' style="font-size:1.8rem;width: 30%"></i>
-                            <input id="cantidad" class="btmspace-15 fl_left" type="text" value=1 style="width: 20%; text-align: center;">
-                            <i class="fa fa-plus-circle fl_left" onclick='add()' style="font-size:1.8rem; width: 30%"></i>
-                        </div>
-                        <div class="one_third" style="color: #000000;">
-                            <b>Precio: </b><br> $1290.00
-                            <br><br><b>Subtotal: </b><br> $1290.00
-                        </div>
-                    </div>
-                </div>
-                <div id="newsletter" class="fl_right">
-                    <button type="submit" value="submit" style="background-color: #23B8C1">&nbsp&nbsp&nbsp Realizar Compra &nbsp&nbsp&nbsp</button>
-                </div>
+                </form>
             </div>
         </div>
+                    <%}%>
         <!-- JAVASCRIPTS -->
         <script src="layout/scripts/jquery.min.js"></script>
         <script src="layout/scripts/jquery.backtotop.js"></script>
