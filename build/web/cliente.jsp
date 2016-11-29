@@ -22,12 +22,7 @@
                 });
             }
 
-            window.onload = function () {
-                $('#busqtext').on('change textInput input', busqueda);
-            }
-
-        </script>
-<script type="text/javascript" language="JavaScript">    
+        
     function actualizaDivContenido(op){
         var idLogin = $('#idLogin').val();
         $.post('clienteAjax.jsp', {
@@ -55,6 +50,7 @@
     
     window.onload = function () {
         actualizaDivContenido(1);
+        $('#busqtext').on('change textInput input', busqueda);
     }
            
 </script>

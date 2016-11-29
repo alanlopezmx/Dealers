@@ -801,7 +801,55 @@
             <button onclick="realizarPedido(pedidoProv,idProveedor.value)" style="background-color: #23B8C1">&nbsp&nbsp&nbsp Realizar Pedido &nbsp&nbsp&nbsp</button>
         </div>
         </fieldset>
+            <%
+            break;
+            
+            case 21: // historial de compras
+                consulta = "select * from historialCompras order by fecha desc;";
+                objConn.Consult(consulta);
+                n = 0;
+                if (objConn.rs != null) {
+                    try {
+                        objConn.rs.last();
+                        n = objConn.rs.getRow();
+                        objConn.rs.first();
+                    } catch (Exception e) {
+                    }
+                }
+
+                if (n == 0) {
+        %> 
+        <br>
+        <b><center>No se ha hecho ninguna compra aún.</center></b>
+        <br><br>
         <%
+        } else {
+        %> <table>
+            <tr>
+                <th>ID de Compra </th>
+                <th>Nombre Proveedor</th>
+                <th>Fecha</th>
+                <th>Total</th>
+                <th>Opciones</th>
+            </tr>
+            <%
+                    for (int i = 0; i < n; i++) {
+                        out.print("<tr>");
+                        out.print("<td>" + objConn.rs.getString(2) + "</td>"
+                                + "<td>" + objConn.rs.getString(1) + "</td>"
+                                + "<td>" + objConn.rs.getString(4) + "</td>"
+                                + "<td>$" + objConn.rs.getString(5) + "</td>"
+                                + "<td><a href='#' onclick=\"detalleCompraProv(" + objConn.rs.getString(2) + "); show('sombra', 'sombra'); show('carrito', 'carrito wrapper row3')\">Ver detalle</a></td>");
+                        objConn.rs.next();
+                    }
+                }
+
+            %>
+        </table>
+        <div id="sombra" class="hide" onclick='hide("sombra"); hide("carrito");'></div>
+        <div id="carrito" class="wrapper row3 hide" style="top: -10%;"> </div>
+        <%
+                break;
             }
             objConn.desConnect();
         %>

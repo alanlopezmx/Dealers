@@ -591,3 +591,11 @@ function realizarPedido(tabla, idProveedor) {
     }
 
 }
+
+function detalleCompraProv(idCompra) {
+    $.post('detalleCompraProv.jsp', {
+        idCompra: idCompra,
+    }, function (respuesta) {
+        $('#carrito').html(respuesta);
+    });
+}

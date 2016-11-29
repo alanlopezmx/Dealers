@@ -67,7 +67,7 @@
             <div class="clear"></div>
             <br>
             <p align="center">
-                <button onclick='tipoEnvio()' style="background-color: #23B8C1">&nbsp&nbsp&nbsp Continuar &nbsp&nbsp&nbsp</button>
+                <button onclick='actualizaDivContenido(2)' style="background-color: #23B8C1">&nbsp&nbsp&nbsp Continuar &nbsp&nbsp&nbsp</button>
             </p>
         </fieldset>
             <div id="sombra" class="hide" onclick='hide("sombra"); hide("nuevadir"); hide("modificaDir")'> </div>
@@ -166,7 +166,7 @@
             <div class="clear"></div>
             <br>
             <p align="center">
-                <button onclick='tipoEnvio()' style="background-color: #23B8C1">&nbsp&nbsp&nbsp Continuar &nbsp&nbsp&nbsp</button>
+                <button onclick='actualizaDivContenido(3)' style="background-color: #23B8C1">&nbsp&nbsp&nbsp Continuar &nbsp&nbsp&nbsp</button>
             </p>
         </fieldset>
         <%
@@ -243,11 +243,18 @@
                 </div>
                 <br><br>
                 <div id="newsletter" class="container fl_right">
-                    <button onclick="insertVenta()" type="submit" value="submit" style="background-color: #23B8C1">&nbsp&nbsp&nbsp Realizar Compra &nbsp&nbsp&nbsp</button>
+                    <button onclick="insertVenta();actualizaDivContenido(4);" type="submit" value="submit" style="background-color: #23B8C1">&nbsp&nbsp&nbsp Realizar Compra &nbsp&nbsp&nbsp</button>
                 </div>
                 </form>
             </div>
                 
+        </div>
+        <%
+                    break;
+                    case 4:
+                    %>
+        <div class="wrapper row3">
+            <br><div class='container first'><br><h1 class='center'>Compra Exitosa!</h1><div>
         </div>
         <%
                     break;

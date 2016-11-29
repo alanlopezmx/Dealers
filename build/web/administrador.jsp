@@ -2,7 +2,7 @@
 
 <html>
     <head>
-        <title>Dealers | Administrador</title>
+        <title>Dealers | <%=(String) session.getAttribute("tipo")%></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <link href="layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
@@ -22,12 +22,6 @@
                 });
             }
 
-            window.onload = function () {
-                $('#busqtext').on('change textInput input', busqueda);
-            }
-
-        </script>
-        <script type="text/javascript" language="JavaScript">
             function actualizaDivContenido(op) {
                 $.post('adminAjax.jsp', {
                     op: op,
@@ -84,6 +78,7 @@
 
             window.onload = function () {
                 actualizaDivContenido(5);
+                $('#busqtext').on('change textInput input', busqueda);
             }
         </script>
         <%
@@ -172,7 +167,7 @@
         <!-- ################################################################################################ -->
         <!-- ################################################################################################ -->
         <!-- ################################################################################################ -->
-        <div class="wrapper row3">
+        <div class="sidebar one_quarter first" style="margin-bottom: 25px; height: 400px; overflow-y: auto;">
             <main class="hoc container clear">
                 <!-- main body -->
                 <!-- ################################################################################################ -->

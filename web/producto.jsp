@@ -39,7 +39,6 @@
             nombreLogin = (String) session.getAttribute("nombre");
             idLogin = (String) session.getAttribute("id");
             tipoLogin = (String) session.getAttribute("tipo");
-
         }
     %>
     <body id="top">
@@ -64,8 +63,7 @@
                 <div class="fl_right">
                     <ul>
                         <% if (nombreLogin.equals("")) { %>
-                        <li onclick='show("sombra", "sombra"); show("carrito", "carrito wrapper row3")'>
-                            <a href="#"><i class="fa fa-shopping-cart" style="font-size:1.8rem;"></i></a></li>
+                        
                         <li onclick='show("pantalla", "pantalla"); show("login", "login")'><a href="#">Iniciar Sesión</a></li>
                         <li><a href="registrarse.jsp">Registrarse</a></li>
                             <%} else{%>
@@ -211,7 +209,7 @@
                                 <br>$<%out.print(decimal(objConn.rs.getString(3), x));%>
                                 <br><%out.print(objConn.rs.getString(4));%>
                             </p>
-                            <% if(session.getAttribute("nombre") != null){ %>
+                            <%if (session.getAttribute("nombre") != null) {%>
                             <div id=comments>
                                 <center>  <!--<button type="button"> Agregar al Carrito </button>-->
                                     <input type="submit" name="btncarrito" value="Agregar al Carrito" onclick='show("sombra", "sombra"); show("agregar", "agregar");' >

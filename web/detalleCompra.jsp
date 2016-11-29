@@ -13,11 +13,12 @@
     String idVenta = request.getParameter("idVenta");
     String tipo = request.getParameter("tipo");
     String estado = request.getParameter("estado");
-    String consulta = "select distinct sucursal.nombre, producto.*,Producto_has_Venta.precio_venta,Producto_has_Venta.cantidad from  venta,producto,Producto_has_Venta, sucursal"
+    /*String consulta = "select distinct sucursal.nombre, producto.*,Producto_has_Venta.precio_venta,Producto_has_Venta.cantidad from  venta,producto,Producto_has_Venta, sucursal"
             + " where venta.idVenta = '" + idVenta + "'"
             + " and Producto_has_Venta.Venta_idVenta = venta.idVenta"
             + " and Producto_has_Venta.Producto_idProducto = producto.idProducto"
-            + " and Producto_has_Venta.Sucursal_idSucursal = Sucursal.idSucursal;";
+            + " and Producto_has_Venta.Sucursal_idSucursal = Sucursal.idSucursal;";*/
+    String consulta = "select * from detalleVenta where idVenta=" + idVenta;
 
     objConn.Consult(consulta);
 
@@ -53,16 +54,16 @@
             <br>
             <b> <%=objConn.rs.getString(3)%> </b><br><br>
             <b>Descripción: </b> <%=objConn.rs.getString(4)%>
-            <br><b>Precio: </b> $<%=objConn.rs.getString(8)%>
+            <br><b>Precio: </b> $<%=objConn.rs.getString(6)%>
             <br><b>Sucursal: </b><%=objConn.rs.getString(1)%>
         </div>
         <div class="one_quarter" style="margin: 0px; width: 25%">
             <div class="two_third first" style="color: #000000;">
-                <br><br><br><b>Cantidad:</b><br><br><%=objConn.rs.getString(9)%>
+                <br><br><br><b>Cantidad:</b><br><br><%=objConn.rs.getString(8)%>
             </div>
             <div class="one_third" style="color: #000000;">
                 <%
-                    float subtotal = Float.parseFloat(objConn.rs.getString(9)) * Float.parseFloat(objConn.rs.getString(8));
+                    float subtotal = Float.parseFloat(objConn.rs.getString(8)) * Float.parseFloat(objConn.rs.getString(6));
                 %>
                 <br><br><br><b>Subtotal: </b><br><br>$<%=subtotal%>
             </div>

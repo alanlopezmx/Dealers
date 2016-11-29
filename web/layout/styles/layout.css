@@ -296,7 +296,7 @@ label.css-label {
     display: none;
 }
 
-input.dir { display: none; }
+
 
 label.dir {
   float: right;
@@ -305,14 +305,22 @@ label.dir {
   color: #444;
   transition: all .2s;
 }
-
+input.dir{ display: none; }
 input.dir:checked ~ label.dir:before { content: '\f00c'; color: #23B8C1; transition: all .25s; }
 label.dir:hover { transform: scale(1.3); }
 label.dir:before { content: '\f096'; font-family: FontAwesome; }
 
-input.op:checked ~ label.dir:before { content: '\f00c'; color: #23B8C1; transition: all .25s; }
+label.op {
+  float: right;
+  padding: 10px;
+  font-size: 24px;
+  color: #444;
+  transition: all .2s;
+}
+input.op{ display: none; }
+input.op:checked ~ label.op:before { content: '\f00c'; color: #23B8C1; transition: all .25s; }
 label.op:hover { transform: scale(1.3); }
-label.op:before { content: '\f096'; font-family: FontAwesome; }
+label.op:before { content: '\f10c'; font-family: FontAwesome; }
 
 div.stars {
     float: right;

@@ -32,11 +32,12 @@
     String idLogin="";
     String tipoLogin="";
     String msjerror="";
+    ArrayList<producto> a = null;
     if(session.getAttribute("nombre") != null){
         nombreLogin = (String)session.getAttribute("nombre");
         idLogin = (String)session.getAttribute("id");
         tipoLogin = (String)session.getAttribute("tipo");
-        ArrayList<producto> a = (ArrayList<producto>) session.getAttribute("carrito");
+        a = (ArrayList<producto>) session.getAttribute("carrito");
     }
     int idProducto = Integer.parseInt(request.getParameter("idproducto"));
     int idSucursal, cantidad = 0;

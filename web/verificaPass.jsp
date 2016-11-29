@@ -9,7 +9,7 @@
 <%
     String consulta;
     String pass = request.getParameter("pass");
-    String idLogin = request.getParameter("idLogin");
+    String idLogin = (String)session.getAttribute("id");
     int op = Integer.parseInt(request.getParameter("op"));
     if (op == 1){
         consulta = "select * from usuario where idUsuario=? and password=sha2(?,512);";

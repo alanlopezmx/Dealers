@@ -9,22 +9,23 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:useBean id="objConn" class="mysqlpackage.MySqlConn"/>
 <jsp:useBean id="objConn2" class="mysqlpackage.MySqlConn"/>
+<jsp:useBean id="objConn3" class="mysqlpackage.MySqlConn"/>
 <%
     ArrayList<producto> a = (ArrayList<producto>) session.getAttribute("carrito");
     int idLogin = Integer.parseInt(request.getParameter("idLogin"));
-    String consulta,consulta2,estado_venta="",metodo_pago="";
+    String consulta,consulta2, consulta3,estado_venta="",metodo_pago="";
     int idSucursal=0, total=0, venta;
     idSucursal = a.get(0).idSucursal;
     for(producto prod : a){
-        if(prod.tipoEnvio==0)
-            estado_venta = "Pendiente";
-        else
-            estado_venta = "Pagado";
-        if(prod.tipoPago == 0 )
-            metodo_pago = "Efectivo";
-        else
-            metodo_pago = "Tarjeta";
         if(prod.idSucursal == idSucursal){
+            if(prod.tipoEnvio==0)
+                estado_venta = "Pendiente";
+            else
+                estado_venta = "Pagado";
+            if(prod.tipoPago == 0 )
+                metodo_pago = "Efectivo";
+            else
+                metodo_pago = "Tarjeta";
             total += prod.precio * prod.cantidad;
         }else{
             if(metodo_pago.equals("Tarjeta"))
@@ -54,6 +55,14 @@
             }
             total = prod.precio * prod.cantidad;
             idSucursal = prod.idSucursal;
+            if(prod.tipoEnvio==0)
+                estado_venta = "Pendiente";
+            else
+                estado_venta = "Pagado";
+            if(prod.tipoPago == 0 )
+                metodo_pago = "Efectivo";
+            else
+                metodo_pago = "Tarjeta";
         }
     }
     consulta = "insert into venta (Usuario_idUsuario, fecha, total, estado_venta,guia_rastreo,metodo_pago) values('"
@@ -79,5 +88,11 @@
                     objConn2.Update(consulta2);
                 }
             }
+            for(producto baja: a){
+                consulta3 = "update producto_has_sucursal set cantidad =(cantidad-"+baja.cantidad+") where Producto_idProducto = "+baja.idProducto+" and Sucursal_idSucursal = "+baja.idSucursal+";";
+                    objConn3.Update(consulta3);
+            }
     idSucursal= idSucursal + 0;
+    a.clear();
+    
 %>
