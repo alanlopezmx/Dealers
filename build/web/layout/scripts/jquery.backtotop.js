@@ -108,7 +108,7 @@ function sub2(sucursal,idProducto, idSucursal){
         $.post('insertVenta.jsp', {
             idLogin: idLogin
         }, function () {
-            
+            window.location.href = "cliente.jsp";
         });
     }
     

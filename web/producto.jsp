@@ -25,6 +25,26 @@
             function confirmDelete() {
                 return confirm("¿Realmente deseas eliminar el comentario?")
             }
+            
+            function busqueda() {
+                var busqueda = $('#busqtext').val();
+                $.ajax({
+                    type: 'POST',
+                    url: 'busqajax.jsp',
+                    data: {
+                        busqueda: busqueda,
+                    },
+                    success: function (respuesta) {
+                        $('#busq').html(respuesta);
+                    },
+                    async: false
+                });
+            }
+
+            window.onload = function () {
+                $('#busqtext').on('change textInput input', busqueda);
+            }
+
         </script>
     </head>
     <%
@@ -42,6 +62,7 @@
         }
     %>
     <body id="top">
+        <div class="busqueda" id="busq"></div>
         <!-- ################################################################################################ -->
         <div class="wrapper row0">
             <div id="topbar" class="hoc clear">
@@ -55,7 +76,7 @@
                 <div id="busqueda" class="fl_left">
                     <form class="group" method="post" action="#">
                         <fieldset>
-                            <input type="email" value="" placeholder="Busca Aqui&hellip;">
+                            <input type="email" value="" id="busqtext" placeholder="Busca Aqui&hellip;">
                             <button class="fa fa-search" type="submit" title="Submit"><em>Submit</em></button>
                         </fieldset>
                     </form>

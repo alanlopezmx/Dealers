@@ -167,11 +167,11 @@
         <!-- ################################################################################################ -->
         <!-- ################################################################################################ -->
         <!-- ################################################################################################ -->
-        <div class="sidebar one_quarter first" style="margin-bottom: 25px; height: 400px; overflow-y: auto;">
+        <div class="wrapper row3">
             <main class="hoc container clear">
                 <!-- main body -->
                 <!-- ################################################################################################ -->
-                <div class="sidebar one_quarter first" style="margin-bottom: 25px">
+                <div class="sidebar one_quarter first" style="margin-bottom: 25px; height: 400px; overflow-y: auto;">
                     <!-- ################################################################################################ -->
                     <nav class="sdb_holder">
                         <ul>
@@ -226,6 +226,7 @@
                                     <li><a href="javascript:actualizaDivContenido(7);" onclick="$('#contenido').removeClass('three_quarter'); $('#contenido').addClass('one_half'); $('#contenido').addClass('añadeMargen');">Alta</a></li>
                                     <li><a href="javascript:actualizaDivContenido(8);" onclick="$('#contenido').removeClass('three_quarter'); $('#contenido').addClass('one_half'); $('#contenido').addClass('añadeMargen');">Modificar / Eliminar</a></li>
                                     <li><a href="javascript:actualizaDivContenido(20);" onclick="$('#contenido').removeClass('one_half'); $('#contenido').removeClass('añadeMargen'); $('#contenido').addClass('three_quarter');">Realizar Pedido</a></li>
+                                    <li><a href="javascript:actualizaDivContenido(21);" onclick="$('#contenido').removeClass('one_half'); $('#contenido').removeClass('añadeMargen'); $('#contenido').addClass('three_quarter');">Historial de Compras</a></li>
                                 </ul>
                             </li>
                             <li><br> <b>Administradores</b>

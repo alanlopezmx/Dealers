@@ -245,7 +245,7 @@
                                 + "<td>"+ objConn.rs.getString(5) + "</td>"
                                 + "<td>"+ objConn.rs.getString(7) + "</td>"
                                 + "<td>$"+ objConn.rs.getString(4) + "</td>"
-                                + "<td><a href='#' onclick=\"detalleCompra(" + objConn.rs.getString(1) +",'Compra'); show('sombra', 'sombra'); show('carrito', 'carrito wrapper row3')\">Ver detalle</a></td>");
+                                + "<td><a href='#' onclick=\"detalleCompra(" + objConn.rs.getString(1) +",'Compra','" + objConn.rs.getString(5) + "'); show('sombra', 'sombra'); show('carrito', 'carrito wrapper row3')\">Ver detalle</a></td>");
                         objConn.rs.next();
                     }
                 }
@@ -253,7 +253,7 @@
         %>
             </table>
             <div id="sombra" class="hide" onclick='hide("sombra"); hide("carrito");'></div>
-            <div id="carrito" class="wrapper row3 hide"> </div>
+            <div id="carrito" class="wrapper row3 hide" style="top: -25%;"> </div>
         <%
                     break;
             }

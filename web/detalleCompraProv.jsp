@@ -47,4 +47,27 @@
             <br>
             <b> <%=objConn.rs.getString(3)%> </b><br><br>
             <b>Descripción: </b> <%=objConn.rs.getString(4)%>
-            <
+            <br><b>Precio: </b> $<%=objConn.rs.getString(6)%>
+        </div>
+        <div class="one_quarter" style="margin: 0px; width: 25%">
+            <div class="two_third first" style="color: #000000;">
+                <br><b>Cantidad:</b><br><br><%=objConn.rs.getString(5)%>
+            </div>
+            <div class="one_third" style="color: #000000;">
+                <%
+                    float subtotal = Float.parseFloat(objConn.rs.getString(5)) * Float.parseFloat(objConn.rs.getString(6));
+                %>
+                <br><b>Subtotal: </b><br><br>$<%=subtotal%>
+            </div>
+        </div>
+    </div>
+    <hr class="style-two">
+    <%
+            objConn.rs.next();
+        }
+    }
+ %>
+</div>
+<%objConn.desConnect();
+    objConn2.desConnect();
+%>

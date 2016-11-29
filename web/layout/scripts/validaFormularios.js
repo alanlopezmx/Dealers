@@ -464,11 +464,13 @@ function llenaCamposTarjeta(id) {
 }
 
 function detalleCompra(idVenta, tipo, estado) {
+    alert(estado);
     $.post('detalleCompra.jsp', {
         idVenta: idVenta,
         tipo: tipo,
         estado: estado,
     }, function (respuesta) {
+        alert(respuesta);
         $('#carrito').html(respuesta);
     });
 }
