@@ -3,10 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/alan_/Dropbox/UAA/7%20Semestre/LBD/Dealers/web/compraAjax.jsp</file>
-            <file>file:/C:/Users/alan_/Dropbox/UAA/7%20Semestre/LBD/Dealers/web/compra.jsp</file>
-            <file>file:/C:/Users/alan_/Dropbox/UAA/7%20Semestre/LBD/Dealers/web/layout/scripts/jquery.backtotop.js</file>
-            <file>file:/C:/Users/alan_/Dropbox/UAA/7%20Semestre/LBD/Dealers/web/insertVenta.jsp</file>
+            <file>file:/C:/Users/alan_/Dropbox/UAA/7%20Semestre/LBD/Dealers/src/java/mysqlpackage/MySqlConn.java</file>
+            <file>file:/C:/Users/alan_/Dropbox/UAA/7%20Semestre/LBD/Dealers/web/layout/styles/layout.css</file>
+            <file>file:/C:/Users/alan_/Dropbox/UAA/7%20Semestre/LBD/Dealers/web/cliente.jsp</file>
+            <file>file:/C:/Users/alan_/Dropbox/UAA/7%20Semestre/LBD/Dealers/web/clienteAjax.jsp</file>
+            <file>file:/C:/Users/alan_/Dropbox/UAA/7%20Semestre/LBD/Dealers/web/layout/scripts/validaFormularios.js</file>
+            <file>file:/C:/Users/alan_/Dropbox/UAA/7%20Semestre/LBD/Dealers/web/index.jsp</file>
+            <file>file:/C:/Users/alan_/Dropbox/UAA/7%20Semestre/LBD/Dealers/web/producto.jsp</file>
+            <file>file:/C:/Users/alan_/Dropbox/UAA/7%20Semestre/LBD/Dealers/src/java/mysqlpackage/InsertProducto.java</file>
             <file>file:/C:/Users/alan_/Dropbox/UAA/7%20Semestre/LBD/Dealers/web/detalleCompra.jsp</file>
         </group>
     </open-files>

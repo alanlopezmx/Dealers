@@ -171,7 +171,7 @@
             <main class="hoc container clear">
                 <!-- main body -->
                 <!-- ################################################################################################ -->
-                <div class="sidebar one_quarter first" style="margin-bottom: 25px; height: 400px; overflow-y: auto;">
+                <div class="sidebar one_quarter first" style="margin-bottom: 25px;">
                     <!-- ################################################################################################ -->
                     <nav class="sdb_holder">
                         <ul>

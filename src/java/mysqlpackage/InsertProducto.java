@@ -65,6 +65,7 @@ public class InsertProducto extends HttpServlet {
                     size = 0;
                 }
             }
+            
             if (size != 0) {
                 consulta = "insert into imagen(imagen,Producto_idProducto,promocion) values(?,?,?);";
                 preparedStatement = objConn.prepareStatement(consulta);
@@ -78,6 +79,16 @@ public class InsertProducto extends HttpServlet {
                         System.out.println("Insercion imagen correcta");
                     }
                 }
+            }
+            else{
+                consulta = "insert into imagen(imagen,Producto_idProducto,promocion) values(null,?,?);";
+                preparedStatement = objConn.prepareStatement(consulta);
+                preparedStatement.setInt(1, lastId);
+                preparedStatement.setInt(2, 0);
+                row = preparedStatement.executeUpdate();
+                if (row > 0) {
+                        System.out.println("Insercion imagen correcta");
+                    }
             }
             for (int i = 0; i < cantidadSucursales; i++) {
                 if (!request.getParameter("cantidad" + i).equals("0")) {

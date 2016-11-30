@@ -86,8 +86,6 @@ function validarFormulario(formulario) {
     }
     if (todoCorrecto == true) {
         formulario.submit();
-    } else {
-        alert("hay algo mal");
     }
 }
 
@@ -103,9 +101,7 @@ function validarFormulario2(formulario) {
     }
     if (todoCorrecto == true) {
         formulario.submit();
-    } else {
-        alert("hay algo mal2");
-    }
+    } 
 }
 function validarFormulario3(formulario) {
     var todoCorrecto = true;
@@ -125,9 +121,7 @@ function validarFormulario3(formulario) {
     }
     if (todoCorrecto == true) {
         formulario.submit();
-    } else {
-        alert("hay algo mal3");
-    }
+    } 
 }
 
 function habilitar(obj1, obj2, obj3, obj4) {
@@ -464,13 +458,11 @@ function llenaCamposTarjeta(id) {
 }
 
 function detalleCompra(idVenta, tipo, estado) {
-    alert(estado);
     $.post('detalleCompra.jsp', {
         idVenta: idVenta,
         tipo: tipo,
         estado: estado,
     }, function (respuesta) {
-        alert(respuesta);
         $('#carrito').html(respuesta);
     });
 }

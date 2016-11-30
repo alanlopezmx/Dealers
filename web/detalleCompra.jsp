@@ -74,32 +74,34 @@
     <%
             objConn.rs.next();
         }
-    }
-    if (estado.equals("Pendiente") || estado.equals("Enviado")) {
-    %>
-    <div id="newsletter" class="fl_right">
-        <button onclick="finalizarPedido(<%=idVenta%>)" style="background-color: #23B8C1">&nbsp&nbsp&nbsp Finalizar Pedido &nbsp&nbsp&nbsp</button>
-    </div>
-    <%
-    } else if (estado.equals("Pagado")){
-    %>
-    
-        <fieldset id="newsletter">
-            <div class="two_third first">
-                <div class="one_half first">
-                &nbsp&nbsp&nbsp 
+    } 
+    if (!tipo.equals("NORMAL") && !tipo.equals("MAYORITARIO")){
+        if (estado.equals("Pendiente") || estado.equals("Enviado")) {
+        %>
+        <div id="newsletter" class="fl_right">
+            <button onclick="finalizarPedido(<%=idVenta%>)" style="background-color: #23B8C1">&nbsp&nbsp&nbsp Finalizar Pedido &nbsp&nbsp&nbsp</button>
+        </div>
+        <%
+        } else if (estado.equals("Pagado")){
+        %>
+
+            <fieldset id="newsletter">
+                <div class="two_third first">
+                    <div class="one_half first">
+                    &nbsp&nbsp&nbsp 
+                    </div>
+                    <div class="one_half">
+                        <input id="guia" name="guia" class="btmspace-15" type="text" value="" placeholder="No. De Guia" onchange="soloNumeros(this)"> 
+                    </div>
                 </div>
-                <div class="one_half">
-                    <input id="guia" name="guia" class="btmspace-15" type="text" value="" placeholder="No. De Guia" onchange="soloNumeros(this)"> 
+                <div  class="one_third fl_right">
+                    <button onclick="agregarGuia(<%=idVenta%>,guia)" style="background-color: #23B8C1">&nbsp&nbsp&nbsp Agregar No. de Guia &nbsp&nbsp&nbsp</button>
                 </div>
-            </div>
-            <div  class="one_third fl_right">
-                <button onclick="agregarGuia(<%=idVenta%>,guia)" style="background-color: #23B8C1">&nbsp&nbsp&nbsp Agregar No. de Guia &nbsp&nbsp&nbsp</button>
-            </div>
-        </fieldset>
-    <%    
+            </fieldset>
+        <%    
+        }
     }
-    %>
+%>
 </div>
 <%objConn.desConnect();
     objConn2.desConnect();

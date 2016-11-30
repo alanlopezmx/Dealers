@@ -97,7 +97,7 @@
             <div class="clear"></div>
             <br>
             <p align="center">
-                <button onclick='show("nuevadir", "nuevadir"); show("sombra", "sombra");' style="background-color: #23B8C1">&nbsp&nbsp&nbsp Agregar Dirección &nbsp&nbsp&nbsp</button>
+                <button onclick='show("sombra", "sombra"); show("nuevadir", "nuevadir"); ' style="background-color: #23B8C1">&nbsp&nbsp&nbsp Agregar Dirección &nbsp&nbsp&nbsp</button>
             </p>
         </fieldset>
         <div id="sombra" class="hide" onclick='hide("sombra"); hide("nuevadir"); hide("modificaDir")'> </div>
@@ -253,7 +253,7 @@
         %>
             </table>
             <div id="sombra" class="hide" onclick='hide("sombra"); hide("carrito");'></div>
-            <div id="carrito" class="wrapper row3 hide" style="top: -25%;"> </div>
+            <div id="carrito" class="wrapper row3 hide" style="top: -10%;"> </div>
         <%
                     break;
             }
